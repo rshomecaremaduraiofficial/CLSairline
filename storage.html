@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Storage Allocation — CLS Airline Supplies LTD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/cls-logo.svg">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="dashboard.html" class="brand-wrapper">
+        <img src="assets/cls-logo.svg" alt="CLS Airline Supplies LTD" class="brand-logo-img">
+        <div class="brand-info">
+          <h1>CLS Airline Supplies</h1>
+          <span>Traceability Operations</span>
+        </div>
+      </a>
+
+      <div class="user-nav-section">
+        <div class="user-status-pill">
+          <div class="user-avatar" id="header-avatar">OP</div>
+          <span class="user-fullname" id="header-username">Operator</span>
+          <span class="area-badge" id="header-area">London</span>
+        <button id="btn-logout" class="btn-nav-logout" title="End Session">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="page-title-bar">
+      <div>
+        <h2>Storage Location Allocation</h2>
+        <p>Allocate received category goods into designated temperature chillers, freezers, or dry storage.</p>
+      </div>
+      <a href="dashboard.html" class="btn-back-dashboard">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Dashboard
+      </a>
+    </div>
+
+    <div class="form-card">
+      <form id="storage-form" autocomplete="off">
+        <div class="form-grid-2">
+          <!-- 1. Date -->
+          <div class="form-group">
+            <label class="form-label" for="storage-date">Date</label>
+            <input type="date" id="storage-date" class="form-control" required>
+          </div>
+
+          <!-- 2. Category -->
+          <div class="form-group">
+            <label class="form-label" for="storage-category">Category</label>
+            <select id="storage-category" class="form-control" required>
+              <option value="" disabled selected>Select Category first...</option>
+              <option value="DRY ITEMS">DRY ITEMS</option>
+              <option value="FISH">FISH</option>
+              <option value="MEAT">MEAT</option>
+              <option value="FRUIT & VEGETABLES">FRUIT & VEGETABLES</option>
+              <option value="DAIRY PRODUCTS">DAIRY PRODUCTS</option>
+            </select>
+          </div>
+
+          <!-- 3. Product Name (Dynamic) -->
+          <div class="form-group col-span-2">
+            <label class="form-label" for="storage-product">
+              <span>Product Name</span>
+              <span id="product-loading-status" style="font-size: 0.75rem; color: var(--blue-light);"></span>
+            </label>
+            <select id="storage-product" class="form-control" disabled required>
+              <option value="" disabled selected>Please select a Category first...</option>
+            </select>
+          </div>
+
+          <!-- 4. Product ID [AUTO] -->
+          <div class="form-group">
+            <label class="form-label" for="storage-product-id">
+              <span>Product ID</span>
+              <span class="auto-badge">AUTO</span>
+            </label>
+            <input type="text" id="storage-product-id" class="form-control" placeholder="Auto-populated" readonly required>
+          </div>
+
+          <!-- 5. Batch Code [AUTO] -->
+          <div class="form-group">
+            <label class="form-label" for="storage-batch-code">
+              <span>Batch Code</span>
+              <span class="auto-badge">AUTO</span>
+            </label>
+            <input type="text" id="storage-batch-code" class="form-control" placeholder="Auto-populated" readonly required>
+          </div>
+
+          <!-- 6. Quantity -->
+          <div class="form-group">
+            <label class="form-label" for="storage-quantity">Quantity to Store</label>
+            <input type="number" step="any" min="0.01" id="storage-quantity" class="form-control" placeholder="e.g. 50" required>
+          </div>
+
+          <!-- 7. Storage Area -->
+          <div class="form-group">
+            <label class="form-label" for="storage-area">Storage Area</label>
+            <select id="storage-area" class="form-control" required>
+              <option value="" disabled selected>Select Storage Area...</option>
+              <option value="Chiller 1">Chiller 1 (0°C to +4°C - Meat &amp; Poultry)</option>
+              <option value="Chiller 2">Chiller 2 (0°C to +2°C - Fish &amp; Seafood)</option>
+              <option value="Chiller 3">Chiller 3 (+2°C to +5°C - Dairy &amp; Produce)</option>
+              <option value="Freezer">Freezer (-18°C to -22°C - Frozen Stock)</option>
+              <option value="Dry Room">Dry Room (Ambient +15°C to +20°C)</option>
+            </select>
+          </div>
+
+          <!-- 8. Notes -->
+          <div class="form-group col-span-2">
+            <label class="form-label" for="storage-notes">Storage Notes <span class="optional">Optional</span></label>
+            <textarea id="storage-notes" class="form-control" placeholder="Specify pallet rack, shelf number, bay location..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="reset" class="btn-secondary" id="btn-storage-reset">Clear</button>
+          <button type="submit" class="btn-primary" id="btn-storage-submit">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <span id="btn-storage-text">Confirm Storage Allocation</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const session = CLS_Auth.requireAuth();
+      if (!session) return;
+
+      const dateInput = document.getElementById('storage-date');
+      const categorySelect = document.getElementById('storage-category');
+      const productSelect = document.getElementById('storage-product');
+      const productIdInput = document.getElementById('storage-product-id');
+      const batchCodeInput = document.getElementById('storage-batch-code');
+      const productLoadingStatus = document.getElementById('product-loading-status');
+      const storageForm = document.getElementById('storage-form');
+      const submitBtn = document.getElementById('btn-storage-submit');
+      const submitBtnText = document.getElementById('btn-storage-text');
+
+      dateInput.value = CLS_Common.formatDateForInput();
+
+      let currentProductsList = [];
+
+      // Category change -> Load products dynamically
+      categorySelect.addEventListener('change', async () => {
+        const category = categorySelect.value;
+        if (!category) return;
+
+        productSelect.disabled = true;
+        productSelect.innerHTML = '<option value="" disabled selected>Loading received products...</option>';
+        productLoadingStatus.textContent = 'Fetching products...';
+        productIdInput.value = '';
+        batchCodeInput.value = '';
+
+        CLS_Common.showLoader('Loading Products', `Querying active ${category} stock`);
+
+        try {
+          const res = await CLS_API.execute('getProductsByCategory', { category });
+          CLS_Common.hideLoader();
+          productLoadingStatus.textContent = '';
+
+          if (res && res.success && res.products && res.products.length > 0) {
+            currentProductsList = res.products;
+            productSelect.innerHTML = '<option value="" disabled selected>Choose Product...</option>';
+            res.products.forEach((p, idx) => {
+              const opt = document.createElement('option');
+              opt.value = idx;
+              opt.textContent = `${p.productName} — [${p.productId} / Batch: ${p.batchCode}] (${p.quantity} ${p.unit})`;
+              productSelect.appendChild(opt);
+            });
+            productSelect.disabled = false;
+          } else {
+            productSelect.innerHTML = '<option value="" disabled selected>No goods-in found for this category yet</option>';
+            CLS_Common.showToast(`No received stock recorded under ${category} yet. Please submit Goods In first.`, 'warning', 4500);
+          }
+        } catch (err) {
+          CLS_Common.hideLoader();
+          productLoadingStatus.textContent = '';
+          CLS_Common.showToast('Failed to load category products.', 'error');
+        }
+      });
+
+      // Product selected -> Auto populate Product ID and Batch Code
+      productSelect.addEventListener('change', () => {
+        const selectedIndex = parseInt(productSelect.value, 10);
+        const product = currentProductsList[selectedIndex];
+
+        if (product) {
+          productIdInput.value = product.productId;
+          batchCodeInput.value = product.batchCode;
+
+          // Default quantity suggestion
+          const qtyInput = document.getElementById('storage-quantity');
+          if (!qtyInput.value) qtyInput.value = product.quantity;
+        }
+      });
+
+      // Logout handler
+      document.getElementById('btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        CLS_Auth.logout();
+      });
+
+      // Storage submission
+      storageForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const selectedIndex = parseInt(productSelect.value, 10);
+        const product = currentProductsList[selectedIndex];
+
+        if (!product) {
+          CLS_Common.showToast('Please select a valid product.', 'warning');
+          return;
+        }
+
+        const record = {
+          date: dateInput.value,
+          category: categorySelect.value,
+          productName: product.productName,
+          productId: productIdInput.value,
+          batchCode: batchCodeInput.value,
+          quantity: document.getElementById('storage-quantity').value,
+          storageArea: document.getElementById('storage-area').value,
+          notes: document.getElementById('storage-notes').value.trim(),
+          loggedBy: session.user.username
+        };
+
+        submitBtn.disabled = true;
+        submitBtnText.textContent = 'Allocating Storage...';
+        CLS_Common.showLoader('Allocating Storage', `Saving to ${record.storageArea} ledger`);
+
+        try {
+          const res = await CLS_API.execute('saveStorage', { record });
+          CLS_Common.hideLoader();
+
+          if (res && res.success) {
+            CLS_Common.showToast(`Allocated! Assigned ID: ${res.recordId} to ${record.storageArea}`, 'success', 5000);
+            storageForm.reset();
+            dateInput.value = CLS_Common.formatDateForInput();
+            productSelect.disabled = true;
+            productSelect.innerHTML = '<option value="" disabled selected>Please select a Category first...</option>';
+          } else {
+            throw new Error(res ? res.error : 'Failed to save storage record.');
+          }
+        } catch (err) {
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(err.message || 'Storage allocation failed.', 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtnText.textContent = 'Confirm Storage Allocation';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

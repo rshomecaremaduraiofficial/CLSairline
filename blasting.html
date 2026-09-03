@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blast Chilling Traceability — CLS Airline Supplies LTD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/cls-logo.svg">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="dashboard.html" class="brand-wrapper">
+        <img src="assets/cls-logo.svg" alt="CLS Airline Supplies LTD" class="brand-logo-img">
+        <div class="brand-info">
+          <h1>CLS Airline Supplies</h1>
+          <span>Traceability Operations</span>
+        </div>
+      </a>
+
+      <div class="user-nav-section">
+        <div class="user-status-pill">
+          <div class="user-avatar" id="header-avatar">OP</div>
+          <span class="user-fullname" id="header-username">Operator</span>
+        <button id="btn-logout" class="btn-nav-logout" title="End Session">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="page-title-bar">
+      <div>
+        <h2>Blast Chilling Traceability Log</h2>
+        <p>Log rapid temperature reduction cycles to maintain food safety and compliance with &lt;5°C standards.</p>
+      </div>
+      <a href="dashboard.html" class="btn-back-dashboard">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Dashboard
+      </a>
+    </div>
+
+    <div class="form-card">
+      <form id="blasting-form" autocomplete="off">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="blast-date">Blasting Date</label>
+            <input type="date" id="blast-date" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="blast-cycle">Blasting Cycle</label>
+            <select id="blast-cycle" class="form-control" required>
+              <option value="Cycle 1">Cycle 1</option>
+              <option value="Cycle 2">Cycle 2</option>
+              <option value="Cycle 3">Cycle 3</option>
+              <option value="Other">Other (Custom Cycle)</option>
+            </select>
+          </div>
+
+          <div class="form-group col-span-2" id="group-custom-cycle" style="display: none;">
+            <label class="form-label" for="custom-cycle">Custom Cycle Name / Description</label>
+            <input type="text" id="custom-cycle" class="form-control" placeholder="Enter custom cycle name...">
+          </div>
+
+          <div class="form-group col-span-2">
+            <label class="form-label" for="meal-service">Meal Service / Class</label>
+            <select id="meal-service" class="form-control" required>
+              <option value="" disabled selected>Select Meal Service Class...</option>
+              <option value="BC HBK - Business Class Breakfast">BC HBK — Business Class Breakfast</option>
+              <option value="BC LDN - Business Class Dinner">BC LDN — Business Class Dinner</option>
+              <option value="YC HBK - Economy Class Breakfast">YC HBK — Economy Class Breakfast</option>
+              <option value="YC LDN - Economy Class Dinner">YC LDN — Economy Class Dinner</option>
+              <option value="CREW HBK - Crew Breakfast">CREW HBK — Crew Breakfast</option>
+              <option value="CREW LDN - Crew Dinner">CREW LDN — Crew Dinner</option>
+              <option value="Other">Other (Custom Recipe / Meal)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="blast-batch">Batch ID / Product ID</label>
+            <input type="text" id="blast-batch" class="form-control" placeholder="e.g. CLS-000001 or 250926" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="blast-unit">Blast Unit Identifier</label>
+            <select id="blast-unit" class="form-control" required>
+              <option value="" disabled selected>Select Blast Chiller...</option>
+              <option value="Blast Chiller 1">Blast Chiller 1 (High Capacity)</option>
+              <option value="Blast Chiller 2">Blast Chiller 2 (High Capacity)</option>
+              <option value="Blast Chiller 3">Blast Chiller 3 (Express)</option>
+              <option value="Blast Freezer 1">Blast Freezer 1</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="operator-name">Operator Name</label>
+            <input type="text" id="operator-name" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="start-temp">Start Temperature (°C)</label>
+            <input type="number" step="0.1" id="start-temp" class="form-control" placeholder="e.g. 78.0" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="end-temp">Final Temperature (°C) <span style="color: var(--blue-light); font-size: 0.75rem;">HACCP &lt; 5°C</span></label>
+            <input type="number" step="0.1" id="end-temp" class="form-control" placeholder="e.g. 3.4" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="start-time">Start Time</label>
+            <input type="time" id="start-time" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="end-time">End Time</label>
+            <input type="time" id="end-time" class="form-control" required>
+          </div>
+
+          <div class="form-group col-span-2">
+            <label class="form-label" for="duration">Cycle Duration (Minutes)</label>
+            <input type="number" id="duration" class="form-control" placeholder="e.g. 85" required>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="reset" class="btn-secondary">Clear</button>
+          <button type="submit" class="btn-primary" id="btn-blast-submit">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <span id="btn-blast-text">Save Blasting Record</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const session = CLS_Auth.requireAuth();
+      if (!session) return;
+
+      const dateInput = document.getElementById('blast-date');
+      dateInput.value = CLS_Common.formatDateForInput();
+
+      document.getElementById('operator-name').value = session.user.fullName || session.user.username;
+
+      document.getElementById('btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        CLS_Auth.logout();
+      });
+
+      const cycleSelect = document.getElementById('blast-cycle');
+      const customCycleGroup = document.getElementById('group-custom-cycle');
+      const customCycleInput = document.getElementById('custom-cycle');
+      const mealServiceSelect = document.getElementById('meal-service');
+
+      cycleSelect.addEventListener('change', () => {
+        if (cycleSelect.value === 'Other') {
+          customCycleGroup.style.display = 'block';
+          customCycleInput.required = true;
+          customCycleInput.focus();
+        } else {
+          customCycleGroup.style.display = 'none';
+          customCycleInput.required = false;
+        }
+      });
+
+      // Auto calculate duration on time changes
+      const startTime = document.getElementById('start-time');
+      const endTime = document.getElementById('end-time');
+      const durationInput = document.getElementById('duration');
+
+      function calculateMins() {
+        if (startTime.value && endTime.value) {
+          const [sh, sm] = startTime.value.split(':').map(Number);
+          const [eh, em] = endTime.value.split(':').map(Number);
+          let diff = (eh * 60 + em) - (sh * 60 + sm);
+          if (diff < 0) diff += 1440;
+          durationInput.value = diff;
+        }
+      }
+
+      startTime.addEventListener('change', calculateMins);
+      endTime.addEventListener('change', calculateMins);
+
+      const form = document.getElementById('blasting-form');
+      const submitBtn = document.getElementById('btn-blast-submit');
+      const submitBtnText = document.getElementById('btn-blast-text');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const selectedCycle = (cycleSelect.value === 'Other')
+          ? (customCycleInput.value.trim() || 'Custom Cycle')
+          : cycleSelect.value;
+
+        const record = {
+          date: dateInput.value,
+          cycle: selectedCycle,
+          mealService: mealServiceSelect.value,
+          batchId: document.getElementById('blast-batch').value.trim(),
+          blastUnit: document.getElementById('blast-unit').value,
+          startTemp: document.getElementById('start-temp').value,
+          endTemp: document.getElementById('end-temp').value,
+          startTime: startTime.value,
+          endTime: endTime.value,
+          duration: durationInput.value,
+          operator: document.getElementById('operator-name').value.trim()
+        };
+
+        submitBtn.disabled = true;
+        submitBtnText.textContent = 'Saving...';
+        CLS_Common.showLoader('Recording Blasting Cycle', 'Validating chilled temp criteria');
+
+        try {
+          const res = await CLS_API.execute('saveBlasting', { record });
+          CLS_Common.hideLoader();
+          if (res && res.success) {
+            CLS_Common.showToast(`Blasting log ${res.recordId || ''} recorded successfully!`, 'success');
+            form.reset();
+            dateInput.value = CLS_Common.formatDateForInput();
+            document.getElementById('operator-name').value = session.user.fullName || session.user.username;
+            customCycleGroup.style.display = 'none';
+          }
+        } catch (err) {
+          CLS_Common.hideLoader();
+          CLS_Common.showToast('Failed to save blasting record.', 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtnText.textContent = 'Save Blasting Record';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
