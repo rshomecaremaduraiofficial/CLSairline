@@ -5,7 +5,7 @@
  */
 const CLS_CONFIG = {
   // Live Cloud Database Web API Deployment URL
-  GAS_API_URL: "https://script.google.com/macros/s/AKfycbxBAUPuUvuvc3CmK1qr414NQeV_YoO3QWL8YOHSWLlOjb6QpYfrtx_HWuGU2dGldhme/exec",
+  GAS_API_URL: "https://script.google.com/macros/s/AKfycbxqISCuHppjM35-8txRveQitOPRzmF3miuL1HmxbICjXN-yeygDFgoRNGjD3mshQ7U_/exe",
 
   // Set to false: strictly write to and read from live Cloud Database (no local storage)
   USE_MOCK_FALLBACK: false,
