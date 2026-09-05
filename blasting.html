@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blast Chilling Traceability — CLS Airline Supplies LTD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/cls-logo.svg">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="dashboard.html" class="brand-wrapper">
+        <img src="assets/cls-logo.svg" alt="CLS Airline Supplies LTD" class="brand-logo-img">
+        <div class="brand-info">
+          <h1>CLS Airline Supplies</h1>
+          <span>Traceability Operations</span>
+        </div>
+      </a>
+
+      <div class="user-nav-section">
+        <div class="user-status-pill">
+          <div class="user-avatar" id="header-avatar">OP</div>
+          <span class="user-fullname" id="header-username">Operator</span>
+          <span class="area-badge" id="header-area">London</span>
+        </div>
+        <button id="btn-logout" class="btn-nav-logout" title="End Session">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="page-title-bar">
+      <div>
+        <h2>Blast Chilling Traceability Log</h2>
+        <p>Rapid core temperature reduction ledger (&le;5°C with &ge;120 minutes chilling) dynamically linked to daily cooking batches.</p>
+      </div>
+      <a href="dashboard.html" class="btn-back-dashboard">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Dashboard
+      </a>
+    </div>
+
+    <form id="blasting-form" autocomplete="off">
+      <!-- Step 1: Operational Schedule & Menu Cycle -->
+      <div class="form-card" style="margin-bottom: 1.5rem;">
+        <div class="step-card-header">
+          <div class="step-number-badge">1</div>
+          <h3>Operational Schedule &amp; Menu Cycle</h3>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="blast-date">Blasting Date</label>
+            <input type="date" id="blast-date" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="blast-cycle">Menu Cycle</label>
+            <select id="blast-cycle" class="form-control" required>
+              <option value="Cycle 1">Cycle 1</option>
+              <option value="Cycle 2">Cycle 2</option>
+              <option value="Cycle 3">Cycle 3</option>
+              <option value="Other">Other (Custom Cycle)</option>
+            </select>
+          </div>
+
+          <div class="form-group col-span-2" id="group-custom-cycle" style="display: none;">
+            <label class="form-label" for="custom-cycle">Custom Cycle Name / Description</label>
+            <input type="text" id="custom-cycle" class="form-control" placeholder="e.g. VIP Charter Flight Cycle / Special Event">
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Cooked Batch & Recipe Master Linking -->
+      <div class="form-card" style="margin-bottom: 1.5rem;">
+        <div class="step-card-header">
+          <div class="step-number-badge">2</div>
+          <div>
+            <h3>Cooked Batch &amp; Recipe Master Linking</h3>
+            <span id="batch-load-hint" style="font-size: 0.78rem; color: #059669; font-weight: 600;">Searching cooked batches for selected date...</span>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="meal-service">Meal Service / Class</label>
+            <select id="meal-service" class="form-control" required>
+              <option value="" disabled selected>Loading available meal services...</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="recipe-select">Recipe Name (Cooked Batches)</label>
+            <select id="recipe-select" class="form-control" required disabled>
+              <option value="" disabled selected>Select Meal Service first...</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="blast-batch">
+              <span>Cooking Batch ID (Cooker Auto)</span>
+              <span class="auto-badge" style="background: #ecfdf5; color: #059669; font-weight: 800; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.7rem;">AUTO</span>
+            </label>
+            <input type="text" id="blast-batch" class="form-control" placeholder="Auto-populated from cooking" readonly required style="background: #f8fafc; font-weight: 800; font-family: var(--font-mono); color: #059669;">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="recipe-code">
+              <span>Recipe Code</span>
+              <span class="auto-badge" style="background: #ecfdf5; color: #059669; font-weight: 800; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.7rem;">AUTO</span>
+            </label>
+            <input type="text" id="recipe-code" class="form-control" placeholder="Auto-populated" readonly required style="background: #f8fafc; font-weight: 800; font-family: var(--font-mono); color: var(--brown-900);">
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: HACCP Blasting Times & 120-Minute Target Duration -->
+      <div class="form-card" style="margin-bottom: 1.5rem;">
+        <div class="step-card-header">
+          <div class="step-number-badge">3</div>
+          <h3>HACCP Blasting Times &amp; Cycle Duration</h3>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label class="form-label" for="start-time">Blasting Start Time</label>
+            <input type="time" id="start-time" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="end-time">Blasting End Time</label>
+            <input type="time" id="end-time" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label class="form-label" for="duration" style="margin-bottom: 0;">Cycle Duration (Minutes)</label>
+              <span id="duration-badge" style="display: none; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 999px;"></span>
+            </div>
+            <input type="number" id="duration" class="form-control" placeholder="Auto calculated..." readonly required style="background: #f8fafc; font-weight: 800; font-family: var(--font-mono);">
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Core Temperature Verification & Operator Sign-Off -->
+      <div class="form-card" style="margin-bottom: 1.5rem;">
+        <div class="step-card-header">
+          <div class="step-number-badge">4</div>
+          <h3>Core Temperatures &amp; Operator Sign-Off</h3>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label class="form-label" for="start-temp">Pre-Blast Core Temp (°C)</label>
+            <input type="number" step="0.1" id="start-temp" class="form-control" placeholder="e.g. 78.5" required>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label class="form-label" for="end-temp" style="margin-bottom: 0;">Post-Blast Core Temp (°C)</label>
+              <span id="temp-badge" style="display: none; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 999px;"></span>
+            </div>
+            <input type="number" step="0.1" id="end-temp" class="form-control" placeholder="e.g. 3.4 (Must be &le;5°C)" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="operator-name">Lead Operator / Chef</label>
+            <input type="text" id="operator-name" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 1rem;">
+          <label class="form-label" for="blast-notes">Blasting Notes &amp; Quality Checks <span class="optional">Optional</span></label>
+          <textarea id="blast-notes" class="form-control" placeholder="e.g. Probe calibrated at 08:00, airflow verified on Chiller #2..."></textarea>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="reset" class="btn-secondary" id="btn-reset-form">Clear Form</button>
+          <button type="submit" class="btn-primary" id="btn-blast-submit" style="padding: 0.85rem 2rem; font-size: 1rem;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <span id="btn-blast-text">SUBMIT BLASTING RECORD</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const session = CLS_Auth.requireAuth();
+      if (!session) return;
+
+      // Header avatar & logout
+      const username = session.user.fullName || session.user.username;
+      document.getElementById('header-username').textContent = username;
+      const avatarEl = document.getElementById('header-avatar');
+      if (avatarEl && session.user.username) {
+        avatarEl.textContent = session.user.username.slice(0, 2).toUpperCase();
+      }
+
+      document.getElementById('btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        CLS_Auth.logout();
+      });
+
+      // Form Elements
+      const dateInput = document.getElementById('blast-date');
+      const cycleSelect = document.getElementById('blast-cycle');
+      const customCycleGroup = document.getElementById('group-custom-cycle');
+      const customCycleInput = document.getElementById('custom-cycle');
+      const mealServiceSelect = document.getElementById('meal-service');
+      const recipeSelect = document.getElementById('recipe-select');
+      const batchInput = document.getElementById('blast-batch');
+      const recipeCodeInput = document.getElementById('recipe-code');
+      const startTempInput = document.getElementById('start-temp');
+      const endTempInput = document.getElementById('end-temp');
+      const tempBadge = document.getElementById('temp-badge');
+      const startTimeInput = document.getElementById('start-time');
+      const endTimeInput = document.getElementById('end-time');
+      const durationInput = document.getElementById('duration');
+      const durationBadge = document.getElementById('duration-badge');
+      const operatorInput = document.getElementById('operator-name');
+      const notesInput = document.getElementById('blast-notes');
+      const batchHint = document.getElementById('batch-load-hint');
+      const form = document.getElementById('blasting-form');
+      const submitBtn = document.getElementById('btn-blast-submit');
+      const submitBtnText = document.getElementById('btn-blast-text');
+
+      // State
+      let dailyCookedBatches = [];
+      let selectedBatch = null;
+
+      // Initialize defaults
+      dateInput.value = CLS_Common.formatDateForInput();
+      operatorInput.value = username;
+
+      // Cycle change handler
+      cycleSelect.addEventListener('change', () => {
+        if (cycleSelect.value === 'Other') {
+          customCycleGroup.style.display = 'block';
+          customCycleInput.required = true;
+          customCycleInput.focus();
+        } else {
+          customCycleGroup.style.display = 'none';
+          customCycleInput.required = false;
+        }
+        loadCookedBatchesForSelectedDay();
+      });
+
+      dateInput.addEventListener('change', loadCookedBatchesForSelectedDay);
+
+      // Load available cooked batches for selected date and cycle
+      async function loadCookedBatchesForSelectedDay() {
+        const date = dateInput.value;
+        const cycle = (cycleSelect.value === 'Other')
+          ? (customCycleInput.value.trim() || 'Other')
+          : cycleSelect.value;
+
+        batchHint.textContent = `Fetching cooking records for ${CLS_Common.formatDisplayDate(date)}...`;
+        mealServiceSelect.disabled = true;
+        mealServiceSelect.innerHTML = '<option value="" disabled selected>Loading cooked meal services...</option>';
+        recipeSelect.disabled = true;
+        recipeSelect.innerHTML = '<option value="" disabled selected>Select Meal Service first...</option>';
+        batchInput.value = '';
+        recipeCodeInput.value = '';
+
+        try {
+          const res = await CLS_API.execute('getCookingReportData', { date, cycle });
+          dailyCookedBatches = (res && res.success && res.data) ? res.data : [];
+
+          if (dailyCookedBatches.length > 0) {
+            batchHint.textContent = `✅ ${dailyCookedBatches.length} cooked batch(es) found for this date.`;
+            batchHint.style.color = '#059669';
+
+            // Extract distinct meal services
+            const uniqueServices = [...new Set(dailyCookedBatches.map(b => b.mealService).filter(Boolean))];
+            
+            mealServiceSelect.innerHTML = '<option value="" disabled selected>Select Cooked Meal Service...</option>';
+            uniqueServices.forEach(s => {
+              const opt = document.createElement('option');
+              opt.value = s;
+              opt.textContent = s;
+              mealServiceSelect.appendChild(opt);
+            });
+            mealServiceSelect.disabled = false;
+          } else {
+            batchHint.textContent = `No cooking batches logged for this date. Showing all standard meal services.`;
+            batchHint.style.color = '#d97706';
+
+            // Fallback standard options so operators are never blocked
+            mealServiceSelect.innerHTML = `
+              <option value="" disabled selected>Select Meal Service Class...</option>
+              <option value="BC HBK - Business Class Breakfast">BC HBK — Business Class Breakfast</option>
+              <option value="BC LDN - Business Class Dinner">BC LDN — Business Class Dinner</option>
+              <option value="YC HBK - Economy Class Breakfast">YC HBK — Economy Class Breakfast</option>
+              <option value="YC LDN - Economy Dinner">YC LDN — Economy Dinner</option>
+              <option value="CREW HBK - Crew Breakfast">CREW HBK — Crew Breakfast</option>
+              <option value="CREW LDN - Crew Dinner">CREW LDN — Crew Dinner</option>
+              <option value="Other">Other (Custom Service)</option>
+            `;
+            mealServiceSelect.disabled = false;
+          }
+        } catch (err) {
+          batchHint.textContent = 'Could not load cooked batches. You can still enter records manually.';
+          batchHint.style.color = '#e11d48';
+          mealServiceSelect.disabled = false;
+        }
+      }
+
+      // Meal Service change handler -> populate recipes
+      mealServiceSelect.addEventListener('change', async () => {
+        const selectedService = mealServiceSelect.value;
+        recipeSelect.disabled = true;
+        recipeSelect.innerHTML = '<option value="" disabled selected>Loading recipes...</option>';
+        batchInput.value = '';
+        recipeCodeInput.value = '';
+
+        // Filter batches from daily cooked list matching meal service
+        const matchingBatches = dailyCookedBatches.filter(b => b.mealService === selectedService);
+
+        if (matchingBatches.length > 0) {
+          recipeSelect.innerHTML = '<option value="" disabled selected>Select Cooked Recipe...</option>';
+          matchingBatches.forEach((b, idx) => {
+            const opt = document.createElement('option');
+            opt.value = String(idx);
+            const bId = b.batchCode || b.cookingRecordId;
+            const rCode = b.recipeCode ? ` [${b.recipeCode}]` : '';
+            opt.textContent = `${b.recipeName || b.productName}${rCode} (Batch: ${bId})`;
+            recipeSelect.appendChild(opt);
+          });
+          recipeSelect.disabled = false;
+        } else {
+          // Fallback: Query recipe master list for this service
+          const cycle = (cycleSelect.value === 'Other') ? (customCycleInput.value.trim() || 'Other') : cycleSelect.value;
+          try {
+            const res = await CLS_API.execute('getRecipes', { cycle, mealService: selectedService });
+            if (res && res.success && res.data && res.data.length > 0) {
+              recipeSelect.innerHTML = '<option value="" disabled selected>Select Recipe...</option>';
+              res.data.forEach(r => {
+                const opt = document.createElement('option');
+                opt.value = 'REC_' + r.recipeId;
+                opt.dataset.recipeCode = r.recipeCode || r.recipeId;
+                opt.dataset.recipeName = r.recipeName;
+                opt.textContent = `${r.recipeName} (${r.recipeCode || r.recipeId})`;
+                recipeSelect.appendChild(opt);
+              });
+              recipeSelect.disabled = false;
+            } else {
+              recipeSelect.innerHTML = '<option value="" disabled selected>No recipes found for service</option>';
+            }
+          } catch (e) {
+            recipeSelect.innerHTML = '<option value="" disabled selected>Error loading recipes</option>';
+          }
+        }
+      });
+
+      // Recipe selection -> auto fill Batch ID, Recipe Code, Start Temp
+      recipeSelect.addEventListener('change', () => {
+        const val = recipeSelect.value;
+        const matchingBatches = dailyCookedBatches.filter(b => b.mealService === mealServiceSelect.value);
+
+        if (val.startsWith('REC_')) {
+          // Standard recipe selected
+          const opt = recipeSelect.selectedOptions[0];
+          recipeCodeInput.value = (opt && opt.dataset.recipeCode) || '';
+          
+          // Auto generate date batch code CK-DDMMYY
+          const dVal = dateInput.value;
+          if (dVal) {
+            const p = dVal.split('-');
+            batchInput.value = `CK-${p[2]}${p[1]}${p[0].slice(-2)}`;
+          } else {
+            batchInput.value = 'CK-BATCH';
+          }
+          if (!startTempInput.value) startTempInput.value = '75.0';
+        } else {
+          // Cooked batch selected
+          const idx = parseInt(val, 10);
+          selectedBatch = matchingBatches[idx];
+          if (selectedBatch) {
+            batchInput.value = selectedBatch.batchCode || selectedBatch.cookingRecordId || '';
+            recipeCodeInput.value = selectedBatch.recipeCode || selectedBatch.recipeId || '';
+            
+            // Auto fill pre-blast starting temp from cooked core temp
+            if (selectedBatch.coreTemperature) {
+              const numTemp = parseFloat(String(selectedBatch.coreTemperature).replace(/[^0-9.]/g, ''));
+              if (!isNaN(numTemp) && numTemp > 0) {
+                startTempInput.value = numTemp;
+              }
+            }
+          }
+        }
+      });
+
+      // Auto-Calculate Duration on Start & End Time + HACCP >= 120-Minute Target
+      function calculateDuration() {
+        if (startTimeInput.value && endTimeInput.value) {
+          const [sh, sm] = startTimeInput.value.split(':').map(Number);
+          const [eh, em] = endTimeInput.value.split(':').map(Number);
+          let diff = (eh * 60 + em) - (sh * 60 + sm);
+          if (diff < 0) diff += 1440; // Overnight wrap
+
+          durationInput.value = diff;
+          durationBadge.style.display = 'inline-flex';
+
+          if (diff >= 120) {
+            durationBadge.style.background = '#ecfdf5';
+            durationBadge.style.color = '#059669';
+            durationBadge.style.border = '1px solid #a7f3d0';
+            durationBadge.innerHTML = `✅ Chilling &ge;120 Mins Met (${diff}m)`;
+          } else {
+            durationBadge.style.background = '#fff1f2';
+            durationBadge.style.color = '#e11d48';
+            durationBadge.style.border = '1px solid #fecdd3';
+            durationBadge.innerHTML = `⚠️ Under 120 Min Target (${diff}m)`;
+          }
+        } else {
+          durationBadge.style.display = 'none';
+        }
+      }
+
+      startTimeInput.addEventListener('change', calculateDuration);
+      endTimeInput.addEventListener('change', calculateDuration);
+      startTimeInput.addEventListener('input', calculateDuration);
+      endTimeInput.addEventListener('input', calculateDuration);
+
+      // Real-time Final Core Temperature <= 5°C HACCP Validation
+      endTempInput.addEventListener('input', () => {
+        const val = parseFloat(endTempInput.value);
+        if (isNaN(val) || endTempInput.value === '') {
+          tempBadge.style.display = 'none';
+          return;
+        }
+
+        tempBadge.style.display = 'inline-flex';
+        if (val <= 5.0) {
+          tempBadge.style.background = '#ecfdf5';
+          tempBadge.style.color = '#059669';
+          tempBadge.style.border = '1px solid #a7f3d0';
+          tempBadge.innerHTML = '✅ HACCP &le;5°C Safe Chill Met';
+        } else {
+          tempBadge.style.background = '#fff1f2';
+          tempBadge.style.color = '#e11d48';
+          tempBadge.style.border = '1px solid #fecdd3';
+          tempBadge.innerHTML = '⚠️ Above Safe Threshold (&gt;5°C)';
+        }
+      });
+
+      // Submit Form Handler
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const blastingDate = dateInput.value;
+        const cycle = (cycleSelect.value === 'Other')
+          ? (customCycleInput.value.trim() || 'Other')
+          : cycleSelect.value;
+        const mealService = mealServiceSelect.value;
+        const batchId = batchInput.value.trim();
+        const recipeCode = recipeCodeInput.value.trim();
+        const startTemp = parseFloat(startTempInput.value);
+        const endTemp = parseFloat(endTempInput.value);
+        const startTime = startTimeInput.value;
+        const endTime = endTimeInput.value;
+        const duration = parseInt(durationInput.value, 10);
+        const operator = operatorInput.value.trim();
+
+        // Determine recipe name
+        let recipeName = '';
+        if (recipeSelect.value.startsWith('REC_')) {
+          recipeName = (recipeSelect.selectedOptions[0] && recipeSelect.selectedOptions[0].dataset.recipeName) || recipeSelect.selectedOptions[0].textContent;
+        } else if (selectedBatch) {
+          recipeName = selectedBatch.recipeName || selectedBatch.productName || '';
+        } else if (recipeSelect.selectedOptions[0]) {
+          recipeName = recipeSelect.selectedOptions[0].textContent;
+        }
+
+        if (!mealService) {
+          CLS_Common.showToast('Please select a Meal Service / Class.', 'warning');
+          mealServiceSelect.focus();
+          return;
+        }
+
+        if (!recipeName || !recipeCode) {
+          CLS_Common.showToast('Please select an active Recipe.', 'warning');
+          recipeSelect.focus();
+          return;
+        }
+
+        if (isNaN(startTemp) || isNaN(endTemp)) {
+          CLS_Common.showToast('Please enter both pre-blast and post-blast core temperatures.', 'warning');
+          return;
+        }
+
+        if (!startTime || !endTime || isNaN(duration)) {
+          CLS_Common.showToast('Please enter valid Start and End times.', 'warning');
+          return;
+        }
+
+        const isCompliant = (duration >= 120 && endTemp <= 5.0);
+        const haccpStatus = isCompliant ? 'Compliant (≤5°C in ≥120m)' : 'Non-Compliant Check Required';
+
+        const record = {
+          date: blastingDate,
+          cycle: cycle,
+          mealService: mealService,
+          recipeCode: recipeCode,
+          recipeName: recipeName,
+          batchId: batchId,
+          cookingBatchId: batchId,
+          startTemp: startTemp,
+          endTemp: endTemp,
+          startTime: startTime,
+          endTime: endTime,
+          duration: duration,
+          operator: operator,
+          haccpStatus: haccpStatus,
+          notes: notesInput.value.trim()
+        };
+
+        submitBtn.disabled = true;
+        submitBtnText.textContent = 'SAVING TO DATABASE...';
+        CLS_Common.showLoader('Recording Blasting Cycle', 'Saving chilled batch log & HACCP parameters');
+
+        try {
+          const res = await CLS_API.execute('saveBlasting', { record });
+          CLS_Common.hideLoader();
+
+          if (res && res.success) {
+            CLS_Common.showToast(`Blasting log ${res.recordId || ''} recorded successfully!`, 'success');
+            
+            // Reset form
+            form.reset();
+            dateInput.value = CLS_Common.formatDateForInput();
+            operatorInput.value = username;
+            customCycleGroup.style.display = 'none';
+            durationBadge.style.display = 'none';
+            tempBadge.style.display = 'none';
+            selectedBatch = null;
+            loadCookedBatchesForSelectedDay();
+          } else {
+            throw new Error(res ? res.error : 'Failed to save blasting record.');
+          }
+        } catch (err) {
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(err.message || 'Database error while saving blasting log.', 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtnText.textContent = 'SUBMIT BLASTING RECORD';
+        }
+      });
+
+      // Initial load
+      loadCookedBatchesForSelectedDay();
+    });
+  </script>
+</body>
+</html>

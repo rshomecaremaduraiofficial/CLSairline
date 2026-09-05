@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goods In Receiving — CLS Airline Supplies LTD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/cls-logo.svg">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="dashboard.html" class="brand-wrapper">
+        <img src="assets/cls-logo.svg" alt="CLS Airline Supplies LTD" class="brand-logo-img">
+        <div class="brand-info">
+          <h1>CLS Airline Supplies</h1>
+          <span>Traceability Operations</span>
+        </div>
+      </a>
+
+      <div class="user-nav-section">
+        <div class="user-status-pill">
+          <div class="user-avatar" id="header-avatar">OP</div>
+          <span class="user-fullname" id="header-username">Operator</span>
+          <span class="area-badge" id="header-area">London</span>
+        </div>
+        <button id="btn-logout" class="btn-nav-logout" title="End Session">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="page-title-bar">
+      <div>
+        <h2>Goods Inbound Receiving Form</h2>
+        <p>Record delivered inventory, inspection checks, and HACCP compliance details.</p>
+      </div>
+      <a href="dashboard.html" class="btn-back-dashboard">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Dashboard
+      </a>
+    </div>
+
+    <div class="form-card">
+      <form id="goods-in-form" autocomplete="off">
+        <div class="form-grid-2">
+          <!-- Date -->
+          <div class="form-group">
+            <label class="form-label" for="goods-date">Receiving Date</label>
+            <input type="date" id="goods-date" class="form-control" required>
+          </div>
+
+          <!-- Category -->
+          <div class="form-group">
+            <label class="form-label" for="goods-category">Category</label>
+            <select id="goods-category" class="form-control" required>
+              <option value="" disabled selected>Select Category...</option>
+              <option value="DRY ITEMS">DRY ITEMS</option>
+              <option value="FISH">FISH</option>
+              <option value="MEAT">MEAT</option>
+              <option value="FRUIT & VEGETABLES">FRUIT & VEGETABLES</option>
+              <option value="DAIRY PRODUCTS">DAIRY PRODUCTS</option>
+            </select>
+          </div>
+
+          <!-- Product Name -->
+          <div class="form-group col-span-2">
+            <label class="form-label" for="product-name">Product Name</label>
+            <input type="text" id="product-name" class="form-control" placeholder="e.g. Fresh Chicken Breast Fillets" required>
+          </div>
+
+          <!-- Supplier -->
+          <div class="form-group">
+            <label class="form-label" for="supplier">Supplier</label>
+            <input type="text" id="supplier" class="form-control" placeholder="e.g. Aviation Poultry Ltd" required>
+          </div>
+
+          <!-- Invoice No -->
+          <div class="form-group">
+            <label class="form-label" for="invoice-no">Invoice No.</label>
+            <input type="text" id="invoice-no" class="form-control" placeholder="e.g. INV-90812" required>
+          </div>
+
+          <!-- Quantity -->
+          <div class="form-group">
+            <label class="form-label" for="quantity">Quantity</label>
+            <input type="number" step="any" min="0.01" id="quantity" class="form-control" placeholder="e.g. 150" required>
+          </div>
+
+          <!-- Unit -->
+          <div class="form-group">
+            <label class="form-label" for="unit">Unit</label>
+            <select id="unit" class="form-control" required>
+              <option value="" disabled selected>Select Unit...</option>
+              <option value="KG">KG</option>
+              <option value="Each">Each</option>
+              <option value="Litre">Litre</option>
+              <option value="Box">Box</option>
+              <option value="Gram">Gram (g)</option>
+              <option value="ML">ML</option>
+            </select>
+          </div>
+
+          <!-- Vehicle Condition -->
+          <div class="form-group">
+            <label class="form-label">Vehicle Condition</label>
+            <div class="choice-pill-group">
+              <div class="choice-pill">
+                <input type="radio" id="veh-good" name="vehicleCondition" value="Good" checked>
+                <label for="veh-good">Good</label>
+              </div>
+              <div class="choice-pill danger">
+                <input type="radio" id="veh-bad" name="vehicleCondition" value="Bad">
+                <label for="veh-bad">Bad</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Free From Pest Infestation -->
+          <div class="form-group">
+            <label class="form-label">Free From Pest Infestation</label>
+            <div class="choice-pill-group">
+              <div class="choice-pill">
+                <input type="radio" id="pest-yes" name="freeFromPests" value="Yes" checked>
+                <label for="pest-yes">Yes</label>
+              </div>
+              <div class="choice-pill danger">
+                <input type="radio" id="pest-no" name="freeFromPests" value="No">
+                <label for="pest-no">No</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Packaging -->
+          <div class="form-group col-span-2">
+            <label class="form-label">Product Packaging Condition</label>
+            <div class="choice-pill-group">
+              <div class="choice-pill">
+                <input type="radio" id="pack-good" name="productPackaging" value="Good" checked>
+                <label for="pack-good">Good</label>
+              </div>
+              <div class="choice-pill">
+                <input type="radio" id="pack-small" name="productPackaging" value="Small Damage">
+                <label for="pack-small">Small Damage</label>
+              </div>
+              <div class="choice-pill danger">
+                <input type="radio" id="pack-bad" name="productPackaging" value="Bad">
+                <label for="pack-bad">Bad</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Supplier Batch Code -->
+          <div class="form-group">
+            <label class="form-label" for="supplier-batch">Supplier Batch Code <span class="optional">Optional</span></label>
+            <input type="text" id="supplier-batch" class="form-control" placeholder="e.g. SUP-BATCH-774">
+          </div>
+
+          <!-- Product Best Before -->
+          <div class="form-group">
+            <label class="form-label" for="best-before">Product Best Before</label>
+            <input type="date" id="best-before" class="form-control" required>
+          </div>
+
+          <!-- Health Mark -->
+          <div class="form-group">
+            <label class="form-label" for="health-mark">Health Mark <span class="optional">Optional</span></label>
+            <input type="text" id="health-mark" class="form-control" placeholder="e.g. UK 4012 EC">
+          </div>
+
+          <!-- Certificate of Analysis -->
+          <div class="form-group">
+            <label class="form-label">Certificate of Analysis (CoA)</label>
+            <div class="choice-pill-group">
+              <div class="choice-pill">
+                <input type="radio" id="coa-yes" name="certificateOfAnalysis" value="Yes" checked>
+                <label for="coa-yes">Yes</label>
+              </div>
+              <div class="choice-pill">
+                <input type="radio" id="coa-no" name="certificateOfAnalysis" value="No">
+                <label for="coa-no">No</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reject Delivery Check -->
+          <div class="form-group col-span-2">
+            <label class="form-label" style="font-size: 1rem; color: #fda4af;">Reject Delivery / Failed Inspection?</label>
+            <div class="choice-pill-group">
+              <div class="choice-pill">
+                <input type="radio" id="reject-no" name="reject" value="No" checked>
+                <label for="reject-no">No (Accept &amp; File to Category)</label>
+              </div>
+              <div class="choice-pill danger">
+                <input type="radio" id="reject-yes" name="reject" value="Yes">
+                <label for="reject-yes">Yes (Reject &amp; Route to Rejected Goods)</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Conditional Rejection Reason -->
+          <div id="rejection-container" class="form-group col-span-2 rejection-panel">
+            <div class="rejection-panel-title">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              <span>Mandatory Rejection Documentation</span>
+            </div>
+            <label class="form-label" for="rejection-reason" style="color: #fecdd3;">Reason for Rejection</label>
+            <input type="text" id="rejection-reason" class="form-control" placeholder="Describe the failure, e.g. High vehicle temp (+12°C), pest evidence, expired date...">
+          </div>
+
+          <!-- Notes -->
+          <div class="form-group col-span-2">
+            <label class="form-label" for="notes">Receiving Notes <span class="optional">Optional</span></label>
+            <textarea id="notes" class="form-control" placeholder="Additional arrival temperature, bay number, packaging observations..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="reset" class="btn-secondary" id="btn-reset">Clear Form</button>
+          <button type="submit" class="btn-primary" id="btn-submit">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <span id="btn-submit-text">Submit Goods In Record</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const session = CLS_Auth.requireAuth();
+      if (!session) return;
+
+      const dateInput = document.getElementById('goods-date');
+      const rejectionContainer = document.getElementById('rejection-container');
+      const rejectionReasonInput = document.getElementById('rejection-reason');
+      const rejectRadios = document.querySelectorAll('input[name="reject"]');
+      const goodsForm = document.getElementById('goods-in-form');
+      const submitBtn = document.getElementById('btn-submit');
+      const submitBtnText = document.getElementById('btn-submit-text');
+
+      // Set default date to today
+      dateInput.value = CLS_Common.formatDateForInput();
+
+      // Toggle rejection panel
+      rejectRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (radio.value === 'Yes' && radio.checked) {
+            rejectionContainer.classList.add('visible');
+            rejectionReasonInput.required = true;
+          } else if (radio.value === 'No' && radio.checked) {
+            rejectionContainer.classList.remove('visible');
+            rejectionReasonInput.required = false;
+          }
+        });
+      });
+
+      // Logout handler
+      document.getElementById('btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        CLS_Auth.logout();
+      });
+
+      // Form submission
+      goodsForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const isReject = document.querySelector('input[name="reject"]:checked').value === 'Yes';
+        const reason = rejectionReasonInput.value.trim();
+
+        if (isReject && !reason) {
+          CLS_Common.showToast('Please provide a specific Reason for Rejection.', 'warning');
+          rejectionReasonInput.focus();
+          return;
+        }
+
+        const record = {
+          date: dateInput.value,
+          category: document.getElementById('goods-category').value,
+          productName: document.getElementById('product-name').value.trim(),
+          supplier: document.getElementById('supplier').value.trim(),
+          invoiceNo: document.getElementById('invoice-no').value.trim(),
+          quantity: document.getElementById('quantity').value,
+          unit: document.getElementById('unit').value,
+          vehicleCondition: document.querySelector('input[name="vehicleCondition"]:checked').value,
+          freeFromPests: document.querySelector('input[name="freeFromPests"]:checked').value,
+          productPackaging: document.querySelector('input[name="productPackaging"]:checked').value,
+          supplierBatchCode: document.getElementById('supplier-batch').value.trim(),
+          productBestBefore: document.getElementById('best-before').value,
+          healthMark: document.getElementById('health-mark').value.trim(),
+          certificateOfAnalysis: document.querySelector('input[name="certificateOfAnalysis"]:checked').value,
+          reject: isReject ? 'Yes' : 'No',
+          reasonForRejection: isReject ? reason : '',
+          notes: document.getElementById('notes').value.trim(),
+          receivedBy: session.user.username
+        };
+
+        // Prevent double submit
+        submitBtn.disabled = true;
+        submitBtnText.textContent = 'Submitting & Generating ID...';
+        CLS_Common.showLoader('Recording Goods In', 'Generating unique ID and updating ledger');
+
+        try {
+          const res = await CLS_API.execute('saveGoodsIn', { record });
+          CLS_Common.hideLoader();
+
+          if (res && res.success) {
+            CLS_Common.showToast(`Saved! Assigned ${res.productId} (Batch: ${res.batchCode})`, 'success', 5000);
+            goodsForm.reset();
+            dateInput.value = CLS_Common.formatDateForInput();
+            rejectionContainer.classList.remove('visible');
+            rejectionReasonInput.required = false;
+          } else {
+            throw new Error(res ? res.error : 'Failed to save record.');
+          }
+        } catch (err) {
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(err.message || 'Submission failed.', 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtnText.textContent = 'Submit Goods In Record';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

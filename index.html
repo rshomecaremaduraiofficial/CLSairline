@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLS Airline Supplies LTD — Traceability System</title>
+  <script src="js/api-config.js"></script>
+  <script src="js/auth.js"></script>
+</head>
+<body style="background: #070d18; color: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif;">
+  <p>Redirecting to CLS Traceability System...</p>
+  <script>
+    const session = CLS_Auth.getSession();
+    if (session && session.sessionId) {
+      window.location.replace('dashboard.html');
+    } else {
+      window.location.replace('login.html');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Portal Login — CLS Airline Supplies LTD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/cls-logo.svg">
+</head>
+<body>
+  <div class="login-page-wrapper">
+    <div class="login-card">
+      <img src="assets/cls-logo.svg" alt="CLS Airline Supplies LTD" class="login-brand-logo">
+      <h2 class="login-title">Traceability Portal</h2>
+      <p class="login-subtitle">Operations &amp; Floor Staff Authentication</p>
+
+      <form id="login-form" autocomplete="off">
+        <div class="form-group" style="text-align: left;">
+          <label class="form-label" for="username">Operator / Staff ID</label>
+          <input type="text" id="username" class="form-control" placeholder="Enter Username / Staff ID" required autofocus>
+        </div>
+
+        <div class="form-group" style="text-align: left;">
+          <label class="form-label" for="password">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <div class="form-group" style="text-align: left;">
+          <label class="form-label" for="pin">6-Digit Security PIN</label>
+          <input type="password" id="pin" class="form-control" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" placeholder="••••••" style="letter-spacing: 0.35em; font-size: 1.25rem; font-family: var(--font-mono); text-align: center;" required>
+        </div>
+
+        <button type="submit" id="btn-login-submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 1.25rem; padding: 0.95rem;">
+          <span id="btn-text">Authenticate &amp; Start Session</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const session = CLS_Auth.getSession();
+      if (session && session.sessionId) {
+        window.location.replace('dashboard.html');
+        return;
+      }
+
+      const loginForm = document.getElementById('login-form');
+      const submitBtn = document.getElementById('btn-login-submit');
+      const btnText = document.getElementById('btn-text');
+
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const pin = document.getElementById('pin').value.trim();
+
+        if (pin.length !== 6 || !/^\d+$/.test(pin)) {
+          CLS_Common.showToast('Please enter a valid 6-digit numeric PIN.', 'warning');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        btnText.textContent = 'Verifying Credentials...';
+        CLS_Common.showLoader('CLS Authenticating', 'Starting secure staff session');
+
+        try {
+          await CLS_Auth.login(username, password, pin);
+          CLS_Common.showToast('Authentication successful.', 'success');
+          setTimeout(() => {
+            window.location.href = 'dashboard.html';
+          }, 350);
+        } catch (err) {
+          CLS_Common.hideLoader();
+          submitBtn.disabled = false;
+          btnText.textContent = 'Authenticate & Start Session';
+          CLS_Common.showToast(err.message || 'Authentication failed. Please check your credentials.', 'error');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
