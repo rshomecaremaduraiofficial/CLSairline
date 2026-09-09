@@ -1290,3 +1290,733 @@ textarea.form-control {
     max-width: 80px;
   }
 }
+
+/* ==========================================================================
+   EXCEL-STYLE COOKING PROCESS & BATCH PRODUCTION GRID STYLES
+   Ultra-Responsive: Clean Alignment for Mobile, Tablet, and Desktop
+   ========================================================================== */
+
+.cooking-control-bar {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-md);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cooking-control-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2563eb 0%, #059669 50%, #3b82f6 100%);
+}
+
+/* Master Controls Grid */
+.cooking-main-controls-grid {
+  display: grid;
+  grid-template-columns: 160px 145px 165px 1fr 230px;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.control-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.control-item label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--brown-800);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.control-item .form-control {
+  height: 44px;
+  background: #f8fafc;
+  border: 1.5px solid var(--border-medium);
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 0.55rem 0.85rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-normal);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.control-item .form-control:focus {
+  background: #ffffff;
+  border-color: var(--brown-600);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  outline: none;
+}
+
+.control-btn-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.btn-save-all-batch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  padding: 0 1.25rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(5, 150, 105, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  height: 44px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.btn-save-all-batch:hover {
+  background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(5, 150, 105, 0.4);
+}
+
+.btn-save-all-batch:active {
+  transform: translateY(0);
+}
+
+.btn-save-all-batch:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Search Bar & Secondary Tools */
+.cooking-search-tools-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.excel-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 280px;
+}
+
+.excel-search-box svg {
+  position: absolute;
+  left: 0.85rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.excel-search-box input {
+  padding-left: 2.5rem !important;
+  width: 100%;
+  height: 42px;
+  background: #f8fafc;
+  border: 1.5px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+
+.excel-search-box input:focus {
+  background: #ffffff;
+  border-color: var(--brown-600);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  outline: none;
+}
+
+.cooking-quick-actions-wrap {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-tool-pill {
+  background: #ffffff;
+  border: 1.5px solid var(--border-medium);
+  padding: 0.55rem 0.85rem;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--brown-700);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.btn-tool-pill:hover {
+  background: #f1f5f9;
+  border-color: var(--brown-400);
+  color: var(--brown-900);
+}
+
+/* Summary KPIs Strip */
+.excel-summary-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.excel-kpi-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.excel-kpi-card .kpi-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.excel-kpi-card .kpi-value {
+  font-size: 1.1rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--brown-900);
+  white-space: nowrap;
+}
+
+/* Excel Spreadsheet Table */
+.excel-sheet-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.excel-sheet-header {
+  padding: 1rem 1.5rem;
+  background: #fafafa;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.excel-sheet-title {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.excel-sheet-title h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--brown-900);
+  margin: 0;
+}
+
+.excel-badge-count {
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+  border: 1px solid #bfdbfe;
+  white-space: nowrap;
+}
+
+.excel-table-scroll-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+/* Table styling */
+.excel-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  text-align: left;
+  min-width: 1080px; /* Ensures clean layout with no cramped controls */
+}
+
+.excel-table thead {
+  background: #0f172a;
+  color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.excel-table thead th {
+  padding: 0.85rem 0.85rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  vertical-align: middle;
+}
+
+.excel-table thead th:last-child {
+  border-right: none;
+}
+
+.excel-table tbody tr {
+  border-bottom: 1px solid #e2e8f0;
+  transition: background 0.15s ease;
+}
+
+.excel-table tbody tr:nth-child(even) {
+  background: #fcfcfd;
+}
+
+.excel-table tbody tr:hover {
+  background: #f1f5f9;
+}
+
+.excel-table tbody tr.row-active {
+  background: #eff6ff !important;
+}
+
+.excel-table tbody tr.row-saved {
+  background: #ecfdf5 !important;
+}
+
+.excel-table td {
+  padding: 0.7rem 0.8rem;
+  vertical-align: middle;
+  border-right: 1px solid #f1f5f9;
+}
+
+.excel-table td:last-child {
+  border-right: none;
+}
+
+/* Inline Table Control Items */
+.excel-qty-box {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
+  transition: border-color 0.2s;
+  width: 140px;
+  height: 38px;
+}
+
+.excel-qty-box:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.excel-qty-input {
+  width: 75px;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 0 0.45rem;
+  text-align: right;
+  color: var(--brown-900);
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.excel-qty-unit {
+  height: 100%;
+  border: none;
+  border-left: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: var(--brown-700);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0 0.35rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.excel-time-input {
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  border-radius: 6px;
+  height: 38px;
+  padding: 0 0.45rem;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--brown-800);
+  width: 95px;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.excel-time-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.excel-temp-box {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 125px;
+}
+
+.excel-temp-input {
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  border-radius: 6px;
+  height: 38px;
+  padding: 0 0.45rem;
+  font-size: 0.88rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  width: 65px;
+  text-align: right;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.excel-temp-input:focus {
+  border-color: #2563eb;
+}
+
+.temp-indicator-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.45rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.temp-safe {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+.temp-warning {
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1px solid #fecdd3;
+}
+
+.btn-formulation-view {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  color: var(--brown-700);
+  font-size: 0.78rem;
+  font-weight: 700;
+  height: 36px;
+  padding: 0 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-formulation-view:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.btn-row-save {
+  background: #059669;
+  border: none;
+  color: #ffffff;
+  height: 36px;
+  padding: 0 0.85rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-row-save:hover {
+  background: #047857;
+}
+
+/* Bottom Actions Bar */
+.excel-sheet-footer {
+  padding: 1rem 1.5rem;
+  background: #f8fafc;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Formulation Breakdown Modal */
+.formulation-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.formulation-modal-content {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.formulation-modal-header {
+  padding: 1.25rem 1.5rem;
+  background: #0f172a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.formulation-modal-header h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.formulation-modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.formulation-modal-footer {
+  padding: 1rem 1.5rem;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* ==========================================================================
+   BREAKPOINTS: TABLET & LAPTOP (768px to 1200px)
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .cooking-main-controls-grid {
+    grid-template-columns: repeat(2, 1fr) 1.2fr;
+  }
+  
+  .cooking-main-controls-grid .control-btn-group {
+    grid-column: span 3;
+    margin-top: 0.25rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .cooking-control-bar {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .cooking-main-controls-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+  }
+
+  .cooking-main-controls-grid .control-btn-group {
+    grid-column: span 2;
+  }
+
+  .excel-summary-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .cooking-search-tools-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .excel-search-box {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .cooking-quick-actions-wrap {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .cooking-quick-actions-wrap .btn-tool-pill {
+    flex: 1;
+  }
+}
+
+/* ==========================================================================
+   BREAKPOINTS: MOBILE PHONES (< 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .cooking-control-bar {
+    padding: 0.85rem;
+    border-radius: var(--radius-md);
+  }
+
+  .cooking-main-controls-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .cooking-main-controls-grid .control-btn-group {
+    grid-column: span 1;
+  }
+
+  .control-item label {
+    font-size: 0.8rem;
+  }
+
+  .control-item .form-control {
+    height: 44px;
+    font-size: 0.9rem;
+  }
+
+  .btn-save-all-batch {
+    height: 48px;
+    font-size: 0.95rem;
+  }
+
+  .excel-summary-strip {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .excel-kpi-card {
+    padding: 0.5rem 0.65rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .excel-kpi-card .kpi-value {
+    font-size: 1rem;
+  }
+
+  .excel-sheet-header {
+    padding: 0.85rem 1rem;
+  }
+
+  .excel-sheet-footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .excel-sheet-footer button {
+    width: 100%;
+  }
+
+  .formulation-modal-content {
+    max-height: 95vh;
+    border-radius: var(--radius-md);
+  }
+
+  .formulation-modal-header {
+    padding: 1rem;
+  }
+
+  .formulation-modal-body {
+    padding: 1rem 0.75rem;
+  }
+
+  .formulation-modal-footer {
+    padding: 0.75rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .excel-summary-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+
