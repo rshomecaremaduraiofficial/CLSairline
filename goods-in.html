@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goods Inbound Receiving — CLS Airline Supplies LTD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/cls-logo.svg">
+  <script>
+    (function() {
+      var savedTheme = localStorage.getItem('cls_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+  <style>
+    /* In-page styling refinements for Goods In */
+    .excel-sheet-header,
+    .rejected-sheet-header {
+      margin-bottom: 1.5rem !important;
+    }
+    .goods-in-top-hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .kpi-stat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      background: transparent;
+      border: none;
+    }
+    .kpi-stat-accepted {
+      background: transparent;
+      color: var(--text-primary);
+      border: none;
+    }
+    .kpi-stat-rejected {
+      background: transparent;
+      color: var(--text-primary);
+      border: none;
+    }
+    .sticky-actions-bar {
+      position: sticky;
+      bottom: 1rem;
+      z-index: 100;
+      background: #815854;
+      color: #F9EBDE;
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: 0 10px 25px -5px rgba(44, 27, 25, 0.35);
+      border: 1px solid rgba(249, 235, 222, 0.3);
+      margin-top: 1.5rem;
+    }
+    .btn-save-all-main {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      background: #815854;
+      color: #F9EBDE;
+      border: 1px solid #674441;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(129, 88, 84, 0.35);
+      transition: all 0.2s ease;
+      letter-spacing: 0.02em;
+    }
+    .btn-save-all-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(129, 88, 84, 0.45);
+      background: #674441;
+    }
+    .btn-save-all-main:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-save-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #815854;
+      color: #F9EBDE;
+      border: 1px solid #674441;
+      padding: 0.55rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-save-top:hover {
+      background: #674441;
+      transform: translateY(-1px);
+    }
+    .empty-grid-notice {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+    .success-summary-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(44, 27, 25, 0.68) !important;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .success-summary-modal.active {
+      display: flex;
+    }
+    .modal-box {
+      background: var(--bg-surface) !important;
+      border: 1.5px solid var(--border-medium) !important;
+      border-radius: 14px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -10px rgba(44, 27, 25, 0.45) !important;
+      color: var(--text-primary);
+    }
+
+    /* Clean Product Selection & Custom Toggle Layout - Plain Text Style */
+    .product-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+    }
+    .row-product-select {
+      flex: 1;
+      min-width: 0;
+      font-weight: 500;
+      color: inherit;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      -webkit-appearance: none !important;
+      -moz-appearance: none !important;
+      appearance: none !important;
+      background-image: none !important;
+      cursor: pointer;
+    }
+    .row-product-select option {
+      font-weight: 500;
+      padding: 4px;
+      color: var(--text-primary);
+      background: var(--bg-surface);
+    }
+    .row-product-custom-input {
+      flex: 1;
+      min-width: 0;
+      font-weight: 500;
+      color: inherit;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+    }
+    .row-product-custom-input:focus {
+      outline: 2px solid #815854 !important;
+      outline-offset: -2px !important;
+    }
+    .btn-toggle-custom {
+      height: 26px;
+      padding: 0 4px;
+      background: transparent !important;
+      border: none !important;
+      color: #64748b;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .btn-toggle-custom:hover {
+      color: #815854;
+    }
+    .btn-toggle-custom.is-custom-active {
+      color: #815854;
+      font-weight: 700;
+    }
+    .btn-delete-row-btn {
+      height: 26px;
+      padding: 0 4px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted) !important;
+      background: transparent !important;
+      border: none !important;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      text-decoration: underline;
+    }
+    .btn-delete-row-btn:hover {
+      color: #815854 !important;
+    }
+    .reason-tag-pill {
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .reason-tag-pill:hover {
+      background: var(--cls-cream-dark);
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header with Right-Aligned Module Navigation & Theme Switcher -->
+  <!-- Top Header Bar -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="dashboard.html" class="brand-wrapper">
+        <img src="assets/cls-logo.svg" alt="CLS Airline Supplies LTD" class="brand-logo-img">
+        <div class="brand-info">
+          <h1>CLS Airline Supplies</h1>
+          <span>Operations Traceability</span>
+        </div>
+      </a>
+
+      <div class="user-nav-section">
+        <button id="theme-slide-btn" class="theme-slide-btn" type="button" role="switch" aria-checked="true" aria-label="Toggle Theme">
+          <span class="theme-slide-text theme-text-light">Light</span>
+          <span class="theme-slide-track">
+            <span class="theme-slide-thumb"></span>
+          </span>
+          <span class="theme-slide-text theme-text-dark">Dark</span>
+        </button>
+
+        <div class="user-status-pill">
+          <div class="user-avatar" id="header-avatar">OP</div>
+          <span class="user-fullname" id="header-username">Operator</span>
+          <span class="area-badge" id="header-area">London</span>
+        </div>
+
+        <button id="btn-logout" class="btn-nav-logout" type="button" title="End Session">
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Two-Panel Navigator Architecture -->
+  <div class="app-two-panel-layout">
+
+    <!-- Panel 1: Sidebar Navigator (Uniform Parallel Sized Buttons with Vector Icons) -->
+    <aside class="app-sidebar-panel">
+      <div class="sidebar-heading">Operations</div>
+      <a href="dashboard.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="9"></rect>
+          <rect x="14" y="3" width="7" height="5"></rect>
+          <rect x="14" y="12" width="7" height="9"></rect>
+          <rect x="3" y="16" width="7" height="5"></rect>
+        </svg>
+        <span>Overview</span>
+      </a>
+      <a href="goods-in.html" class="website-nav-btn active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        </svg>
+        <span>Goods In</span>
+      </a>
+      <a href="storage.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+          <line x1="3" y1="16" x2="21" y2="16"></line>
+          <line x1="10" y1="4" x2="10" y2="22"></line>
+        </svg>
+        <span>Storage</span>
+      </a>
+      <a href="cooking.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v3"></path>
+          <path d="M8 3v2"></path>
+          <path d="M16 3v2"></path>
+          <path d="M3 11h18"></path>
+          <path d="M4 11v6a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4v-6"></path>
+        </svg>
+        <span>Cooking</span>
+      </a>
+      <a href="blasting.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="2" x2="12" y2="22"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+          <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+          <polyline points="9 4 12 2 15 4"></polyline>
+          <polyline points="9 20 12 22 15 20"></polyline>
+          <polyline points="4 9 2 12 4 15"></polyline>
+          <polyline points="20 9 22 12 20 15"></polyline>
+        </svg>
+        <span>Blasting</span>
+      </a>
+      <a href="packing.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <span>Packing</span>
+      </a>
+      <a href="temperature.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+        </svg>
+        <span>Daily Temp</span>
+      </a>
+      <a href="site-orders.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span>Site Order</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <p>Powered by NEXTGEN Software Intelligence</p>
+        <p>Version v1.0.1 | CLS Traceability</p>
+      </div>
+    </aside>
+
+    <!-- Panel 2: Main Content Workspace -->
+    <main class="app-main-panel">
+    <div class="page-title-bar">
+      <div>
+        <h2>Goods Inbound Receiving</h2>
+      </div>
+      <div class="page-title-actions" style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
+        <button type="button" class="btn-secondary" id="btn-open-category-master" style="height: 44px; padding: 0 1.25rem; font-weight: 700; border-radius: 6px;">
+          Category Items DB
+        </button>
+        <button type="button" class="btn-primary" id="btn-save-top" style="height: 44px; padding: 0 1.5rem; font-weight: 700; border-radius: 6px;">
+          Save Inbound Intake
+        </button>
+        <a href="dashboard.html" class="btn-back-dashboard" style="height: 44px; padding: 0 1.25rem; font-weight: 700; border-radius: 6px; display: inline-flex; align-items: center;">
+          Dashboard
+        </a>
+      </div>
+    </div>
+
+    <!-- 1. CLS Airline Factory Intake Goods (Common Header) -->
+    <div class="goods-master-card">
+      <div class="goods-master-header">
+        <div class="goods-master-title">
+          <div>
+            <h3>CLS Airline Factory Intake Goods</h3>
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="kpi-stat-badge kpi-stat-accepted" id="badge-accepted-kpi">0 Accepted</span>
+          <span class="kpi-stat-badge kpi-stat-rejected" id="badge-rejected-kpi">0 Rejected</span>
+        </div>
+      </div>
+
+      <div class="goods-master-body">
+        <form id="consignment-master-form" autocomplete="off">
+          <div class="goods-master-grid">
+            
+            <!-- 1. Receiving Date -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label for="goods-date">Receiving Date</label>
+              </div>
+              <input type="date" id="goods-date" class="form-control" required>
+            </div>
+
+            <!-- 2. Person Name (Manual Entry) -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label for="person-name">Person Name (Inspector)</label>
+              </div>
+              <input type="text" id="person-name" class="form-control" placeholder="Inspector Name (Optional)">
+            </div>
+
+            <!-- 3. Invoice Number -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label for="invoice-no">Invoice Number</label>
+              </div>
+              <input type="text" id="invoice-no" class="form-control" placeholder="e.g. INV-90812" required>
+            </div>
+
+            <!-- 4. Supplier -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label for="supplier">Supplier</label>
+              </div>
+              <input type="text" id="supplier" class="form-control" placeholder="e.g. Aviation Poultry Ltd" required>
+            </div>
+
+            <!-- 5. Vehicle Condition (Good / Bad) -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label>Vehicle Condition</label>
+              </div>
+              <div class="choice-segmented-group success-danger">
+                <input type="radio" id="veh-good" name="vehicleCondition" value="Good" checked>
+                <label for="veh-good">Good</label>
+                <input type="radio" id="veh-bad" name="vehicleCondition" value="Bad">
+                <label for="veh-bad">Bad</label>
+              </div>
+            </div>
+
+            <!-- 6. Vehicle Temperature (°C) -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label for="vehicle-temp">Vehicle Temperature</label>
+              </div>
+              <input type="text" id="vehicle-temp" class="form-control" placeholder="e.g. +3.5°C or -18.0°C">
+            </div>
+
+            <!-- 7. Free From Pest Infestation (Yes / No) -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label>Free From Pest Infestation</label>
+              </div>
+              <div class="choice-segmented-group success-danger">
+                <input type="radio" id="pest-yes" name="freeFromPests" value="Yes" checked>
+                <label for="pest-yes">Yes</label>
+                <input type="radio" id="pest-no" name="freeFromPests" value="No">
+                <label for="pest-no">No</label>
+              </div>
+            </div>
+
+            <!-- 8. Product Packaging Condition (Good / Small Damage / Bad) -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label>Packaging Condition</label>
+              </div>
+              <div class="choice-segmented-group packaging">
+                <input type="radio" id="pack-good" name="productPackaging" value="Good" checked>
+                <label for="pack-good">Good</label>
+                <input type="radio" id="pack-bad" name="productPackaging" value="Bad">
+                <label for="pack-bad">Bad</label>
+              </div>
+            </div>
+
+            <!-- 9. Supplier Batch Code (Optional common default) -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label for="supplier-batch">Supplier Batch Code</label>
+                <span class="field-badge-opt">Optional</span>
+              </div>
+              <input type="text" id="supplier-batch" class="form-control" placeholder="e.g. SUP-BATCH-774">
+            </div>
+
+            <!-- 10. Product Best Before Date (Optional common default) -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label for="best-before">Product Best Before</label>
+                <span class="field-badge-opt">Optional</span>
+              </div>
+              <input type="date" id="best-before" class="form-control">
+            </div>
+
+            <!-- 11. Health Mark -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label for="health-mark">Health Mark</label>
+                <span class="field-badge-opt">Optional</span>
+              </div>
+              <input type="text" id="health-mark" class="form-control" placeholder="e.g. UK 4012 EC">
+            </div>
+
+            <!-- 12. Certificate of Analysis (CoA) (Yes / No) -->
+            <div class="form-group">
+              <div class="field-label-wrap">
+                <label>Certificate of Analysis (CoA)</label>
+              </div>
+              <div class="choice-segmented-group success-danger">
+                <input type="radio" id="coa-yes" name="certificateOfAnalysis" value="Yes" checked>
+                <label for="coa-yes">Yes</label>
+                <input type="radio" id="coa-no" name="certificateOfAnalysis" value="No">
+                <label for="coa-no">No</label>
+              </div>
+            </div>
+
+            <!-- 13. General Notes -->
+            <div class="form-group col-span-full">
+              <div class="field-label-wrap">
+                <label for="consignment-notes">Consignment Notes / Receiving Remarks</label>
+                <span class="field-badge-opt">Optional</span>
+              </div>
+              <input type="text" id="consignment-notes" class="form-control" placeholder="Additional arrival observations, bay number, packaging seals...">
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 2. Accepted Products Excel-Style Spreadsheet Card -->
+    <div class="excel-sheet-card">
+      <div class="excel-sheet-header">
+        <div class="excel-sheet-title">
+          <h3>Accepted Products Delivery Intake</h3>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button type="button" class="btn-add-item" id="btn-add-product">
+            <span>Add Product</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="excel-table-scroll-wrap">
+        <table class="excel-table" id="accepted-products-table">
+          <thead>
+            <tr>
+              <th style="width: 50px; text-align: center;">S.No</th>
+              <th style="width: 200px;">Product Category</th>
+              <th style="min-width: 320px;">Product Name (Available in Category)</th>
+              <th style="width: 140px;">Quantity</th>
+              <th style="width: 130px;">Unit</th>
+              <th style="width: 80px; text-align: center;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="accepted-products-tbody">
+            <!-- Dynamic Accepted Product Rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3. Rejected Products Excel-Style Spreadsheet Card -->
+    <div class="rejected-sheet-card">
+      <div class="rejected-sheet-header">
+        <div class="rejected-sheet-title">
+          <h3>Rejected Products (Failed Inspection / Damaged)</h3>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button type="button" class="btn-add-rejected-item" id="btn-add-rejected-product">
+            <span>Add Rejected Product</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="excel-table-scroll-wrap">
+        <table class="excel-table" id="rejected-products-table">
+          <thead>
+            <tr>
+              <th style="width: 50px; text-align: center;">S.No</th>
+              <th style="width: 190px;">Product Category</th>
+              <th style="width: 290px;">Product Name (Available in Category)</th>
+              <th style="width: 120px;">Quantity</th>
+              <th style="width: 110px;">Unit</th>
+              <th style="min-width: 300px;">Reason for Rejection</th>
+              <th style="width: 80px; text-align: center;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="rejected-products-tbody">
+            <!-- Dynamic Rejected Product Rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Master Save Card Box (Strictly Inside Box Container, No Floating Buttons) -->
+    <div class="goods-master-card" style="padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.25rem; margin-bottom: 2rem;">
+      <div>
+        <div style="font-weight: 800; font-size: 15px; color: var(--text-primary);">Consignment Inbound Intake Ready</div>
+        <div style="font-size: 13px; color: var(--text-muted); font-weight: 600;">Confirm all accepted and rejected product entries before recording to the database.</div>
+      </div>
+      <button type="button" class="btn-primary" id="btn-save-all-bottom" style="height: 48px; padding: 0 2rem; font-size: 15px; font-weight: 800; border-radius: 8px;">
+        <span id="btn-save-text">Save Inbound Products</span>
+      </button>
+    </div>
+
+  </main>
+</div>
+
+  <!-- Success Confirmation Modal -->
+  <div class="success-summary-modal" id="success-modal">
+    <div class="modal-box">
+      <div style="padding: 1.25rem 1.5rem; background: #815854; color: #ffffff; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #674441;">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; margin: 0; color: #ffffff;">Goods Inbound Intake Recorded</h3>
+        </div>
+        <button type="button" id="btn-close-modal" style="background: transparent; border: none; color: #F9EBDE; font-size: 1.6rem; cursor: pointer; line-height: 1;">&times;</button>
+      </div>
+
+      <div style="padding: 1.5rem; overflow-y: auto; flex: 1; background: var(--bg-surface);" id="modal-content-body">
+        <!-- Dynamically rendered list of saved items with Product IDs -->
+      </div>
+
+      <div style="padding: 1rem 1.5rem; background: var(--bg-subtle); border-top: 1px solid var(--border-light); display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button type="button" class="btn-primary" id="btn-modal-done" style="padding: 0.6rem 1.5rem; background: #815854; color: #F9EBDE;">Done &amp; New Intake</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Category Master Database Management Modal -->
+  <div class="success-summary-modal" id="category-master-modal">
+    <div class="modal-box" style="max-width: 840px;">
+      <div style="padding: 1.25rem 1.5rem; background: #815854; color: #ffffff; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #674441;">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; margin: 0; color: #ffffff;">Product Category Master Database</h3>
+        </div>
+        <button type="button" id="btn-close-cat-modal" style="background: transparent; border: none; color: #F9EBDE; font-size: 1.6rem; cursor: pointer; line-height: 1;">&times;</button>
+      </div>
+
+      <div style="padding: 1.5rem; overflow-y: auto; flex: 1; max-height: calc(85vh - 130px); background: var(--bg-surface);">
+        <!-- Add New Category Item Form -->
+        <div style="background: var(--bg-subtle); border: 1.5px solid var(--border-light); border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <h4 style="font-size: 0.92rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.85rem;">
+            Add New Product Item to Database Sheet
+          </h4>
+          <form id="add-category-item-form" style="display: grid; grid-template-columns: 1.2fr 2fr 1fr auto; gap: 0.75rem; align-items: flex-end;">
+            <div>
+              <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Category</label>
+              <select id="new-item-category" class="table-input-control" required>
+                <option value="DRY ITEMS">DRY ITEMS</option>
+                <option value="FISH">FISH</option>
+                <option value="MEAT">MEAT</option>
+                <option value="FRUIT & VEGETABLES">FRUIT & VEGETABLES</option>
+                <option value="DAIRY PRODUCTS">DAIRY PRODUCTS</option>
+                <option value="FROZEN">FROZEN</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Product Name</label>
+              <input type="text" id="new-item-name" class="table-input-control" placeholder="e.g. Organic Black Truffle Oil" required>
+            </div>
+            <div>
+              <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Default Unit</label>
+              <select id="new-item-unit" class="table-input-control" required>
+                <option value="KG">KG</option>
+                <option value="Each">Each</option>
+                <option value="Litre">Litre</option>
+                <option value="Box">Box</option>
+                <option value="Gram">Gram</option>
+                <option value="ML">ML</option>
+                <option value="Pack">Pack</option>
+                <option value="Tin">Tin</option>
+                <option value="Bag">Bag</option>
+              </select>
+            </div>
+            <div>
+              <button type="submit" class="btn-primary" id="btn-submit-new-item" style="height: 38px; padding: 0 1.2rem; white-space: nowrap; font-size: 0.85rem; font-weight: 800; background: #815854; color: #F9EBDE;">
+                Add Item
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Filter & Search Master Items -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+            <select id="filter-master-category" class="table-input-control" style="width: auto; min-width: 180px; height: 36px; font-weight: 700;">
+              <option value="ALL">All Categories</option>
+              <option value="DRY ITEMS">DRY ITEMS</option>
+              <option value="FISH">FISH</option>
+              <option value="MEAT">MEAT</option>
+              <option value="FRUIT & VEGETABLES">FRUIT & VEGETABLES</option>
+              <option value="DAIRY PRODUCTS">DAIRY PRODUCTS</option>
+              <option value="FROZEN">FROZEN</option>
+            </select>
+            <span id="master-items-count-badge" style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary);">
+              0 Items Loaded
+            </span>
+          </div>
+          <input type="text" id="search-master-items" class="table-input-control" placeholder="Filter product name or ID..." style="width: 220px; height: 36px;">
+        </div>
+
+        <!-- Master Items Table -->
+        <div class="excel-table-scroll-wrap" style="max-height: 320px; border: 1px solid var(--border-light); border-radius: 8px;">
+          <table class="excel-table" style="min-width: 600px;">
+            <thead>
+              <tr style="background: #815854; color: #F9EBDE;">
+                <th style="width: 90px; color: #F9EBDE;">Item ID</th>
+                <th style="width: 180px; color: #F9EBDE;">Category</th>
+                <th style="color: #F9EBDE;">Product Name</th>
+                <th style="width: 100px; color: #F9EBDE;">Default Unit</th>
+                <th style="width: 80px; text-align: center; color: #F9EBDE;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="master-items-tbody">
+              <!-- Dynamically rendered master items -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="padding: 1rem 1.5rem; background: var(--bg-subtle); border-top: 1px solid var(--border-light); display: flex; justify-content: flex-end;">
+        <button type="button" class="btn-secondary" id="btn-cat-modal-close-bottom" style="padding: 0.5rem 1.5rem;">Close Master</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const session = CLS_Auth.requireAuth();
+      if (!session) return;
+
+      // Set user info in header
+      const userDisplay = session.user.fullName || session.user.username || 'Operator';
+      document.getElementById('header-username').textContent = userDisplay;
+      document.getElementById('header-avatar').textContent = userDisplay.slice(0, 2).toUpperCase();
+      if (session.user.area) {
+        document.getElementById('header-area').textContent = session.user.area;
+      }
+
+      // Pre-fill person name with active user
+      const personNameInput = document.getElementById('person-name');
+      personNameInput.value = userDisplay;
+
+      // Date initialization
+      const dateInput = document.getElementById('goods-date');
+      dateInput.value = CLS_Common.formatDateForInput();
+
+      // Logout handler
+      document.getElementById('btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        CLS_Auth.logout();
+      });
+
+      // Categories List
+      const MASTER_CATEGORIES = ['DRY ITEMS', 'FISH', 'MEAT', 'FRUIT & VEGETABLES', 'DAIRY PRODUCTS', 'FROZEN'];
+
+      // In-Memory Master Products Cache — Initialized immediately with standard catalog
+      let cachedMasterProducts = (typeof CLS_MockStore !== 'undefined' && CLS_MockStore.getDefaultProductCategories)
+        ? CLS_MockStore.getDefaultProductCategories()
+        : [];
+
+      // Helper to render Category options
+      function getCategoryOptionsHtml(selectedCat = '') {
+        return `<option value="" disabled ${!selectedCat ? 'selected' : ''}>-- Select Category --</option>` +
+          MASTER_CATEGORIES.map(c => `<option value="${c}" ${c === selectedCat ? 'selected' : ''}>${c}</option>`).join('');
+      }
+
+      // Helper to render Unit options
+      function getUnitOptionsHtml(selectedUnit = 'KG') {
+        const units = ['KG', 'Each', 'Litre', 'Box', 'Gram', 'ML', 'Pack', 'Tin', 'Bag'];
+        return units.map(u => `<option value="${u}" ${u.toUpperCase() === (selectedUnit || '').toUpperCase() ? 'selected' : ''}>${u}</option>`).join('');
+      }
+
+      // Populate Product Select Dropdown for a given Category
+      function populateProductSelect(selectEl, category, selectedValue = '') {
+        selectEl.innerHTML = '';
+        const currentCat = (category || '').trim().toUpperCase();
+        const catItems = cachedMasterProducts.filter(item => (item.category || '').toUpperCase() === currentCat);
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.disabled = true;
+        defaultOption.textContent = currentCat 
+          ? `-- Select Product (${catItems.length} in ${category}) --`
+          : '-- Select Category First --';
+
+        let hasSelected = false;
+        if (!selectedValue) {
+          defaultOption.selected = true;
+          hasSelected = true;
+        }
+        selectEl.appendChild(defaultOption);
+
+        catItems.forEach(item => {
+          const opt = document.createElement('option');
+          opt.value = item.productName;
+          opt.dataset.unit = item.defaultUnit || 'KG';
+          opt.dataset.itemid = item.itemId || '';
+          opt.textContent = `${item.productName} (${item.defaultUnit || 'KG'})`;
+          if (selectedValue && item.productName.toLowerCase() === selectedValue.toLowerCase()) {
+            opt.selected = true;
+            hasSelected = true;
+          }
+          selectEl.appendChild(opt);
+        });
+
+        // Add Option to Type Custom Product
+        const customOpt = document.createElement('option');
+        customOpt.value = '__CUSTOM__';
+        customOpt.textContent = '✏️ + Type Custom Product Name...';
+        selectEl.appendChild(customOpt);
+
+        return hasSelected;
+      }
+
+      // Load Master Categories from Database
+      async function loadCategoryMasterDatabase(filterCat = 'ALL') {
+        try {
+          const res = await CLS_API.execute('getProductCategoriesMaster', { category: filterCat === 'ALL' ? null : filterCat });
+          if (res && res.success && res.items && res.items.length > 0) {
+            cachedMasterProducts = res.items;
+            renderMasterItemsTable();
+
+            // Refresh all active product dropdowns in the table rows
+            document.querySelectorAll('tr.accepted-row, tr.rejected-row').forEach(row => {
+              const catSelect = row.querySelector('.row-category');
+              const prodSelect = row.querySelector('.row-product-select');
+              const customInput = row.querySelector('.row-product-custom-input');
+              const isCustom = customInput && customInput.style.display !== 'none';
+              if (catSelect && prodSelect && !isCustom) {
+                const currentVal = prodSelect.value;
+                populateProductSelect(prodSelect, catSelect.value, currentVal);
+              }
+            });
+          }
+        } catch (err) {
+          console.warn('Failed to load category master DB:', err);
+        }
+      }
+
+      // Render Master Items Table in Modal
+      function renderMasterItemsTable() {
+        const tbody = document.getElementById('master-items-tbody');
+        const filterCategory = document.getElementById('filter-master-category').value;
+        const searchQuery = (document.getElementById('search-master-items').value || '').toLowerCase().trim();
+        const badge = document.getElementById('master-items-count-badge');
+
+        let filtered = cachedMasterProducts;
+        if (filterCategory !== 'ALL') {
+          filtered = filtered.filter(i => (i.category || '').toUpperCase() === filterCategory.toUpperCase());
+        }
+        if (searchQuery) {
+          filtered = filtered.filter(i =>
+            (i.productName || '').toLowerCase().includes(searchQuery) ||
+            (i.itemId || '').toLowerCase().includes(searchQuery) ||
+            (i.category || '').toLowerCase().includes(searchQuery)
+          );
+        }
+
+        badge.textContent = `${filtered.length} Items Listed`;
+        tbody.innerHTML = '';
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 1.5rem; color: #94a3b8;">No products found in this category.</td></tr>`;
+          return;
+        }
+
+        filtered.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td style="font-family: var(--font-mono); font-weight: 700;">${CLS_Common.escapeHtml(item.itemId)}</td>
+            <td style="font-weight: 600;">${CLS_Common.escapeHtml(item.category)}</td>
+            <td style="font-weight: 600;">${CLS_Common.escapeHtml(item.productName)}</td>
+            <td>${CLS_Common.escapeHtml(item.defaultUnit || 'KG')}</td>
+            <td style="text-align: center;">
+              <button type="button" class="btn-delete-row-btn btn-delete-master-item" data-id="${item.itemId}" data-name="${CLS_Common.escapeHtml(item.productName)}" title="Delete from Database">
+                Delete
+              </button>
+            </td>
+          `;
+
+          tr.querySelector('.btn-delete-master-item').addEventListener('click', async () => {
+            if (!confirm(`Are you sure you want to delete "${item.productName}" from the ${item.category} master database?`)) return;
+            try {
+              CLS_Common.showLoader('Deleting Item', `Removing ${item.productName} from database...`);
+              const res = await CLS_API.execute('deleteProductCategoryItem', { itemId: item.itemId, productName: item.productName, category: item.category });
+              CLS_Common.hideLoader();
+              if (res && res.success) {
+                CLS_Common.showToast(`Deleted "${item.productName}" from database.`, 'success');
+                await loadCategoryMasterDatabase('ALL');
+              } else {
+                throw new Error(res ? res.error : 'Delete failed');
+              }
+            } catch (err) {
+              CLS_Common.hideLoader();
+              CLS_Common.showToast(err.message || 'Delete failed', 'error');
+            }
+          });
+
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Add New Category Item Form Submission
+      document.getElementById('add-category-item-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const category = document.getElementById('new-item-category').value;
+        const productName = document.getElementById('new-item-name').value.trim();
+        const defaultUnit = document.getElementById('new-item-unit').value;
+
+        if (!productName) {
+          CLS_Common.showToast('Please enter a product name.', 'warning');
+          return;
+        }
+
+        try {
+          CLS_Common.showLoader('Adding Item', `Saving ${productName} to ${category} sheet...`);
+          const res = await CLS_API.execute('addProductCategoryItem', { category, productName, defaultUnit });
+          CLS_Common.hideLoader();
+
+          if (res && res.success) {
+            CLS_Common.showToast(res.message || `Added "${productName}" to ${category}!`, 'success');
+            document.getElementById('new-item-name').value = '';
+            await loadCategoryMasterDatabase('ALL');
+          } else {
+            throw new Error(res ? res.error : 'Failed to add item');
+          }
+        } catch (err) {
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(err.message || 'Failed to add item', 'error');
+        }
+      });
+
+      // Filter and Search Event Listeners in Master Modal
+      document.getElementById('filter-master-category').addEventListener('change', renderMasterItemsTable);
+      document.getElementById('search-master-items').addEventListener('input', renderMasterItemsTable);
+
+      // Modal Open/Close handlers
+      const catModal = document.getElementById('category-master-modal');
+      document.getElementById('btn-open-category-master').addEventListener('click', () => {
+        loadCategoryMasterDatabase('ALL');
+        catModal.classList.add('active');
+      });
+      document.getElementById('btn-close-cat-modal').addEventListener('click', () => {
+        catModal.classList.remove('active');
+      });
+      document.getElementById('btn-cat-modal-close-bottom').addEventListener('click', () => {
+        catModal.classList.remove('active');
+      });
+
+      // Initial Load of Category Master Database from Cloud
+      loadCategoryMasterDatabase('ALL');
+
+      const acceptedTbody = document.getElementById('accepted-products-tbody');
+      const rejectedTbody = document.getElementById('rejected-products-tbody');
+      const badgeAcceptedKpi = document.getElementById('badge-accepted-kpi');
+      const badgeRejectedKpi = document.getElementById('badge-rejected-kpi');
+      const stickySummaryText = document.getElementById('sticky-summary-text');
+      const btnSaveTop = document.getElementById('btn-save-top');
+      const btnSaveBottom = document.getElementById('btn-save-all-bottom');
+      const btnSaveText = document.getElementById('btn-save-text');
+
+      // Add Row to Accepted Products Table
+      function addAcceptedProductRow(data = {}) {
+        const row = document.createElement('tr');
+        row.className = 'accepted-row';
+        const defaultCat = data.category || 'DRY ITEMS';
+
+        row.innerHTML = `
+          <td style="text-align: center; font-weight: 600;" class="sno-cell"></td>
+          <td>
+            <select class="table-input-control row-category" required>
+              ${getCategoryOptionsHtml(defaultCat)}
+            </select>
+          </td>
+          <td>
+            <div class="product-input-wrapper">
+              <select class="table-input-control row-product-select" required></select>
+              <input type="text" class="table-input-control row-product-custom-input" placeholder="Type custom product name..." style="display: none;">
+              <button type="button" class="btn-toggle-custom" title="Type custom product name">Custom</button>
+            </div>
+          </td>
+          <td>
+            <input type="number" step="any" min="0.01" class="table-input-control row-qty" placeholder="e.g. 25" value="${data.quantity || ''}" required>
+          </td>
+          <td>
+            <select class="table-input-control row-unit" required>
+              ${getUnitOptionsHtml(data.unit || 'KG')}
+            </select>
+          </td>
+          <td style="text-align: center;">
+            <button type="button" class="btn-delete-row-btn" title="Remove Product Row">
+              Remove
+            </button>
+          </td>
+        `;
+
+        const catSelect = row.querySelector('.row-category');
+        const prodSelect = row.querySelector('.row-product-select');
+        const customInput = row.querySelector('.row-product-custom-input');
+        const btnToggle = row.querySelector('.btn-toggle-custom');
+        const qtyInput = row.querySelector('.row-qty');
+        const unitSelect = row.querySelector('.row-unit');
+
+        // Populate initial product list
+        const isFoundInList = populateProductSelect(prodSelect, defaultCat, data.productName || '');
+        if (data.productName && !isFoundInList) {
+          // Switch to custom input mode for custom product name
+          prodSelect.style.display = 'none';
+          customInput.style.display = 'block';
+          customInput.value = data.productName;
+          btnToggle.classList.add('is-custom-active');
+          btnToggle.title = 'Select from Product Database List';
+        }
+
+        // Category change listener -> Immediately update products in dropdown
+        catSelect.addEventListener('change', () => {
+          const newCat = catSelect.value;
+          populateProductSelect(prodSelect, newCat, '');
+          if (customInput.style.display === 'none') {
+            prodSelect.focus();
+          }
+          updateIndicesAndStats();
+        });
+
+        // Product select change listener -> Auto sync default unit and move to qty
+        prodSelect.addEventListener('change', () => {
+          if (prodSelect.value === '__CUSTOM__') {
+            prodSelect.style.display = 'none';
+            customInput.style.display = 'block';
+            customInput.value = '';
+            customInput.focus();
+            btnToggle.classList.add('is-custom-active');
+            btnToggle.title = 'Select from Product Database List';
+          } else {
+            const selOpt = prodSelect.options[prodSelect.selectedIndex];
+            if (selOpt && selOpt.dataset.unit) {
+              const targetUnit = selOpt.dataset.unit;
+              for (let i = 0; i < unitSelect.options.length; i++) {
+                if (unitSelect.options[i].value.toUpperCase() === targetUnit.toUpperCase()) {
+                  unitSelect.selectedIndex = i;
+                  break;
+                }
+              }
+            }
+            if (qtyInput) {
+              qtyInput.focus();
+              qtyInput.select();
+            }
+          }
+          updateIndicesAndStats();
+        });
+
+        // Toggle custom button click listener
+        btnToggle.addEventListener('click', () => {
+          const isCustomActive = customInput.style.display !== 'none';
+          if (isCustomActive) {
+            // Switch to Select Dropdown
+            customInput.style.display = 'none';
+            prodSelect.style.display = 'block';
+            btnToggle.classList.remove('is-custom-active');
+            btnToggle.title = 'Type custom product name';
+            prodSelect.focus();
+          } else {
+            // Switch to Custom Input
+            prodSelect.style.display = 'none';
+            customInput.style.display = 'block';
+            if (!customInput.value && prodSelect.value && prodSelect.value !== '__CUSTOM__') {
+              customInput.value = prodSelect.value;
+            }
+            btnToggle.classList.add('is-custom-active');
+            btnToggle.title = 'Select from Product Database List';
+            customInput.focus();
+          }
+          updateIndicesAndStats();
+        });
+
+        // Delete row listener
+        row.querySelector('.btn-delete-row-btn').addEventListener('click', () => {
+          row.remove();
+          updateIndicesAndStats();
+        });
+
+        // Input change listener for live summaries
+        row.querySelectorAll('input, select').forEach(el => {
+          el.addEventListener('input', updateIndicesAndStats);
+        });
+
+        acceptedTbody.appendChild(row);
+        updateIndicesAndStats();
+        return row;
+      }
+
+      // Add Row to Rejected Products Table
+      function addRejectedProductRow(data = {}) {
+        const row = document.createElement('tr');
+        row.className = 'rejected-row';
+        const defaultCat = data.category || 'DRY ITEMS';
+
+        row.innerHTML = `
+          <td style="text-align: center; font-weight: 600;" class="sno-cell"></td>
+          <td>
+            <select class="table-input-control rejected-table-input row-category" required>
+              ${getCategoryOptionsHtml(defaultCat)}
+            </select>
+          </td>
+          <td>
+            <div class="product-input-wrapper">
+              <select class="table-input-control rejected-table-input row-product-select" required></select>
+              <input type="text" class="table-input-control rejected-table-input row-product-custom-input" placeholder="Type custom product name..." style="display: none;">
+              <button type="button" class="btn-toggle-custom" title="Type custom product name">Custom</button>
+            </div>
+          </td>
+          <td>
+            <input type="number" step="any" min="0.01" class="table-input-control rejected-table-input row-qty" placeholder="Qty" value="${data.quantity || ''}" required>
+          </td>
+          <td>
+            <select class="table-input-control rejected-table-input row-unit" required>
+              ${getUnitOptionsHtml(data.unit || 'KG')}
+            </select>
+          </td>
+          <td>
+            <input type="text" class="table-input-control rejected-table-input row-reject-reason" placeholder="Specific rejection reason..." value="${data.reason || ''}" required>
+            <div class="quick-reason-tags">
+              <span class="reason-tag-pill" data-reason="High temperature breach (+12°C)">Temp Breach</span>
+              <span class="reason-tag-pill" data-reason="Packaging torn &amp; damaged">Damaged Pack</span>
+              <span class="reason-tag-pill" data-reason="Evidence of pest contamination">Pest Evidence</span>
+              <span class="reason-tag-pill" data-reason="Best before date expired">Expired Date</span>
+              <span class="reason-tag-pill" data-reason="CoA / Health Mark missing">No CoA</span>
+            </div>
+          </td>
+          <td style="text-align: center;">
+            <button type="button" class="btn-delete-row-btn" title="Remove Rejected Row">
+              Remove
+            </button>
+          </td>
+        `;
+
+        const catSelect = row.querySelector('.row-category');
+        const prodSelect = row.querySelector('.row-product-select');
+        const customInput = row.querySelector('.row-product-custom-input');
+        const btnToggle = row.querySelector('.btn-toggle-custom');
+        const qtyInput = row.querySelector('.row-qty');
+        const unitSelect = row.querySelector('.row-unit');
+
+        // Populate initial product list
+        const isFoundInList = populateProductSelect(prodSelect, defaultCat, data.productName || '');
+        if (data.productName && !isFoundInList) {
+          prodSelect.style.display = 'none';
+          customInput.style.display = 'block';
+          customInput.value = data.productName;
+          btnToggle.classList.add('is-custom-active');
+          btnToggle.title = 'Select from Product Database List';
+        }
+
+        // Category change listener
+        catSelect.addEventListener('change', () => {
+          const newCat = catSelect.value;
+          populateProductSelect(prodSelect, newCat, '');
+          if (customInput.style.display === 'none') {
+            prodSelect.focus();
+          }
+          updateIndicesAndStats();
+        });
+
+        // Product select change listener
+        prodSelect.addEventListener('change', () => {
+          if (prodSelect.value === '__CUSTOM__') {
+            prodSelect.style.display = 'none';
+            customInput.style.display = 'block';
+            customInput.value = '';
+            customInput.focus();
+            btnToggle.classList.add('is-custom-active');
+            btnToggle.title = 'Select from Product Database List';
+          } else {
+            const selOpt = prodSelect.options[prodSelect.selectedIndex];
+            if (selOpt && selOpt.dataset.unit) {
+              const targetUnit = selOpt.dataset.unit;
+              for (let i = 0; i < unitSelect.options.length; i++) {
+                if (unitSelect.options[i].value.toUpperCase() === targetUnit.toUpperCase()) {
+                  unitSelect.selectedIndex = i;
+                  break;
+                }
+              }
+            }
+            if (qtyInput) {
+              qtyInput.focus();
+              qtyInput.select();
+            }
+          }
+          updateIndicesAndStats();
+        });
+
+        // Toggle custom button click listener
+        btnToggle.addEventListener('click', () => {
+          const isCustomActive = customInput.style.display !== 'none';
+          if (isCustomActive) {
+            customInput.style.display = 'none';
+            prodSelect.style.display = 'block';
+            btnToggle.classList.remove('is-custom-active');
+            btnToggle.title = 'Type custom product name';
+            prodSelect.focus();
+          } else {
+            prodSelect.style.display = 'none';
+            customInput.style.display = 'block';
+            if (!customInput.value && prodSelect.value && prodSelect.value !== '__CUSTOM__') {
+              customInput.value = prodSelect.value;
+            }
+            btnToggle.classList.add('is-custom-active');
+            btnToggle.title = 'Select from Product Database List';
+            customInput.focus();
+          }
+          updateIndicesAndStats();
+        });
+
+        // Quick reason tag clicks
+        const reasonInput = row.querySelector('.row-reject-reason');
+        row.querySelectorAll('.reason-tag-pill').forEach(tag => {
+          tag.addEventListener('click', () => {
+            reasonInput.value = tag.getAttribute('data-reason');
+            updateIndicesAndStats();
+          });
+        });
+
+        // Delete row listener
+        row.querySelector('.btn-delete-row-btn').addEventListener('click', () => {
+          row.remove();
+          updateIndicesAndStats();
+        });
+
+        // Input change listener
+        row.querySelectorAll('input, select').forEach(el => {
+          el.addEventListener('input', updateIndicesAndStats);
+        });
+
+        rejectedTbody.appendChild(row);
+        updateIndicesAndStats();
+        return row;
+      }
+
+      // Update S.No indices and live status counts
+      function updateIndicesAndStats() {
+        const acceptedRows = acceptedTbody.querySelectorAll('tr.accepted-row');
+        acceptedRows.forEach((r, idx) => {
+          const sno = r.querySelector('.sno-cell');
+          if (sno) sno.textContent = idx + 1;
+        });
+
+        const rejectedRows = rejectedTbody.querySelectorAll('tr.rejected-row');
+        rejectedRows.forEach((r, idx) => {
+          const sno = r.querySelector('.sno-cell');
+          if (sno) sno.textContent = idx + 1;
+        });
+
+        const totalAccepted = acceptedRows.length;
+        const totalRejected = rejectedRows.length;
+        const totalItems = totalAccepted + totalRejected;
+
+        badgeAcceptedKpi.textContent = `${totalAccepted} Accepted`;
+        badgeRejectedKpi.textContent = `${totalRejected} Rejected`;
+
+        const invoiceNo = document.getElementById('invoice-no').value.trim();
+        const supplierName = document.getElementById('supplier').value.trim();
+
+        if (stickySummaryText) {
+          if (totalItems === 0) {
+            stickySummaryText.textContent = 'Ready to record delivery intake. Please click "Add Product" to begin.';
+          } else {
+            stickySummaryText.textContent = `Consignment: ${totalAccepted} accepted and ${totalRejected} rejected product(s) ready to save${invoiceNo ? ` for Invoice ${invoiceNo}` : ''}${supplierName ? ` (${supplierName})` : ''}.`;
+          }
+        }
+      }
+
+      // Add Product Button
+      document.getElementById('btn-add-product').addEventListener('click', () => {
+        addAcceptedProductRow();
+      });
+
+      // Add Rejected Product Button
+      document.getElementById('btn-add-rejected-product').addEventListener('click', () => {
+        addRejectedProductRow();
+      });
+
+      // Header form change listeners
+      ['invoice-no', 'supplier'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', updateIndicesAndStats);
+      });
+
+      // Initialize with 1 default accepted product row
+      addAcceptedProductRow();
+
+      // Master Save Action Handler
+      async function handleSaveAll() {
+        const date = dateInput.value;
+        const personName = personNameInput.value.trim();
+        const invoiceNo = document.getElementById('invoice-no').value.trim();
+        const supplier = document.getElementById('supplier').value.trim();
+
+        // 1. Validate Consignment Header
+        if (!date) {
+          CLS_Common.showToast('Please select a Receiving Date.', 'warning');
+          dateInput.focus();
+          return;
+        }
+        if (!personName) {
+          CLS_Common.showToast('Please enter the Person Name (Inspector).', 'warning');
+          personNameInput.focus();
+          return;
+        }
+        if (!invoiceNo) {
+          CLS_Common.showToast('Please enter the Invoice Number.', 'warning');
+          document.getElementById('invoice-no').focus();
+          return;
+        }
+        if (!supplier) {
+          CLS_Common.showToast('Please enter the Supplier Name.', 'warning');
+          document.getElementById('supplier').focus();
+          return;
+        }
+
+        const vehicleCondition = document.querySelector('input[name="vehicleCondition"]:checked')?.value || 'Good';
+        const vehicleTemperature = document.getElementById('vehicle-temp').value.trim();
+        const freeFromPests = document.querySelector('input[name="freeFromPests"]:checked')?.value || 'Yes';
+        const productPackaging = document.querySelector('input[name="productPackaging"]:checked')?.value || 'Good';
+        const supplierBatchCode = document.getElementById('supplier-batch').value.trim();
+        const productBestBefore = document.getElementById('best-before').value;
+        const healthMark = document.getElementById('health-mark').value.trim();
+        const certificateOfAnalysis = document.querySelector('input[name="certificateOfAnalysis"]:checked')?.value || 'Yes';
+        const rawNotes = document.getElementById('consignment-notes').value.trim();
+        const notes = rawNotes 
+          ? (vehicleTemperature ? `Veh Temp: ${vehicleTemperature}°C | ${rawNotes}` : rawNotes)
+          : (vehicleTemperature ? `Veh Temp: ${vehicleTemperature}°C` : '');
+
+        // 2. Validate & Collect Accepted Products
+        const acceptedRows = acceptedTbody.querySelectorAll('tr.accepted-row');
+        const rejectedRows = rejectedTbody.querySelectorAll('tr.rejected-row');
+
+        if (acceptedRows.length === 0 && rejectedRows.length === 0) {
+          CLS_Common.showToast('Please add at least one Accepted or Rejected Product.', 'warning');
+          return;
+        }
+
+        const recordsToSave = [];
+
+        // Collect accepted items
+        for (let i = 0; i < acceptedRows.length; i++) {
+          const r = acceptedRows[i];
+          const cat = r.querySelector('.row-category').value;
+          const isCustom = r.querySelector('.row-product-custom-input').style.display !== 'none';
+          const prodSelect = r.querySelector('.row-product-select');
+          const customInp = r.querySelector('.row-product-custom-input');
+          const name = isCustom ? customInp.value.trim() : prodSelect.value.trim();
+          const qty = r.querySelector('.row-qty').value;
+          const unit = r.querySelector('.row-unit').value;
+
+          if (!cat) {
+            CLS_Common.showToast(`Accepted Row #${i + 1}: Please select a Category.`, 'warning');
+            r.querySelector('.row-category').focus();
+            return;
+          }
+          if (!name || name === '__CUSTOM__') {
+            CLS_Common.showToast(`Accepted Row #${i + 1}: Please select or type a Product Name.`, 'warning');
+            if (isCustom) customInp.focus(); else prodSelect.focus();
+            return;
+          }
+          if (!qty || parseFloat(qty) <= 0) {
+            CLS_Common.showToast(`Accepted Row #${i + 1}: Please enter a valid Quantity.`, 'warning');
+            r.querySelector('.row-qty').focus();
+            return;
+          }
+
+          recordsToSave.push({
+            date,
+            personName,
+            receivedBy: personName,
+            invoiceNo,
+            supplier,
+            vehicleCondition,
+            vehicleTemperature,
+            freeFromPests,
+            productPackaging,
+            supplierBatchCode,
+            productBestBefore,
+            healthMark,
+            certificateOfAnalysis,
+            notes,
+            category: cat,
+            productName: name,
+            quantity: qty,
+            unit,
+            reject: 'No',
+            reasonForRejection: ''
+          });
+        }
+
+        // Collect rejected items
+        for (let i = 0; i < rejectedRows.length; i++) {
+          const r = rejectedRows[i];
+          const cat = r.querySelector('.row-category').value;
+          const isCustom = r.querySelector('.row-product-custom-input').style.display !== 'none';
+          const prodSelect = r.querySelector('.row-product-select');
+          const customInp = r.querySelector('.row-product-custom-input');
+          const name = isCustom ? customInp.value.trim() : prodSelect.value.trim();
+          const qty = r.querySelector('.row-qty').value;
+          const unit = r.querySelector('.row-unit').value;
+          const reason = r.querySelector('.row-reject-reason').value.trim();
+
+          if (!cat) {
+            CLS_Common.showToast(`Rejected Row #${i + 1}: Please select a Category.`, 'warning');
+            r.querySelector('.row-category').focus();
+            return;
+          }
+          if (!name || name === '__CUSTOM__') {
+            CLS_Common.showToast(`Rejected Row #${i + 1}: Please select or type a Product Name.`, 'warning');
+            if (isCustom) customInp.focus(); else prodSelect.focus();
+            return;
+          }
+          if (!qty || parseFloat(qty) <= 0) {
+            CLS_Common.showToast(`Rejected Row #${i + 1}: Please enter a valid Quantity.`, 'warning');
+            r.querySelector('.row-qty').focus();
+            return;
+          }
+          if (!reason) {
+            CLS_Common.showToast(`Rejected Row #${i + 1}: Mandatory Reason for Rejection is required.`, 'warning');
+            r.querySelector('.row-reject-reason').focus();
+            return;
+          }
+
+          recordsToSave.push({
+            date,
+            personName,
+            receivedBy: personName,
+            invoiceNo,
+            supplier,
+            vehicleCondition,
+            vehicleTemperature,
+            freeFromPests,
+            productPackaging,
+            supplierBatchCode,
+            productBestBefore,
+            healthMark,
+            certificateOfAnalysis,
+            notes,
+            category: cat,
+            productName: name,
+            quantity: qty,
+            unit,
+            reject: 'Yes',
+            reasonForRejection: reason
+          });
+        }
+
+        // 3. Submit Batch to API & Database
+        btnSaveTop.disabled = true;
+        btnSaveBottom.disabled = true;
+        btnSaveText.textContent = 'Saving Consignment Products...';
+        CLS_Common.showLoader('Recording Goods In', `Allocating Product IDs for ${recordsToSave.length} item(s)...`);
+
+        try {
+          const res = await CLS_API.execute('saveGoodsIn', { records: recordsToSave });
+          CLS_Common.hideLoader();
+
+          if (res && res.success) {
+            showSuccessModal(res.savedRecords || [], invoiceNo, supplier);
+          } else {
+            throw new Error(res ? res.error : 'Failed to save products.');
+          }
+        } catch (err) {
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(err.message || 'Submission failed.', 'error');
+        } finally {
+          btnSaveTop.disabled = false;
+          if (btnSaveBottom) btnSaveBottom.disabled = false;
+          if (btnSaveText) btnSaveText.textContent = 'Save Inbound Products';
+        }
+      }
+
+      btnSaveTop.addEventListener('click', handleSaveAll);
+      btnSaveBottom.addEventListener('click', handleSaveAll);
+
+      // Render Modal Summary upon successful save
+      function showSuccessModal(savedRecords, invoiceNo, supplier) {
+        const modal = document.getElementById('success-modal');
+        const modalBody = document.getElementById('modal-content-body');
+
+        const acceptedItems = savedRecords.filter(r => !r.isRejected);
+        const rejectedItems = savedRecords.filter(r => r.isRejected);
+
+        let html = `
+          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem;">
+            <div style="font-weight: 800; color: #15803d; font-size: 1.05rem;">
+              Consignment Recorded Successfully!
+            </div>
+            <div style="font-size: 0.85rem; color: #166534; margin-top: 0.3rem;">
+              Invoice: <strong>${CLS_Common.escapeHtml(invoiceNo)}</strong> | Supplier: <strong>${CLS_Common.escapeHtml(supplier)}</strong>
+            </div>
+            <div style="font-size: 0.82rem; color: #15803d; margin-top: 0.2rem;">
+              Saved ${acceptedItems.length} accepted item(s) to category databases and ${rejectedItems.length} rejected item(s) to Rejected Goods.
+            </div>
+          </div>
+          <h4 style="font-size: 0.9rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.05em;">
+            Assigned Product IDs &amp; Batch Codes:
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 280px; overflow-y: auto;">
+        `;
+
+        savedRecords.forEach(item => {
+          const isRej = item.isRejected;
+          html += `
+            <div class="modal-result-card" style="border-left: 4px solid ${isRej ? '#e11d48' : '#815854'};">
+              <div>
+                <div style="font-weight: 700; color: var(--text-primary); font-size: 0.9rem;">
+                  ${CLS_Common.escapeHtml(item.productName)}
+                </div>
+                <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">
+                  Category: <strong>${CLS_Common.escapeHtml(item.category)}</strong> | Qty: <strong>${item.quantity} ${item.unit}</strong>
+                  ${isRej ? `<span style="color: #e11d48; font-weight: 800; margin-left: 6px;">[REJECTED]</span>` : ''}
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-family: var(--font-mono); font-weight: 800; color: ${isRej ? '#be123c' : '#815854'}; font-size: 0.95rem;">
+                  ${CLS_Common.escapeHtml(item.productId)}
+                </div>
+                <div style="font-family: var(--font-mono); font-size: 0.76rem; color: #64748b;">
+                  Batch: ${CLS_Common.escapeHtml(item.batchCode)}
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
+        modalBody.innerHTML = html;
+        modal.classList.add('active');
+      }
+
+      // Reset Intake for Next Consignment
+      function resetIntakeForm() {
+        document.getElementById('consignment-master-form').reset();
+        dateInput.value = CLS_Common.formatDateForInput();
+        personNameInput.value = userDisplay;
+        if (document.getElementById('coa-yes')) document.getElementById('coa-yes').checked = true;
+        if (document.getElementById('veh-good')) document.getElementById('veh-good').checked = true;
+        if (document.getElementById('pest-yes')) document.getElementById('pest-yes').checked = true;
+        if (document.getElementById('pack-good')) document.getElementById('pack-good').checked = true;
+        acceptedTbody.innerHTML = '';
+        rejectedTbody.innerHTML = '';
+        addAcceptedProductRow();
+        updateIndicesAndStats();
+        document.getElementById('success-modal').classList.remove('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      document.getElementById('btn-close-modal').addEventListener('click', resetIntakeForm);
+      document.getElementById('btn-modal-done').addEventListener('click', resetIntakeForm);
+    });
+  </script>
+</body>
+</html>

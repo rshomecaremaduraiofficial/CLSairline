@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Temperature Reading (CF02) — CLS Airline Supplies LTD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/cls-logo.svg">
+  <script>
+    (function() {
+      var savedTheme = localStorage.getItem('cls_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+  <style>
+    /* ==========================================================================
+       ONE-BY-ONE DAILY TEMPERATURE MONITORING (NO ICONS, 8-INCH TABLET FIT)
+       ========================================================================== */
+
+    /* Inspector & Session Common Box */
+    .temp-common-box {
+      background: var(--bg-card, #ffffff);
+      border: 1.5px solid var(--border-color, #e2e8f0);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .temp-common-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      align-items: flex-end;
+    }
+
+    /* Slot Toggle Buttons (Text only) */
+    .slot-toggle-group {
+      display: flex;
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    .slot-toggle-btn {
+      flex: 1;
+      height: 44px;
+      border: 1.5px solid var(--border-medium, #cbd5e1);
+      background: var(--bg-body, #f8fafc);
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-secondary, #475569);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .slot-toggle-btn:hover {
+      background: var(--border-light, #f1f5f9);
+    }
+
+    .slot-toggle-btn.active {
+      background: #815854;
+      border-color: #815854;
+      color: #F9EBDE;
+    }
+
+    /* One-by-One Stacked Temperature Boxes */
+    .temp-stacked-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .temp-unit-box {
+      background: var(--bg-card, #ffffff);
+      border: 1.5px solid var(--border-color, #e2e8f0);
+      border-radius: 10px;
+      padding: 1.15rem 1.35rem;
+      box-sizing: border-box;
+      width: 100%;
+      transition: border-color 0.2s ease;
+    }
+
+    .temp-unit-box.has-alert {
+      border-color: #ef4444 !important;
+      background: rgba(254, 242, 242, 0.35);
+    }
+
+    .temp-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-light, #f1f5f9);
+      margin-bottom: 1rem;
+    }
+
+    .temp-box-title-group {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .temp-box-order {
+      font-size: 12px;
+      font-weight: 800;
+      color: #815854;
+      background: rgba(129, 88, 84, 0.12);
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .temp-box-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .temp-box-area {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted, #64748b);
+      background: var(--border-light, #f1f5f9);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .temp-box-limits {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #815854;
+    }
+
+    .unit-eval-badge {
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .unit-eval-badge.badge-pass {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .unit-eval-badge.badge-alert {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    /* 3-Column Inline Fields Layout Inside Each Box */
+    .temp-box-fields {
+      display: grid;
+      grid-template-columns: 170px 190px 1fr;
+      gap: 1rem;
+      align-items: flex-start;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 820px) {
+      .temp-box-fields {
+        grid-template-columns: 1fr 1fr;
+      }
+      .temp-box-fields .col-action {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .temp-box-fields .form-group {
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .temp-box-fields label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary, #334155);
+    }
+
+    .temp-box-fields .form-control {
+      height: 44px !important;
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      border-radius: 6px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    /* Save All Card */
+    .temp-save-box {
+      background: var(--bg-card, #ffffff);
+      border: 1.5px solid var(--border-color, #e2e8f0);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .btn-save-master {
+      height: 48px;
+      min-height: 48px;
+      padding: 0 2rem;
+      background: #815854;
+      color: #F9EBDE;
+      border: 1px solid #674441;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+      user-select: none;
+    }
+
+    .btn-save-master:hover {
+      background: #674441;
+    }
+
+    .btn-save-master:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .temp-save-status {
+      font-size: 14px;
+      font-weight: 700;
+      color: #815854;
+    }
+
+    /* Monthly Unit Tab Selector */
+    .unit-tab-bar {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .unit-tab-btn {
+      padding: 0.5rem 0.95rem;
+      border-radius: 6px;
+      background: var(--bg-body, #f8fafc);
+      border: 1.5px solid var(--border-medium, #cbd5e1);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary, #475569);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .unit-tab-btn:hover {
+      background: var(--border-light, #f1f5f9);
+    }
+
+    .unit-tab-btn.active {
+      background: #815854;
+      border-color: #815854;
+      color: #F9EBDE;
+    }
+
+    [data-theme="dark"] .unit-tab-btn.active {
+      background: #9c6e69;
+      border-color: #9c6e69;
+      color: #ffffff;
+    }
+
+    /* Monthly Log Card */
+    .monthly-log-card {
+      background: var(--bg-card, #ffffff);
+      border: 1.5px solid var(--border-color, #e2e8f0);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-sizing: border-box;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Bar (No Icons) -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="dashboard.html" class="brand-wrapper">
+        <div class="brand-info">
+          <h1>CLS Airline Supplies</h1>
+          <span>Operations Traceability</span>
+        </div>
+      </a>
+
+      <div class="user-nav-section">
+        <button id="theme-slide-btn" class="theme-slide-btn" type="button" role="switch" aria-checked="true" aria-label="Toggle Theme">
+          <span class="theme-slide-text theme-text-light">Light</span>
+          <span class="theme-slide-track">
+            <span class="theme-slide-thumb"></span>
+          </span>
+          <span class="theme-slide-text theme-text-dark">Dark</span>
+        </button>
+
+        <div class="user-status-pill">
+          <div class="user-avatar" id="header-avatar">OP</div>
+          <span class="user-fullname" id="header-username">Operator</span>
+          <span class="area-badge" id="header-area">London</span>
+        </div>
+
+        <button id="btn-logout" class="btn-nav-logout" type="button" title="End Session">
+          Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Two-Panel Navigator Architecture -->
+  <div class="app-two-panel-layout">
+
+    <!-- Panel 1: Sidebar Navigator (Uniform Parallel Sized Buttons with Vector Icons) -->
+    <aside class="app-sidebar-panel">
+      <div class="sidebar-heading">Operations</div>
+      <a href="dashboard.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="9"></rect>
+          <rect x="14" y="3" width="7" height="5"></rect>
+          <rect x="14" y="12" width="7" height="9"></rect>
+          <rect x="3" y="16" width="7" height="5"></rect>
+        </svg>
+        <span>Overview</span>
+      </a>
+      <a href="goods-in.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        </svg>
+        <span>Goods In</span>
+      </a>
+      <a href="storage.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+          <line x1="3" y1="16" x2="21" y2="16"></line>
+          <line x1="10" y1="4" x2="10" y2="22"></line>
+        </svg>
+        <span>Storage</span>
+      </a>
+      <a href="cooking.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v3"></path>
+          <path d="M8 3v2"></path>
+          <path d="M16 3v2"></path>
+          <path d="M3 11h18"></path>
+          <path d="M4 11v6a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4v-6"></path>
+        </svg>
+        <span>Cooking</span>
+      </a>
+      <a href="blasting.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="2" x2="12" y2="22"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+          <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+          <polyline points="9 4 12 2 15 4"></polyline>
+          <polyline points="9 20 12 22 15 20"></polyline>
+          <polyline points="4 9 2 12 4 15"></polyline>
+          <polyline points="20 9 22 12 20 15"></polyline>
+        </svg>
+        <span>Blasting</span>
+      </a>
+      <a href="packing.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <span>Packing</span>
+      </a>
+      <a href="temperature.html" class="website-nav-btn active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+        </svg>
+        <span>Daily Temp</span>
+      </a>
+      <a href="site-orders.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span>Site Order</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <p>Powered by NEXTGEN Software Intelligence</p>
+        <p>Version v1.0.1 | CLS Traceability</p>
+      </div>
+    </aside>
+
+    <!-- Panel 2: Main Content Workspace -->
+    <main class="app-main-panel">
+      <div class="page-title-bar">
+        <div>
+          <h2>Daily Temperature Monitoring (CF02)</h2>
+        </div>
+        <div class="page-title-actions">
+          <a href="dashboard.html" class="btn-back-dashboard">Dashboard</a>
+        </div>
+      </div>
+
+      <!-- 1. Common Inspection Header Box -->
+      <div class="temp-common-box">
+        <div class="temp-common-grid">
+          <!-- Date -->
+          <div class="form-group">
+            <label for="temp-date">Reading Date</label>
+            <input type="date" id="temp-date" class="form-control" required>
+          </div>
+
+          <!-- Day of Month -->
+          <div class="form-group">
+            <label for="temp-day">Day of Month</label>
+            <input type="number" id="temp-day" class="form-control" min="1" max="31" required readonly style="background: var(--bg-body, #f8fafc); font-weight: 700;">
+          </div>
+
+          <!-- Time Session Slot (Text buttons) -->
+          <div class="form-group">
+            <label>Time Session Slot</label>
+            <div class="slot-toggle-group">
+              <button type="button" class="slot-toggle-btn active" data-slot="AM" id="btn-slot-am">AM (Morning)</button>
+              <button type="button" class="slot-toggle-btn" data-slot="PM" id="btn-slot-pm">PM (Afternoon)</button>
+            </div>
+          </div>
+
+          <!-- Inspector Name / Sign -->
+          <div class="form-group">
+            <label for="temp-sign">Inspector / Sign</label>
+            <input type="text" id="temp-sign" class="form-control" placeholder="Inspector Name" required>
+          </div>
+
+          <!-- Quick Action Buttons Inside Box -->
+          <div class="form-group" style="display: flex; gap: 0.5rem;">
+            <button type="button" id="btn-clear-all-inputs" class="btn-secondary" style="height: 44px; padding: 0 1rem; font-size: 13px; font-weight: 700; border-radius: 6px; width: 100%;">
+              Clear All
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. One by One Temperature Boxes -->
+      <div class="temp-stacked-container" id="temp-stacked-container">
+        <!-- Rendered one by one sequentially via JavaScript -->
+      </div>
+
+      <!-- 3. Master Save Box (Single Click Saves All 6 Units) -->
+      <div class="temp-save-box">
+        <div id="save-status-msg" class="temp-save-status"></div>
+        <button type="button" class="btn-save-master" id="btn-save-all-units">
+          SAVE ALL 6 TEMPERATURE READINGS
+        </button>
+      </div>
+
+      <!-- 4. Monthly Log Overview Table -->
+      <div class="monthly-log-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
+          <div>
+            <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: var(--text-primary);" id="table-log-title">Vegetable Chiller — Monthly Log</h3>
+            <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600;" id="table-log-subtitle">Month: October 2026</span>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+            <label for="log-month-select" style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary);">Select Month:</label>
+            <input type="month" id="log-month-select" class="form-control" style="height: 38px !important; min-height: 38px !important; padding: 0 0.75rem; font-size: 0.85rem; width: auto;">
+          </div>
+        </div>
+
+        <!-- Unit Tabs to switch monthly sheet (Text only) -->
+        <div class="unit-tab-bar" id="unit-tab-bar">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Touch-Friendly Scrollable Table -->
+        <div class="log-table-container">
+          <table class="temp-log-table" id="temp-month-table">
+            <thead>
+              <tr>
+                <th style="width: 60px; text-align: center;">Day</th>
+                <th style="width: 70px; text-align: center;">Slot</th>
+                <th style="width: 140px;">Gauge Temp</th>
+                <th style="width: 150px;">Internal Temp</th>
+                <th>Action Taken / Corrective Action</th>
+                <th style="width: 150px;">Inspector / Sign</th>
+                <th style="width: 90px; text-align: center;">Status</th>
+              </tr>
+            </thead>
+            <tbody id="temp-table-body">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const session = CLS_Auth.requireAuth();
+      if (!session) return;
+
+      const avatarEl = document.getElementById('header-avatar');
+      if (avatarEl && session.user.username) {
+        avatarEl.textContent = session.user.username.slice(0, 2).toUpperCase();
+      }
+
+      const logoutBtn = document.getElementById('btn-logout');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          CLS_Auth.logout();
+        });
+      }
+
+      // The 6 Official Cold Storage Units (CF02 Standard, No Icons)
+      const UNIT_SPECS = {
+        'Vegetable Chiller': {
+          area: 'Low Risk Area',
+          target: '≤ 5.0°C',
+          max: '≤ 8.0°C',
+          targetVal: 5.0,
+          maxVal: 8.0,
+          isFreezer: false,
+          safeGauge: 3.2,
+          safeInternal: 3.5
+        },
+        'Dairy Product Chiller': {
+          area: 'Low Risk Area',
+          target: '≤ 5.0°C',
+          max: '≤ 8.0°C',
+          targetVal: 5.0,
+          maxVal: 8.0,
+          isFreezer: false,
+          safeGauge: 3.0,
+          safeInternal: 3.4
+        },
+        'Meat and Fish Chiller': {
+          area: 'Low Risk Area',
+          target: '≤ 5.0°C',
+          max: '≤ 8.0°C',
+          targetVal: 5.0,
+          maxVal: 8.0,
+          isFreezer: false,
+          safeGauge: 1.8,
+          safeInternal: 2.2
+        },
+        'Holding Chiller': {
+          area: 'High Risk Area',
+          target: '≤ 5.0°C',
+          max: '≤ 8.0°C',
+          targetVal: 5.0,
+          maxVal: 8.0,
+          isFreezer: false,
+          safeGauge: 2.8,
+          safeInternal: 3.2
+        },
+        'Dispatched Chiller': {
+          area: 'High Risk Area',
+          target: '≤ 5.0°C',
+          max: '≤ 8.0°C',
+          targetVal: 5.0,
+          maxVal: 8.0,
+          isFreezer: false,
+          safeGauge: 3.1,
+          safeInternal: 3.5
+        },
+        'Freezer': {
+          area: 'Freezer Area',
+          target: '≤ -18.0°C',
+          max: '≤ -16.0°C',
+          targetVal: -18.0,
+          maxVal: -16.0,
+          isFreezer: true,
+          safeGauge: -20.2,
+          safeInternal: -19.5
+        }
+      };
+
+      const unitKeys = Object.keys(UNIT_SPECS);
+      let selectedSlot = 'AM';
+      let selectedViewUnit = 'Vegetable Chiller';
+
+      // Elements
+      const tempDateInput = document.getElementById('temp-date');
+      const tempDayInput = document.getElementById('temp-day');
+      const tempSignInput = document.getElementById('temp-sign');
+      const logMonthSelect = document.getElementById('log-month-select');
+      const btnSlotAm = document.getElementById('btn-slot-am');
+      const btnSlotPm = document.getElementById('btn-slot-pm');
+      const btnClearAllInputs = document.getElementById('btn-clear-all-inputs');
+      const btnSaveAllUnits = document.getElementById('btn-save-all-units');
+      const saveStatusMsg = document.getElementById('save-status-msg');
+      const container = document.getElementById('temp-stacked-container');
+      const unitTabBar = document.getElementById('unit-tab-bar');
+      const tableBody = document.getElementById('temp-table-body');
+
+      // Date Initialization
+      const today = new Date();
+      tempDateInput.value = today.toISOString().split('T')[0];
+      tempDayInput.value = today.getDate();
+      logMonthSelect.value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+      tempSignInput.value = session.user.fullName || session.user.username || 'Operator';
+
+      // 1. Render One-by-One Full-Width Boxes
+      function renderOneByOneBoxes() {
+        container.innerHTML = '';
+        unitKeys.forEach((key, index) => {
+          const spec = UNIT_SPECS[key];
+          const box = document.createElement('div');
+          box.className = 'temp-unit-box';
+          box.id = `unit-box-${index}`;
+          box.setAttribute('data-unit', key);
+
+          box.innerHTML = `
+            <div class="temp-box-header">
+              <div class="temp-box-title-group">
+                <span class="temp-box-order">Unit ${index + 1}</span>
+                <h4 class="temp-box-name">${key}</h4>
+                <span class="temp-box-area">${spec.area}</span>
+                <span class="temp-box-limits">Target ${spec.target} (Max ${spec.max})</span>
+              </div>
+              <span class="unit-eval-badge badge-pass" id="badge-eval-${index}">PASS</span>
+            </div>
+
+            <div class="temp-box-fields">
+              <div class="form-group">
+                <label for="inp-gauge-${index}">Gauge Temp (°C)</label>
+                <input type="number" step="0.1" class="form-control temp-inp-gauge" id="inp-gauge-${index}" data-index="${index}" data-unit="${key}" placeholder="e.g. ${spec.safeGauge}">
+              </div>
+
+              <div class="form-group">
+                <label for="inp-internal-${index}">Internal Temp (°C)</label>
+                <input type="number" step="0.1" class="form-control temp-inp-internal" id="inp-internal-${index}" data-index="${index}" data-unit="${key}" placeholder="e.g. ${spec.safeInternal}">
+              </div>
+
+              <div class="form-group col-action">
+                <label for="inp-action-${index}">Action Taken / Remarks</label>
+                <input type="text" class="form-control temp-inp-action" id="inp-action-${index}" data-index="${index}" data-unit="${key}" value="Routine check normal" placeholder="Routine check normal / Corrective action">
+              </div>
+            </div>
+          `;
+
+          container.appendChild(box);
+        });
+
+        // Real-time live evaluation
+        container.querySelectorAll('.temp-inp-gauge, .temp-inp-internal').forEach(inp => {
+          inp.addEventListener('input', e => {
+            const idx = parseInt(e.target.dataset.index, 10);
+            evaluateSingleUnit(idx);
+          });
+        });
+      }
+
+      function evaluateSingleUnit(index) {
+        const key = unitKeys[index];
+        const spec = UNIT_SPECS[key];
+        const gInp = document.getElementById(`inp-gauge-${index}`);
+        const iInp = document.getElementById(`inp-internal-${index}`);
+        const aInp = document.getElementById(`inp-action-${index}`);
+        const badge = document.getElementById(`badge-eval-${index}`);
+        const box = document.getElementById(`unit-box-${index}`);
+
+        const gVal = gInp.value.trim() !== '' ? parseFloat(gInp.value) : null;
+        const iVal = iInp.value.trim() !== '' ? parseFloat(iInp.value) : null;
+
+        let hasError = false;
+        if (gVal !== null && gVal > spec.maxVal) hasError = true;
+        if (iVal !== null && iVal > spec.maxVal) hasError = true;
+
+        if (hasError) {
+          badge.className = 'unit-eval-badge badge-alert';
+          badge.textContent = 'ALERT';
+          box.classList.add('has-alert');
+          if (aInp.value === 'Routine check normal') {
+            aInp.value = `Temp exceeded limit (> ${spec.max}). Informed Operations Manager, moved items to backup unit.`;
+          }
+        } else {
+          badge.className = 'unit-eval-badge badge-pass';
+          badge.textContent = 'PASS';
+          box.classList.remove('has-alert');
+          if (aInp.value.includes('Informed Operations Manager')) {
+            aInp.value = 'Routine check normal';
+          }
+        }
+      }
+
+      // 2. Render Tabs for Monthly Log (Text only)
+      function renderUnitTabs() {
+        unitTabBar.innerHTML = '';
+        unitKeys.forEach(key => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `unit-tab-btn ${key === selectedViewUnit ? 'active' : ''}`;
+          btn.textContent = key;
+          btn.addEventListener('click', () => {
+            selectedViewUnit = key;
+            document.querySelectorAll('.unit-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('table-log-title').textContent = `${key} — Monthly Log`;
+            loadMonthlyLog();
+          });
+          unitTabBar.appendChild(btn);
+        });
+      }
+
+      // 3. Time Slot Toggle
+      btnSlotAm.addEventListener('click', () => setSlot('AM'));
+      btnSlotPm.addEventListener('click', () => setSlot('PM'));
+
+      function setSlot(slot) {
+        selectedSlot = slot;
+        if (slot === 'AM') {
+          btnSlotAm.classList.add('active');
+          btnSlotPm.classList.remove('active');
+        } else {
+          btnSlotPm.classList.add('active');
+          btnSlotAm.classList.remove('active');
+        }
+      }
+
+
+
+      // 5. Clear All Entries
+      btnClearAllInputs.addEventListener('click', () => {
+        if (!confirm('Clear all temperature readings?')) return;
+        unitKeys.forEach((key, index) => {
+          const gInp = document.getElementById(`inp-gauge-${index}`);
+          const iInp = document.getElementById(`inp-internal-${index}`);
+          const aInp = document.getElementById(`inp-action-${index}`);
+          if (gInp) gInp.value = '';
+          if (iInp) iInp.value = '';
+          if (aInp) aInp.value = 'Routine check normal';
+          evaluateSingleUnit(index);
+        });
+      });
+
+      // 6. Master Single Click Save: Saves all 6 records simultaneously
+      btnSaveAllUnits.addEventListener('click', async () => {
+        const inspector = tempSignInput.value.trim() || session.user.fullName || session.user.username || 'Operator';
+        const dateVal = tempDateInput.value;
+        const day = parseInt(tempDayInput.value, 10);
+        const monthVal = logMonthSelect.value || `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+        const parts = monthVal.split('-');
+        const dateStr = `${String(day).padStart(2, '0')}/${parts[1]}/${parts[0]}`;
+
+        if (!dateVal || isNaN(day)) {
+          CLS_Common.showToast('Please select a valid inspection date.', 'warning');
+          tempDateInput.focus();
+          return;
+        }
+
+        let filledCount = 0;
+        unitKeys.forEach((key, index) => {
+          const g = document.getElementById(`inp-gauge-${index}`).value.trim();
+          const i = document.getElementById(`inp-internal-${index}`).value.trim();
+          if (g !== '' || i !== '') filledCount++;
+        });
+
+        if (filledCount === 0) {
+          CLS_Common.showToast('Please enter temperature values before saving.', 'warning');
+          return;
+        }
+
+        btnSaveAllUnits.disabled = true;
+        saveStatusMsg.textContent = `Saving ${filledCount} temperature records...`;
+        CLS_Common.showLoader('Saving Daily Temperatures', `Recording all 6 unit readings for Day ${day} (${selectedSlot})`);
+
+        try {
+          let savedCount = 0;
+
+          for (let index = 0; index < unitKeys.length; index++) {
+            const key = unitKeys[index];
+            const gInp = document.getElementById(`inp-gauge-${index}`);
+            const iInp = document.getElementById(`inp-internal-${index}`);
+            const aInp = document.getElementById(`inp-action-${index}`);
+
+            const gauge = gInp.value.trim() !== '' ? parseFloat(gInp.value) : '';
+            const internal = iInp.value.trim() !== '' ? parseFloat(iInp.value) : '';
+            const actionTaken = aInp.value.trim() || 'Routine check normal';
+
+            if (gauge !== '' || internal !== '') {
+              const payload = {
+                unitName: key,
+                monthYear: monthVal,
+                day: day,
+                date: dateStr,
+                timeSlot: selectedSlot,
+                gaugeTemp: gauge,
+                internalTemp: internal,
+                actionTaken: actionTaken,
+                nameSign: inspector
+              };
+
+              const res = await CLS_API.execute('saveTemperature', payload);
+              if (res && res.success) savedCount++;
+            }
+          }
+
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(`Saved all ${savedCount} temperature readings for Day ${day} (${selectedSlot}).`, 'success', 4000);
+          saveStatusMsg.textContent = `All ${savedCount} readings recorded successfully.`;
+          saveStatusMsg.style.color = '#815854';
+
+          loadMonthlyLog();
+        } catch (err) {
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(err.message || 'Error saving temperature readings.', 'error');
+          saveStatusMsg.textContent = `Error: ${err.message}`;
+          saveStatusMsg.style.color = '#dc2626';
+        } finally {
+          btnSaveAllUnits.disabled = false;
+          setTimeout(() => {
+            if (saveStatusMsg.textContent.includes('recorded successfully')) {
+              saveStatusMsg.textContent = '';
+            }
+          }, 3500);
+        }
+      });
+
+      // 7. Date change handler
+      tempDateInput.addEventListener('change', () => {
+        if (tempDateInput.value) {
+          const d = new Date(tempDateInput.value);
+          tempDayInput.value = d.getDate();
+          logMonthSelect.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+          loadMonthlyLog();
+        }
+      });
+
+      logMonthSelect.addEventListener('change', () => {
+        loadMonthlyLog();
+      });
+
+      // 8. Monthly Table Rendering
+      async function loadMonthlyLog() {
+        const monthVal = logMonthSelect.value || `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+        const parts = monthVal.split('-');
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        const monthName = monthNames[parseInt(parts[1], 10) - 1] || parts[1];
+        document.getElementById('table-log-subtitle').textContent = `Month: ${monthName} ${parts[0]}`;
+
+        try {
+          const res = await CLS_API.execute('getTemperatureReportData', {
+            unitName: selectedViewUnit,
+            monthYear: monthVal,
+            month: monthVal
+          });
+
+          if (res && res.success && res.days) {
+            renderTable(res.days);
+          } else {
+            const blankDays = [];
+            for (let d = 1; d <= 31; d++) {
+              blankDays.push({
+                day: d,
+                AM: { gaugeTemp: '', internalTemp: '', actionTaken: '', nameSign: '' },
+                PM: { gaugeTemp: '', internalTemp: '', actionTaken: '', nameSign: '' }
+              });
+            }
+            renderTable(blankDays);
+          }
+        } catch (err) {
+          console.error('Error fetching monthly temperature log:', err);
+        }
+      }
+
+      function renderTable(days) {
+        tableBody.innerHTML = '';
+        days.forEach(d => {
+          // AM Row
+          const amRow = document.createElement('tr');
+          amRow.innerHTML = `
+            <td rowspan="2" style="font-weight: 800; background: var(--bg-body, #f8fafc); text-align: center; vertical-align: middle;">${d.day}</td>
+            <td style="font-weight: 700; color: var(--text-primary); text-align: center;">AM</td>
+            <td style="font-weight: 600;">${d.AM.gaugeTemp !== '' ? d.AM.gaugeTemp + '°C' : '<span style="color:#94a3b8;">--</span>'}</td>
+            <td style="font-weight: 600;">${d.AM.internalTemp !== '' ? d.AM.internalTemp + '°C' : '<span style="color:#94a3b8;">--</span>'}</td>
+            <td>${d.AM.actionTaken || '<span style="color:#94a3b8;">--</span>'}</td>
+            <td>${d.AM.nameSign || '<span style="color:#94a3b8;">--</span>'}</td>
+            <td style="text-align: center;">${d.AM.gaugeTemp !== '' || d.AM.internalTemp !== '' ? 
+              (d.AM.status && d.AM.status.includes('EXCEEDED') ? '<span class="unit-eval-badge badge-alert">ALERT</span>' : '<span class="unit-eval-badge badge-pass">PASS</span>') 
+              : '<span style="color:#cbd5e1;">--</span>'}</td>
+          `;
+          tableBody.appendChild(amRow);
+
+          // PM Row
+          const pmRow = document.createElement('tr');
+          pmRow.innerHTML = `
+            <td style="font-weight: 700; color: var(--text-primary); text-align: center;">PM</td>
+            <td style="font-weight: 600;">${d.PM.gaugeTemp !== '' ? d.PM.gaugeTemp + '°C' : '<span style="color:#94a3b8;">--</span>'}</td>
+            <td style="font-weight: 600;">${d.PM.internalTemp !== '' ? d.PM.internalTemp + '°C' : '<span style="color:#94a3b8;">--</span>'}</td>
+            <td>${d.PM.actionTaken || '<span style="color:#94a3b8;">--</span>'}</td>
+            <td>${d.PM.nameSign || '<span style="color:#94a3b8;">--</span>'}</td>
+            <td style="text-align: center;">${d.PM.gaugeTemp !== '' || d.PM.internalTemp !== '' ? 
+              (d.PM.status && d.PM.status.includes('EXCEEDED') ? '<span class="unit-eval-badge badge-alert">ALERT</span>' : '<span class="unit-eval-badge badge-pass">PASS</span>') 
+              : '<span style="color:#cbd5e1;">--</span>'}</td>
+          `;
+          tableBody.appendChild(pmRow);
+        });
+      }
+
+
+
+      // Initial execution
+      renderOneByOneBoxes();
+      renderUnitTabs();
+      loadMonthlyLog();
+    });
+  </script>
+</body>
+</html>
