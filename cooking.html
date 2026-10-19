@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cooking Process Traceability — CLS Airline Supplies LTD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/cls-logo.svg">
+  <script>
+    (function() {
+      var savedTheme = localStorage.getItem('cls_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- Top Header Bar -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="dashboard.html" class="brand-wrapper">
+        <img src="assets/cls-logo.svg" alt="CLS Airline Supplies LTD" class="brand-logo-img">
+        <div class="brand-info">
+          <h1>CLS Airline Supplies</h1>
+          <span>Operations Traceability</span>
+        </div>
+      </a>
+
+      <div class="user-nav-section">
+        <button id="theme-slide-btn" class="theme-slide-btn" type="button" role="switch" aria-checked="true" aria-label="Toggle Theme">
+          <span class="theme-slide-text theme-text-light">Light</span>
+          <span class="theme-slide-track">
+            <span class="theme-slide-thumb"></span>
+          </span>
+          <span class="theme-slide-text theme-text-dark">Dark</span>
+        </button>
+
+        <div class="user-status-pill">
+          <div class="user-avatar" id="header-avatar">OP</div>
+          <span class="user-fullname" id="header-username">Operator</span>
+          <span class="area-badge" id="header-area">London</span>
+        </div>
+
+        <button id="btn-logout" class="btn-nav-logout" type="button" title="End Session">
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Two-Panel Navigator Architecture -->
+  <div class="app-two-panel-layout">
+
+    <!-- Panel 1: Sidebar Navigator (Uniform Parallel Sized Buttons with Vector Icons) -->
+    <aside class="app-sidebar-panel">
+      <div class="sidebar-heading">Operations</div>
+      <a href="dashboard.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="9"></rect>
+          <rect x="14" y="3" width="7" height="5"></rect>
+          <rect x="14" y="12" width="7" height="9"></rect>
+          <rect x="3" y="16" width="7" height="5"></rect>
+        </svg>
+        <span>Overview</span>
+      </a>
+      <a href="goods-in.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        </svg>
+        <span>Goods In</span>
+      </a>
+      <a href="storage.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+          <line x1="3" y1="16" x2="21" y2="16"></line>
+          <line x1="10" y1="4" x2="10" y2="22"></line>
+        </svg>
+        <span>Storage</span>
+      </a>
+      <a href="cooking.html" class="website-nav-btn active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v3"></path>
+          <path d="M8 3v2"></path>
+          <path d="M16 3v2"></path>
+          <path d="M3 11h18"></path>
+          <path d="M4 11v6a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4v-6"></path>
+        </svg>
+        <span>Cooking</span>
+      </a>
+      <a href="blasting.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="2" x2="12" y2="22"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+          <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+          <polyline points="9 4 12 2 15 4"></polyline>
+          <polyline points="9 20 12 22 15 20"></polyline>
+          <polyline points="4 9 2 12 4 15"></polyline>
+          <polyline points="20 9 22 12 20 15"></polyline>
+        </svg>
+        <span>Blasting</span>
+      </a>
+      <a href="packing.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <span>Packing</span>
+      </a>
+      <a href="temperature.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+        </svg>
+        <span>Daily Temp</span>
+      </a>
+      <a href="site-orders.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span>Site Order</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <p>Powered by NEXTGEN Software Intelligence</p>
+        <p>Version v1.0.1 | CLS Traceability</p>
+      </div>
+    </aside>
+
+    <!-- Panel 2: Main Content Workspace -->
+    <main class="app-main-panel">
+    <div class="page-title-bar">
+      <div>
+        <h2>Cooking Process Traceability</h2>
+      </div>
+      <div style="display: flex; gap: 0.75rem; align-items: center;">
+        <a href="dashboard.html" class="btn-back-dashboard">
+          Dashboard
+        </a>
+      </div>
+    </div>
+
+    <!-- 1. Operational Cooking Master Card Box -->
+    <div class="goods-master-card">
+      <div class="goods-master-header">
+        <div class="goods-master-title">
+          <div>
+            <h3>Cooking Schedule &amp; Production Batch Control</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="goods-master-body">
+        <div class="cooking-main-controls-grid">
+          <!-- 1. Cooking Date -->
+          <div class="control-item">
+            <label for="cook-date">Cooking Date</label>
+            <input type="date" id="cook-date" class="form-control" required>
+          </div>
+
+          <!-- 2. Cooking Batch ID (Auto) -->
+          <div class="control-item">
+            <label for="cook-batch-id">Batch ID (Auto)</label>
+            <input type="text" id="cook-batch-id" class="form-control" readonly style="background: var(--bg-body, #f8fafc); font-weight: 700; font-family: var(--font-mono);" value="CK-090926">
+          </div>
+
+          <!-- 3. Menu Cycle Selection -->
+          <div class="control-item">
+            <label for="cook-cycle">Menu Cycle</label>
+            <select id="cook-cycle" class="form-control" required>
+              <option value="Cycle 1" selected>Cycle 1</option>
+              <option value="Cycle 2">Cycle 2</option>
+              <option value="Cycle 3">Cycle 3</option>
+              <option value="Other">Other (Custom Cycle)</option>
+            </select>
+          </div>
+
+          <!-- 4. Lead Chef Name (Manual Entry) -->
+          <div class="control-item">
+            <label for="chef-name">Lead Chef Name</label>
+            <input type="text" id="chef-name" class="form-control" placeholder="Enter Chef Name..." required autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Custom Cycle Identifier (Shown only when 'Other' is selected) -->
+        <div id="group-custom-cycle" style="display: none; margin-top: 1rem;">
+          <div class="control-item">
+            <label for="custom-cycle">Custom Cycle Name / Flight Identifier</label>
+            <input type="text" id="custom-cycle" class="form-control" placeholder="e.g. VIP Charter Cycle / Special Royal Flight / Ramadan Special">
+          </div>
+        </div>
+
+        <!-- Search Filter & Quick Utilities -->
+        <div class="cooking-search-tools-row" style="margin-top: 1.25rem;">
+          <div class="excel-search-box">
+            <input type="text" id="recipe-search-filter" class="form-control" placeholder="Search recipe name, recipe code (e.g. JFCC), recipe ID, or meal service...">
+          </div>
+
+          <div class="cooking-quick-actions-wrap">
+            <button type="button" id="btn-clear-all" class="btn-secondary" style="height: 42px; padding: 0 1rem; font-size: 13px; font-weight: 700; border-radius: 6px;">
+              Clear Sheet
+            </button>
+          </div>
+        </div>
+
+        <!-- Live KPIs Strip Inside Card Box -->
+        <div class="excel-summary-strip" style="margin-top: 1.25rem;">
+          <div class="excel-kpi-card">
+            <span class="kpi-label">Cycle Recipes</span>
+            <span class="kpi-value" id="kpi-total-recipes">0</span>
+          </div>
+          <div class="excel-kpi-card">
+            <span class="kpi-label">Active / Cooked</span>
+            <span class="kpi-value" id="kpi-active-recipes">0</span>
+          </div>
+          <div class="excel-kpi-card">
+            <span class="kpi-label">Total Volume</span>
+            <span class="kpi-value" id="kpi-total-volume">0.00 KG</span>
+          </div>
+          <div class="excel-kpi-card">
+            <span class="kpi-label">HACCP &ge;75°C</span>
+            <span class="kpi-value" id="kpi-haccp-status">0 Verified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Excel-Style Recipe Table Sheet -->
+    <div class="excel-sheet-card">
+      <div class="excel-sheet-header">
+        <div class="excel-sheet-title">
+          <h3 id="current-cycle-label">Cycle 1 — Recipe Master Spreadsheet</h3>
+          <span class="excel-badge-count" id="table-row-count">6 Recipes Loaded</span>
+        </div>
+      </div>
+
+      <div class="excel-table-scroll-wrap">
+        <table class="excel-table" id="recipes-excel-table">
+          <thead>
+            <tr>
+              <th style="width: 45px; text-align: center;">#</th>
+              <th style="width: 105px;">Recipe ID</th>
+              <th style="width: 100px;">Recipe Code</th>
+              <th style="min-width: 240px;">Recipe Name</th>
+              <th style="width: 130px;">Meal Service</th>
+              <th style="width: 160px;">Total Production Qty</th>
+              <th style="width: 110px;">Start Time</th>
+              <th style="width: 110px;">End Time</th>
+              <th style="width: 130px;">Core Temp (°C)</th>
+              <th style="width: 140px; text-align: center;">Formulation</th>
+              <th style="width: 90px; text-align: center;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="recipes-excel-tbody">
+            <!-- Dynamic Excel Rows will be rendered here -->
+            <tr>
+              <td colspan="11" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+                Loading menu cycle recipes from Cloud Database...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Bottom Sheet Action Bar -->
+      <div class="excel-sheet-footer">
+        <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
+          <span id="bottom-summary-text">0 of 6 recipes planned for production.</span>
+        </div>
+        <button type="button" id="btn-save-all-bottom" class="btn-save-all-batch" style="padding: 0 2rem; width: auto; min-width: 260px;">
+          <span>SAVE ALL PRODUCTION QUANTITIES</span>
+        </button>
+      </div>
+    </div>
+  </main>
+</div>
+
+  <!-- Recipe Ingredient Formulation Breakdown Modal -->
+  <div class="formulation-modal-overlay" id="formulation-modal" style="display: none;">
+    <div class="formulation-modal-content">
+      <div class="formulation-modal-header" style="background: #815854; color: #ffffff; border-bottom: 2px solid #674441;">
+        <div>
+          <h3 id="modal-recipe-title" style="color: #ffffff;">Recipe Formulation Breakdown</h3>
+          <div style="font-size: 0.82rem; color: #F9EBDE; margin-top: 0.25rem;">
+            <span id="modal-recipe-id" style="font-family: var(--font-mono); font-weight: 700;">REC-001</span> | 
+            <span id="modal-recipe-code" style="font-family: var(--font-mono); font-weight: 700;">JFCC</span> | 
+            <span id="modal-meal-service">BC LDN</span>
+          </div>
+        </div>
+        <button type="button" class="admin-modal-close" id="btn-close-modal" style="background: transparent; border: none; color: #F9EBDE; font-size: 1.6rem; cursor: pointer; line-height: 1;">&times;</button>
+      </div>
+
+      <div class="formulation-modal-body" style="background: var(--bg-surface);">
+        <!-- Summary Box -->
+        <div style="background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Batch Production Target</div>
+            <div id="modal-target-qty" style="font-size: 1.35rem; font-weight: 800; font-family: var(--font-mono); color: var(--text-primary);">25.00 KG</div>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Formula Formulation</div>
+            <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary);">Standard Airline Specification</div>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Active Ingredients</div>
+            <div id="modal-ing-count" style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">7 Items</div>
+          </div>
+        </div>
+
+        <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.75rem;">
+          Scaled Ingredient Formulation &amp; Batch Traceability Ledger
+        </h4>
+
+        <div style="overflow-x: auto; border: 1px solid var(--border-light); border-radius: 8px;">
+          <table class="ingredient-table" id="modal-ingredient-table" style="width: 100%; border-collapse: collapse; font-size: 0.84rem;">
+            <thead>
+              <tr style="background: #815854; color: #F9EBDE; text-align: left;">
+                <th style="padding: 0.6rem 0.75rem; color: #F9EBDE;">Ingredient</th>
+                <th style="padding: 0.6rem 0.75rem; text-align: right; color: #F9EBDE;">Per 1 KG Base</th>
+                <th style="padding: 0.6rem 0.75rem; text-align: right; color: #F9EBDE;">Product Qty</th>
+                <th style="padding: 0.6rem 0.75rem; text-align: right; color: #F9EBDE;">Scaled Required Qty</th>
+                <th style="padding: 0.6rem 0.75rem; color: #F9EBDE;">Product ID</th>
+                <th style="padding: 0.6rem 0.75rem; color: #F9EBDE;">Batch Code 1 (Auto)</th>
+                <th style="padding: 0.6rem 0.75rem; color: #F9EBDE;">Batch Code 2 (Manual)</th>
+                <th style="padding: 0.6rem 0.75rem; color: #F9EBDE;">Storage Area</th>
+              </tr>
+            </thead>
+            <tbody id="modal-ingredient-tbody">
+              <!-- Dynamically populated ingredients -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="formulation-modal-footer" style="background: var(--bg-subtle); border-top: 1px solid var(--border-light);">
+        <button type="button" class="btn-primary" id="btn-modal-done" style="padding: 0.6rem 1.6rem; font-weight: 700; background: #815854; color: #F9EBDE;">Close &amp; Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const session = CLS_Auth.requireAuth();
+      if (!session) return;
+
+      // Header info & logout
+      document.getElementById('header-username').textContent = session.user.fullName || session.user.username;
+      document.getElementById('btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        CLS_Auth.logout();
+      });
+
+      // DOM Elements
+      const cookDateInput = document.getElementById('cook-date');
+      const cookBatchIdInput = document.getElementById('cook-batch-id');
+      const cycleSelect = document.getElementById('cook-cycle');
+      const customCycleGroup = document.getElementById('group-custom-cycle');
+      const customCycleInput = document.getElementById('custom-cycle');
+      const chefInput = document.getElementById('chef-name');
+      const searchInput = document.getElementById('recipe-search-filter');
+      const recipesTbody = document.getElementById('recipes-excel-tbody');
+      const tableRowCount = document.getElementById('table-row-count');
+      const currentCycleLabel = document.getElementById('current-cycle-label');
+      const bottomSummaryText = document.getElementById('bottom-summary-text');
+      
+      const btnSaveTop = document.getElementById('btn-save-all-top');
+      const btnSaveBottom = document.getElementById('btn-save-all-bottom');
+      const btnClearAll = document.getElementById('btn-clear-all');
+
+      // KPIs
+      const kpiTotal = document.getElementById('kpi-total-recipes');
+      const kpiActive = document.getElementById('kpi-active-recipes');
+      const kpiVolume = document.getElementById('kpi-total-volume');
+      const kpiHaccp = document.getElementById('kpi-haccp-status');
+
+      // Modal Elements
+      const modal = document.getElementById('formulation-modal');
+      const btnCloseModal = document.getElementById('btn-close-modal');
+      const btnModalDone = document.getElementById('btn-modal-done');
+      const modalRecipeTitle = document.getElementById('modal-recipe-title');
+      const modalRecipeId = document.getElementById('modal-recipe-id');
+      const modalRecipeCode = document.getElementById('modal-recipe-code');
+      const modalMealService = document.getElementById('modal-meal-service');
+      const modalTargetQty = document.getElementById('modal-target-qty');
+      const modalIngCount = document.getElementById('modal-ing-count');
+      const modalTbody = document.getElementById('modal-ingredient-tbody');
+
+      // State
+      let currentCycleRecipes = [];
+      let recipesFormulations = {}; // recipeId -> Array of ingredients
+      let availableBatches = [];
+      let activeEditingRecipeId = null;
+
+      // Default Date & Auto Batch ID
+      cookDateInput.value = CLS_Common.formatDateForInput();
+      updateCookingBatchId();
+
+      function updateCookingBatchId() {
+        const dVal = cookDateInput.value;
+        if (!dVal) return;
+        const parts = dVal.split('-');
+        if (parts.length === 3) {
+          const formatted = `${parts[2].padStart(2, '0')}${parts[1].padStart(2, '0')}${parts[0].slice(-2)}`;
+          if (cookBatchIdInput) cookBatchIdInput.value = `CK-${formatted}`;
+        }
+      }
+
+      cookDateInput.addEventListener('change', updateCookingBatchId);
+      cookDateInput.addEventListener('input', updateCookingBatchId);
+
+      // Initialize default times (e.g. current hour rounded)
+      function getDefaultTimes() {
+        const now = new Date();
+        const startH = String(now.getHours()).padStart(2, '0');
+        const startM = String(Math.floor(now.getMinutes() / 15) * 15).padStart(2, '0');
+        const endH = String((now.getHours() + 1) % 24).padStart(2, '0');
+        return {
+          start: `${startH}:${startM}`,
+          end: `${endH}:${startM}`
+        };
+      }
+
+      // Quantity Formatter
+      function formatCalculatedQuantity(baseQty, baseUnit, totalQtyCooked) {
+        if (!totalQtyCooked || isNaN(totalQtyCooked) || totalQtyCooked <= 0) {
+          return '—';
+        }
+
+        const totalNumeric = parseFloat(baseQty) * parseFloat(totalQtyCooked);
+        const unit = String(baseUnit || 'KG').trim().toUpperCase();
+
+        if (unit === 'G' || unit === 'GRAM' || unit === 'GRAMS') {
+          if (totalNumeric >= 1000) {
+            const kgVal = totalNumeric / 1000;
+            return `${kgVal % 1 === 0 ? kgVal : kgVal.toLocaleString('en-GB', { maximumFractionDigits: 3 })} KG`;
+          }
+          const gVal = Math.round(totalNumeric * 100) / 100;
+          return `${gVal} G`;
+        }
+
+        if (unit === 'ML' || unit === 'MILLILITRE' || unit === 'MILLILITER') {
+          if (totalNumeric >= 1000) {
+            const lVal = totalNumeric / 1000;
+            return `${lVal % 1 === 0 ? lVal : lVal.toLocaleString('en-GB', { maximumFractionDigits: 3 })} L`;
+          }
+          const mlVal = Math.round(totalNumeric * 100) / 100;
+          return `${mlVal} ML`;
+        }
+
+        if (unit === 'L' || unit === 'LITRE' || unit === 'LITER' || unit === 'LITRES') {
+          const lVal = Math.round(totalNumeric * 1000) / 1000;
+          return `${lVal} L`;
+        }
+
+        if (unit === 'KG' || unit === 'KILOGRAM' || unit === 'KILOGRAMS') {
+          const kgVal = Math.round(totalNumeric * 1000) / 1000;
+          return `${kgVal} KG`;
+        }
+
+        if (['EACH', 'EA', 'PCS', 'PIECE', 'PIECES', 'NOS', 'NO', 'NUMBER', 'UNIT', 'UNITS'].includes(unit)) {
+          const numVal = Math.round(totalNumeric * 100) / 100;
+          return `${numVal} ${baseUnit || 'Each'}`;
+        }
+
+        const formatted = Math.round(totalNumeric * 1000) / 1000;
+        return `${formatted} ${baseUnit || ''}`.trim();
+      }
+
+      function cleanIngredientName(str) {
+        if (!str) return '';
+        return String(str)
+          .toLowerCase()
+          .replace(/[—–_\-/,()&.+]/g, ' ')
+          .replace(/\b(frz|frozen|fresh|chilled|raw|powder|whole|liquid|leaves|leaf|cut|sliced|diced|chopped|kg|g|l|ml|pack|box|unit)\b/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      function stemWord(w) {
+        w = String(w).toLowerCase().trim();
+        if (w.endsWith('ies')) return w.slice(0, -3) + 'y';
+        if (w.endsWith('es') && !w.endsWith('ses')) return w.slice(0, -2);
+        if (w.endsWith('s') && !w.endsWith('ss')) return w.slice(0, -1);
+        return w;
+      }
+
+      // Stock batch finder: collects all matching batches and sorts strictly descending by date (latest first)
+      function findAllStockMatchesForIngredient(ingName) {
+        if (!availableBatches || availableBatches.length === 0 || !ingName) return [];
+        const rawTarget = String(ingName).toLowerCase().trim();
+        const cleanTarget = cleanIngredientName(ingName);
+        const targetWords = cleanTarget.split(/\s+/).filter(w => w.length > 2);
+        const targetStems = targetWords.map(stemWord);
+        
+        const scoredMatches = [];
+
+        for (let i = 0; i < availableBatches.length; i++) {
+          const b = availableBatches[i];
+          const rawPName = (b.productName || '').toLowerCase().trim();
+          const cleanPName = cleanIngredientName(b.productName);
+          const pWords = cleanPName.split(/\s+/).filter(w => w.length > 2);
+          const pStems = pWords.map(stemWord);
+          const pId = (b.productId || '').toLowerCase().trim();
+
+          let score = 0;
+
+          if (rawPName === rawTarget || (pId && pId === rawTarget)) {
+            score = 100;
+          } else if (cleanPName && cleanPName === cleanTarget) {
+            score = 95;
+          } else if (cleanPName.includes(cleanTarget) || cleanTarget.includes(cleanPName)) {
+            score = 85;
+          } else if (rawPName.includes(rawTarget) || rawTarget.includes(rawPName)) {
+            score = 80;
+          } else {
+            let stemMatches = 0;
+            targetStems.forEach(st => {
+              if (pStems.includes(st) || pStems.some(ps => ps.includes(st) || st.includes(ps))) {
+                stemMatches++;
+              }
+            });
+            if (stemMatches > 0) {
+              score = 50 + (stemMatches * 15);
+            }
+          }
+
+          if (score > 0) {
+            scoredMatches.push({ batch: b, score: score });
+          }
+        }
+
+        // Sort candidates: highest score first, then latest intake date strictly first
+        scoredMatches.sort((a, b) => {
+          if (b.score !== a.score && Math.abs(b.score - a.score) >= 20) {
+            return b.score - a.score;
+          }
+          const tA = (typeof CLS_Common !== 'undefined' && CLS_Common.parseDateToTimestamp)
+            ? CLS_Common.parseDateToTimestamp(a.batch.date || a.batch.batchCode)
+            : (new Date(a.batch.date).getTime() || 0);
+          const tB = (typeof CLS_Common !== 'undefined' && CLS_Common.parseDateToTimestamp)
+            ? CLS_Common.parseDateToTimestamp(b.batch.date || b.batch.batchCode)
+            : (new Date(b.batch.date).getTime() || 0);
+          if (tB !== tA) return tB - tA;
+          if (b.score !== a.score) return b.score - a.score;
+          return String(b.batch.batchCode || '').localeCompare(String(a.batch.batchCode || ''));
+        });
+
+        return scoredMatches.map(m => m.batch);
+      }
+
+      // Stock batch finder: returns the LATEST stock batch according to date
+      function findStockMatchForIngredient(ingName) {
+        const matches = findAllStockMatchesForIngredient(ingName);
+        return matches.length > 0 ? matches[0] : null;
+      }
+
+      // Helper to format meal service to short code (e.g. BC HBK, YC LDN)
+      function formatShortMealService(ms) {
+        if (!ms) return 'BC LDN';
+        const upper = ms.toUpperCase();
+        if (upper.includes('BC HBK') || upper.includes('BUSINESS CLASS BREAKFAST')) return 'BC HBK';
+        if (upper.includes('BC LDN') || upper.includes('BUSINESS CLASS DINNER') || upper.includes('BUSINESS CLASS')) return 'BC LDN';
+        if (upper.includes('YC HBK') || upper.includes('ECONOMY BREAKFAST')) return 'YC HBK';
+        if (upper.includes('YC LDN') || upper.includes('ECONOMY DINNER') || upper.includes('ECONOMY CLASS')) return 'YC LDN';
+        if (upper.includes('CREW HBK')) return 'CREW HBK';
+        if (upper.includes('CREW LDN') || upper.includes('CREW')) return 'CREW LDN';
+        if (upper.includes('FIRST')) return 'First Class';
+        if (upper.includes('SPML')) return 'SPML';
+        const parts = ms.split(/[-—–]/);
+        return parts[0].trim();
+      }
+
+      // Load Chefs & Stock Batches
+      async function loadInitialData() {
+        try {
+          // Stock batches load
+          const stockRes = await CLS_API.execute('getAvailableStockBatches', {});
+          if (stockRes && stockRes.success && stockRes.data) {
+            availableBatches = stockRes.data;
+          }
+        } catch (err) {
+          console.warn('Initial data load warning:', err);
+        }
+      }
+
+      await loadInitialData();
+
+      // In-memory cache for cycle recipes so cycle changes render instantaneously
+      const cycleRecipesCache = {};
+
+      // Load Recipes for selected Cycle
+      async function loadCycleRecipes() {
+        const cycle = (cycleSelect.value === 'Other')
+          ? (customCycleInput.value.trim() || 'Other')
+          : cycleSelect.value;
+
+        currentCycleLabel.textContent = `${cycle} — Recipe Master Spreadsheet`;
+
+        // If cached, render immediately without waiting
+        if (cycleRecipesCache[cycle]) {
+          currentCycleRecipes = cycleRecipesCache[cycle];
+          recipesFormulations = {};
+          currentCycleRecipes.forEach(r => {
+            if (Array.isArray(r.ingredients)) {
+              recipesFormulations[r.recipeId] = r.ingredients.map(item => {
+                const copy = Object.assign({}, item);
+                if (!copy.batchCode1) {
+                  const m = findStockMatchForIngredient(copy.ingredient);
+                  if (m) {
+                    copy.batchCode1 = m.batchCode;
+                    copy.productId = copy.productId || m.productId;
+                    copy.storageArea = copy.storageArea || m.storageArea;
+                  }
+                }
+                return copy;
+              });
+            }
+          });
+          renderRecipesTable();
+          updateKPIs();
+        } else {
+          recipesFormulations = {};
+          recipesTbody.innerHTML = `
+            <tr>
+              <td colspan="11" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                Loading recipes formulation for <strong>${cycle}</strong>...
+              </td>
+            </tr>
+          `;
+        }
+
+        try {
+          const res = await CLS_API.execute('getRecipes', { cycle });
+          if (res && res.success && res.data && res.data.length > 0) {
+            // Filter out empty rows from the database that don't have a valid recipeName or recipeCode
+            const validRecipes = res.data.filter(r => (r.recipeName && String(r.recipeName).trim() !== '') || (r.recipeCode && String(r.recipeCode).trim() !== ''));
+            currentCycleRecipes = validRecipes;
+            cycleRecipesCache[cycle] = validRecipes;
+            currentCycleRecipes.forEach(r => {
+              if (Array.isArray(r.ingredients)) {
+                recipesFormulations[r.recipeId] = r.ingredients.map(item => {
+                  const copy = Object.assign({}, item);
+                  if (!copy.batchCode1) {
+                    const m = findStockMatchForIngredient(copy.ingredient);
+                    if (m) {
+                      copy.batchCode1 = m.batchCode;
+                      copy.productId = copy.productId || m.productId;
+                      copy.storageArea = copy.storageArea || m.storageArea;
+                    }
+                  }
+                  return copy;
+                });
+              }
+            });
+            renderRecipesTable();
+            updateKPIs();
+          } else if (!cycleRecipesCache[cycle]) {
+            currentCycleRecipes = [];
+            recipesTbody.innerHTML = `
+              <tr>
+                <td colspan="11" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+                  No recipes configured for ${cycle}.
+                </td>
+              </tr>
+            `;
+            updateKPIs();
+          }
+        } catch (err) {
+          if (!cycleRecipesCache[cycle]) {
+            CLS_Common.showToast('Failed to load cycle recipes.', 'error');
+            recipesTbody.innerHTML = `
+              <tr>
+                <td colspan="11" style="text-align: center; padding: 2.5rem; color: var(--rose-600);">
+                  Error connecting to database. Please check your network.
+                </td>
+              </tr>
+            `;
+          }
+        }
+      }
+
+      // Render the Excel Sheet Table
+      function renderRecipesTable() {
+        const filterText = (searchInput.value || '').toLowerCase().trim();
+        const defaultTimes = getDefaultTimes();
+
+        const filtered = currentCycleRecipes.filter(r => {
+          if (!filterText) return true;
+          const searchStr = `${r.recipeId} ${r.recipeCode || ''} ${r.recipeName} ${r.mealService} ${formatShortMealService(r.mealService)}`.toLowerCase();
+          return searchStr.includes(filterText);
+        });
+
+        tableRowCount.textContent = `${filtered.length} of ${currentCycleRecipes.length} Recipes Shown`;
+        recipesTbody.innerHTML = '';
+
+        if (filtered.length === 0) {
+          recipesTbody.innerHTML = `
+            <tr>
+              <td colspan="11" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                No matching recipes found for "${searchInput.value}".
+              </td>
+            </tr>
+          `;
+          updateKPIs();
+          return;
+        }
+
+        filtered.forEach((r, idx) => {
+          const ingList = recipesFormulations[r.recipeId] || r.ingredients || [];
+          const ingCount = ingList.length;
+          const tr = document.createElement('tr');
+          tr.id = `recipe-row-${r.recipeId}`;
+          tr.setAttribute('data-recipe-id', r.recipeId);
+
+          tr.innerHTML = `
+            <td style="text-align: center; font-weight: 600;">${idx + 1}</td>
+            <td style="font-family: var(--font-mono); font-weight: 600;">${r.recipeId}</td>
+            <td style="font-family: var(--font-mono); font-weight: 600;">${r.recipeCode || 'REC'}</td>
+            <td><strong>${r.recipeName}</strong></td>
+            <td style="font-weight: 600;">${formatShortMealService(r.mealService)}</td>
+            <td>
+              <div class="excel-qty-box">
+                <input type="number" step="any" min="0" class="excel-qty-input row-qty-input" data-recipe-id="${r.recipeId}" placeholder="0">
+                <select class="excel-qty-unit row-unit-select" data-recipe-id="${r.recipeId}">
+                  <option value="KG" selected>KG</option>
+                  <option value="Portions">Portions</option>
+                  <option value="Each">Each</option>
+                  <option value="Litre">Litre</option>
+                </select>
+              </div>
+            </td>
+            <td>
+              <input type="time" class="excel-time-input row-start-time" data-recipe-id="${r.recipeId}" value="${defaultTimes.start}">
+            </td>
+            <td>
+              <input type="time" class="excel-time-input row-end-time" data-recipe-id="${r.recipeId}" value="${defaultTimes.end}">
+            </td>
+            <td>
+              <div class="excel-temp-box">
+                <input type="number" step="0.1" class="excel-temp-input row-temp-input" data-recipe-id="${r.recipeId}" placeholder="78.5" value="78.5">
+                <span class="row-temp-pill" data-recipe-id="${r.recipeId}" style="display:none;"></span>
+              </div>
+            </td>
+            <td style="text-align: center;">
+              <button type="button" class="btn-formulation-view" data-recipe-id="${r.recipeId}" title="View and customize scaled ingredients">
+                ${ingCount} Ingr.
+              </button>
+            </td>
+            <td style="text-align: center;">
+              <button type="button" class="btn-row-save" data-recipe-id="${r.recipeId}" title="Save only this recipe row">
+                Save
+              </button>
+            </td>
+          `;
+
+          recipesTbody.appendChild(tr);
+        });
+
+        attachRowEventListeners();
+        updateKPIs();
+      }
+
+      // Row Interaction Listeners
+      function attachRowEventListeners() {
+        // Quantity input changes
+        document.querySelectorAll('.row-qty-input').forEach(input => {
+          input.addEventListener('input', () => {
+            const rowId = input.getAttribute('data-recipe-id');
+            const row = document.getElementById(`recipe-row-${rowId}`);
+            const val = parseFloat(input.value) || 0;
+            if (row) {
+              if (val > 0) {
+                row.classList.add('row-active');
+              } else {
+                row.classList.remove('row-active');
+              }
+            }
+            updateKPIs();
+          });
+        });
+
+        // Temperature input changes
+        document.querySelectorAll('.row-temp-input').forEach(input => {
+          input.addEventListener('input', () => {
+            const rowId = input.getAttribute('data-recipe-id');
+            const pill = document.querySelector(`.row-temp-pill[data-recipe-id="${rowId}"]`);
+            const val = parseFloat(input.value);
+            if (!pill) return;
+            if (isNaN(val) || val <= 0) {
+              pill.className = 'temp-indicator-pill';
+              pill.textContent = '—';
+            } else if (val >= 75) {
+              pill.className = 'temp-indicator-pill temp-safe';
+              pill.textContent = '≥75°C';
+            } else {
+              pill.className = 'temp-indicator-pill temp-warning';
+              pill.textContent = '<75°C';
+            }
+            updateKPIs();
+          });
+        });
+
+        // View Formulation Modal buttons
+        document.querySelectorAll('.btn-formulation-view').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const recipeId = btn.getAttribute('data-recipe-id');
+            openFormulationModal(recipeId);
+          });
+        });
+
+        // Single Row Save button
+        document.querySelectorAll('.btn-row-save').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const recipeId = btn.getAttribute('data-recipe-id');
+            saveSingleRecipeRow(recipeId);
+          });
+        });
+      }
+
+      // Update KPI counters
+      function updateKPIs() {
+        const qtyInputs = document.querySelectorAll('.row-qty-input');
+        let activeCount = 0;
+        let totalVol = 0;
+        let haccpSafeCount = 0;
+
+        qtyInputs.forEach(input => {
+          const val = parseFloat(input.value) || 0;
+          if (val > 0) {
+            activeCount++;
+            totalVol += val;
+            const rowId = input.getAttribute('data-recipe-id');
+            const tempInput = document.querySelector(`.row-temp-input[data-recipe-id="${rowId}"]`);
+            const tempVal = tempInput ? parseFloat(tempInput.value) : 0;
+            if (tempVal >= 75) {
+              haccpSafeCount++;
+            }
+          }
+        });
+
+        kpiTotal.textContent = currentCycleRecipes.length;
+        kpiActive.textContent = activeCount;
+        kpiVolume.textContent = `${totalVol.toFixed(2)} KG`;
+        kpiHaccp.textContent = `${haccpSafeCount} Verified`;
+        bottomSummaryText.textContent = `${activeCount} of ${currentCycleRecipes.length} recipes planned for production (${totalVol.toFixed(2)} KG total).`;
+      }
+
+      // Open Formulation Modal
+      function openFormulationModal(recipeId) {
+        const recipe = currentCycleRecipes.find(r => r.recipeId === recipeId);
+        if (!recipe) return;
+
+        activeEditingRecipeId = recipeId;
+        const qtyInput = document.querySelector(`.row-qty-input[data-recipe-id="${recipeId}"]`);
+        const unitSelect = document.querySelector(`.row-unit-select[data-recipe-id="${recipeId}"]`);
+        const qtyVal = parseFloat(qtyInput ? qtyInput.value : 0) || 0;
+        const unitVal = unitSelect ? unitSelect.value : 'KG';
+
+        modalRecipeTitle.textContent = recipe.recipeName;
+        modalRecipeId.textContent = recipe.recipeId;
+        modalRecipeCode.textContent = recipe.recipeCode || recipe.recipeId;
+        modalMealService.textContent = formatShortMealService(recipe.mealService);
+        modalTargetQty.textContent = `${qtyVal > 0 ? qtyVal : '0.00'} ${unitVal}`;
+
+        const ingredients = recipesFormulations[recipeId] || [];
+        modalIngCount.textContent = `${ingredients.length} Items`;
+        modalTbody.innerHTML = '';
+
+        if (ingredients.length === 0) {
+          modalTbody.innerHTML = `
+            <tr>
+              <td colspan="8" style="text-align: center; padding: 1.5rem; color: var(--text-muted);">
+                No ingredient formulation loaded for this recipe.
+              </td>
+            </tr>
+          `;
+        } else {
+          ingredients.forEach((ing, idx) => {
+            const reqQty = formatCalculatedQuantity(ing.baseQuantity, ing.baseUnit, qtyVal);
+            const prodQty = qtyVal > 0 ? `${qtyVal} ${unitVal}` : '—';
+            const allMatches = findAllStockMatchesForIngredient(ing.ingredient);
+            const matched = allMatches.length > 0 ? allMatches[0] : null;
+            const prodId = ing.productId || (matched ? matched.productId : '');
+            const batch1Val = ing.batchCode1 || (matched ? matched.batchCode : '');
+            const storage = ing.storageArea || (matched ? matched.storageArea : 'Goods In Stock');
+
+            const batch1ListId = `batch1-datalist-${idx}`;
+            const batch2ListId = `batch2-datalist-${idx}`;
+
+            // Build options list for datalist: matched batches first, then other available stock batches
+            const matchedOptions = allMatches.map(b => `<option value="${b.batchCode}">${b.batchCode} (${b.date ? String(b.date).slice(0, 10) : ''} — ${b.productName}) [Matched]</option>`).join('');
+            const otherStockOptions = (availableBatches || [])
+              .filter(b => !allMatches.some(m => m.batchCode === b.batchCode))
+              .slice(0, 35)
+              .map(b => `<option value="${b.batchCode}">${b.batchCode} (${b.date ? String(b.date).slice(0, 10) : ''} — ${b.productName})</option>`).join('');
+            const datalistOptionsHtml = `${matchedOptions}${otherStockOptions}`;
+
+            const latestBadge = (allMatches.length > 0 && matched && batch1Val === matched.batchCode)
+              ? `<span style="display: inline-block; font-size: 10px; padding: 1px 5px; border-radius: 4px; background: rgba(5, 150, 105, 0.15); color: #059669; font-weight: 700; margin-left: 4px;" title="Intake: ${matched.date || 'Latest'}">Latest</span>`
+              : '';
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td style="padding: 0.6rem 0.75rem;"><strong>${ing.ingredient}</strong></td>
+              <td style="padding: 0.6rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 600;">${ing.perQuantity || (ing.baseQuantity + ' ' + (ing.baseUnit || ''))}</td>
+              <td style="padding: 0.6rem 0.75rem; text-align: right; font-family: var(--font-mono);">${prodQty}</td>
+              <td style="padding: 0.6rem 0.75rem; text-align: right; font-family: var(--font-mono); font-weight: 700;">${reqQty}</td>
+              <td style="padding: 0.6rem 0.75rem; font-family: var(--font-mono);">${prodId || '—'}</td>
+              <td style="padding: 0.5rem 0.6rem;">
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <input list="${batch1ListId}" type="text" class="modal-batch1-input" data-idx="${idx}" placeholder="Batch 1..." value="${batch1Val}" style="padding: 0.35rem 0.5rem; font-size: 0.82rem; border-radius: 4px; border: 1px solid var(--border-medium, #cbd5e1); width: 135px; font-family: var(--font-mono); font-weight: 600; background: var(--bg-surface, #fff); color: var(--text-primary, #2c1b19);">
+                  <datalist id="${batch1ListId}">
+                    ${datalistOptionsHtml}
+                  </datalist>
+                  ${latestBadge}
+                </div>
+              </td>
+              <td style="padding: 0.5rem 0.6rem;">
+                <input list="${batch2ListId}" type="text" class="modal-batch2-input" data-idx="${idx}" placeholder="Pick/enter 2nd batch..." value="${ing.batchCode2 || ''}" style="padding: 0.35rem 0.5rem; font-size: 0.82rem; border-radius: 4px; border: 1px solid var(--border-medium, #cbd5e1); width: 135px; font-family: var(--font-mono); background: var(--bg-surface, #fff); color: var(--text-primary, #2c1b19);">
+                <datalist id="${batch2ListId}">
+                  ${datalistOptionsHtml}
+                </datalist>
+              </td>
+              <td style="padding: 0.6rem 0.75rem;">${storage}</td>
+            `;
+            modalTbody.appendChild(tr);
+          });
+        }
+
+        modal.style.display = 'flex';
+      }
+
+      function closeModal() {
+        if (activeEditingRecipeId && recipesFormulations[activeEditingRecipeId]) {
+          const batch1Inputs = modalTbody.querySelectorAll('.modal-batch1-input');
+          batch1Inputs.forEach(inp => {
+            const idx = parseInt(inp.getAttribute('data-idx'), 10);
+            if (recipesFormulations[activeEditingRecipeId][idx]) {
+              const val = inp.value.trim();
+              recipesFormulations[activeEditingRecipeId][idx].batchCode1 = val;
+              const foundStock = (availableBatches || []).find(b => String(b.batchCode).trim() === val);
+              if (foundStock) {
+                recipesFormulations[activeEditingRecipeId][idx].productId = foundStock.productId || recipesFormulations[activeEditingRecipeId][idx].productId;
+                recipesFormulations[activeEditingRecipeId][idx].storageArea = foundStock.storageArea || recipesFormulations[activeEditingRecipeId][idx].storageArea;
+              }
+            }
+          });
+          const batch2Inputs = modalTbody.querySelectorAll('.modal-batch2-input');
+          batch2Inputs.forEach(inp => {
+            const idx = parseInt(inp.getAttribute('data-idx'), 10);
+            if (recipesFormulations[activeEditingRecipeId][idx]) {
+              recipesFormulations[activeEditingRecipeId][idx].batchCode2 = inp.value.trim();
+            }
+          });
+        }
+        modal.style.display = 'none';
+        activeEditingRecipeId = null;
+      }
+
+      btnCloseModal.addEventListener('click', closeModal);
+      btnModalDone.addEventListener('click', closeModal);
+
+      // Search filter listener
+      searchInput.addEventListener('input', () => {
+        renderRecipesTable();
+      });
+
+      // Cycle change listener
+      cycleSelect.addEventListener('change', () => {
+        if (cycleSelect.value === 'Other') {
+          customCycleGroup.style.display = 'block';
+          customCycleInput.focus();
+        } else {
+          customCycleGroup.style.display = 'none';
+        }
+        loadCycleRecipes();
+      });
+
+      customCycleInput.addEventListener('change', () => {
+        if (cycleSelect.value === 'Other') {
+          loadCycleRecipes();
+        }
+      });
+
+
+
+      // Clear Sheet
+      btnClearAll.addEventListener('click', () => {
+        if (!confirm('Clear all entered production quantities and times on this sheet?')) return;
+        document.querySelectorAll('.row-qty-input').forEach(el => {
+          el.value = '';
+          el.dispatchEvent(new Event('input'));
+        });
+        CLS_Common.showToast('Sheet reset to blank values.', 'info');
+      });
+
+      // Save Single Recipe Row
+      async function saveSingleRecipeRow(recipeId) {
+        const recipe = currentCycleRecipes.find(r => r.recipeId === recipeId);
+        if (!recipe) return;
+
+        const qtyInput = document.querySelector(`.row-qty-input[data-recipe-id="${recipeId}"]`);
+        const unitSelect = document.querySelector(`.row-unit-select[data-recipe-id="${recipeId}"]`);
+        const startTimeInput = document.querySelector(`.row-start-time[data-recipe-id="${recipeId}"]`);
+        const endTimeInput = document.querySelector(`.row-end-time[data-recipe-id="${recipeId}"]`);
+        const tempInput = document.querySelector(`.row-temp-input[data-recipe-id="${recipeId}"]`);
+
+        const totalCooked = parseFloat(qtyInput?.value) || 0;
+        const cookUnit = unitSelect?.value || 'KG';
+        const startTime = startTimeInput?.value || '';
+        const endTime = endTimeInput?.value || '';
+        const coreTemp = parseFloat(tempInput?.value) || 0;
+        const chefName = chefInput ? chefInput.value.trim() : '';
+        const cookingDate = cookDateInput.value;
+        const cycle = (cycleSelect.value === 'Other') ? (customCycleInput.value.trim() || 'Other') : cycleSelect.value;
+
+        if (totalCooked <= 0) {
+          CLS_Common.showToast(`Please enter a production quantity for ${recipe.recipeName}.`, 'warning');
+          qtyInput?.focus();
+          return;
+        }
+
+        if (!chefName) {
+          CLS_Common.showToast('Please enter the Lead Chef Name.', 'warning');
+          chefInput?.focus();
+          return;
+        }
+
+        // Calculate Duration
+        let durationStr = '';
+        if (startTime && endTime) {
+          const [sh, sm] = startTime.split(':').map(Number);
+          const [eh, em] = endTime.split(':').map(Number);
+          let diff = (eh * 60 + em) - (sh * 60 + sm);
+          if (diff < 0) diff += 1440;
+          const hours = Math.floor(diff / 60);
+          const mins = diff % 60;
+          durationStr = hours > 0 ? `${hours} hours ${mins} mins` : `${mins} mins`;
+        }
+
+        // Build scaled ingredients breakdown
+        const rawIngs = recipesFormulations[recipeId] || [];
+        const ingredientsPayload = rawIngs.map(item => {
+          const matched = findStockMatchForIngredient(item.ingredient);
+          const b1 = item.batchCode1 || (matched ? matched.batchCode : '');
+          const pId = item.productId || (matched ? matched.productId : '');
+          const stor = item.storageArea || (matched ? matched.storageArea : 'Goods In Stock');
+          return {
+            ingredient: item.ingredient,
+            per1Kg: item.perQuantity || `${item.baseQuantity} ${item.baseUnit || ''}`,
+            productQuantity: `${totalCooked} ${cookUnit}`,
+            requiredQuantity: formatCalculatedQuantity(item.baseQuantity, item.baseUnit, totalCooked),
+            productId: pId,
+            batchCode1: b1,
+            batchCode2: item.batchCode2 || '',
+            storageArea: stor
+          };
+        });
+
+        const firstIng = ingredientsPayload[0] || {};
+        const cookingRecord = {
+          cookingDate: cookingDate,
+          cookingBatchId: cookBatchIdInput?.value || '',
+          cycle: cycle,
+          mealService: recipe.mealService,
+          recipeId: recipe.recipeId,
+          recipeCode: recipe.recipeCode || '',
+          recipeName: recipe.recipeName,
+          productName: recipe.recipeName,
+          productId: firstIng.productId || '',
+          batchCode: cookBatchIdInput?.value || '',
+          storageArea: firstIng.storageArea || 'Hot Kitchen',
+          storageDate: cookingDate,
+          totalQuantityCooked: `${totalCooked} ${cookUnit}`,
+          cookingStartTime: startTime,
+          cookingEndTime: endTime,
+          cookingDuration: durationStr,
+          coreTemperature: coreTemp,
+          chefName: chefName,
+          userId: session.user.username,
+          notes: `Batch cooking record for ${recipe.recipeName}`
+        };
+
+        CLS_Common.showLoader('Saving Recipe Record', `Recording ${recipe.recipeName} to Cloud Database`);
+
+        try {
+          const res = await CLS_API.execute('saveCookingRecord', {
+            cookingRecord: cookingRecord,
+            ingredients: ingredientsPayload
+          });
+          CLS_Common.hideLoader();
+
+          if (res && res.success) {
+            CLS_Common.showToast(`Saved ${recipe.recipeName} (${res.recordId}) successfully!`, 'success');
+            const row = document.getElementById(`recipe-row-${recipeId}`);
+            if (row) {
+              row.classList.remove('row-active');
+              row.classList.add('row-saved');
+            }
+          } else {
+            throw new Error(res ? res.error : 'Failed to save record.');
+          }
+        } catch (err) {
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(err.message || 'Error saving recipe record.', 'error');
+        }
+      }
+
+      // Master Save All Production Quantities Handler
+      async function handleSaveAllQuantities() {
+        const chefName = chefInput ? chefInput.value.trim() : '';
+        const cookingDate = cookDateInput.value;
+        const cycle = (cycleSelect.value === 'Other') ? (customCycleInput.value.trim() || 'Other') : cycleSelect.value;
+        const cookingBatchId = cookBatchIdInput?.value || '';
+
+        if (!chefName) {
+          CLS_Common.showToast('Please enter the Lead Chef Name before saving.', 'warning');
+          chefInput?.focus();
+          return;
+        }
+
+        // Gather all rows with entered quantity > 0
+        const activeRows = [];
+        currentCycleRecipes.forEach(recipe => {
+          const qtyInput = document.querySelector(`.row-qty-input[data-recipe-id="${recipe.recipeId}"]`);
+          const unitSelect = document.querySelector(`.row-unit-select[data-recipe-id="${recipe.recipeId}"]`);
+          const startTimeInput = document.querySelector(`.row-start-time[data-recipe-id="${recipe.recipeId}"]`);
+          const endTimeInput = document.querySelector(`.row-end-time[data-recipe-id="${recipe.recipeId}"]`);
+          const tempInput = document.querySelector(`.row-temp-input[data-recipe-id="${recipe.recipeId}"]`);
+
+          const qty = parseFloat(qtyInput?.value) || 0;
+          if (qty > 0) {
+            activeRows.push({
+              recipe,
+              qty,
+              unit: unitSelect?.value || 'KG',
+              startTime: startTimeInput?.value || '08:00',
+              endTime: endTimeInput?.value || '09:15',
+              coreTemp: parseFloat(tempInput?.value) || 78.5
+            });
+          }
+        });
+
+        if (activeRows.length === 0) {
+          CLS_Common.showToast('No recipe quantities entered. Please enter at least one quantity to save.', 'warning');
+          return;
+        }
+
+        if (btnSaveTop) btnSaveTop.disabled = true;
+        btnSaveBottom.disabled = true;
+        CLS_Common.showLoader('Saving Batch Quantities', `Processing ${activeRows.length} recipe formulations and ingredient ledgers...`);
+
+        try {
+          let savedCount = 0;
+          const savedRecords = [];
+
+          for (const item of activeRows) {
+            const { recipe, qty, unit, startTime, endTime, coreTemp } = item;
+
+            // Duration
+            let durationStr = '';
+            if (startTime && endTime) {
+              const [sh, sm] = startTime.split(':').map(Number);
+              const [eh, em] = endTime.split(':').map(Number);
+              let diff = (eh * 60 + em) - (sh * 60 + sm);
+              if (diff < 0) diff += 1440;
+              const hours = Math.floor(diff / 60);
+              const mins = diff % 60;
+              durationStr = hours > 0 ? `${hours} hours ${mins} mins` : `${mins} mins`;
+            }
+
+            // Formulation ingredients scaling
+            const rawIngs = recipesFormulations[recipe.recipeId] || [];
+            const ingredientsPayload = rawIngs.map(ing => {
+              const matched = findStockMatchForIngredient(ing.ingredient);
+              const b1 = ing.batchCode1 || (matched ? matched.batchCode : '');
+              const pId = ing.productId || (matched ? matched.productId : '');
+              const stor = ing.storageArea || (matched ? matched.storageArea : 'Goods In Stock');
+              return {
+                ingredient: ing.ingredient,
+                per1Kg: ing.perQuantity || `${ing.baseQuantity} ${ing.baseUnit || ''}`,
+                productQuantity: `${qty} ${unit}`,
+                requiredQuantity: formatCalculatedQuantity(ing.baseQuantity, ing.baseUnit, qty),
+                productId: pId,
+                batchCode1: b1,
+                batchCode2: ing.batchCode2 || '',
+                storageArea: stor
+              };
+            });
+
+            const firstIng = ingredientsPayload[0] || {};
+            const cookingRecord = {
+              cookingDate: cookingDate,
+              cookingBatchId: cookingBatchId,
+              cycle: cycle,
+              mealService: recipe.mealService,
+              recipeId: recipe.recipeId,
+              recipeCode: recipe.recipeCode || '',
+              recipeName: recipe.recipeName,
+              productName: recipe.recipeName,
+              productId: firstIng.productId || '',
+              batchCode: cookingBatchId,
+              storageArea: firstIng.storageArea || 'Hot Kitchen',
+              storageDate: cookingDate,
+              totalQuantityCooked: `${qty} ${unit}`,
+              cookingStartTime: startTime,
+              cookingEndTime: endTime,
+              cookingDuration: durationStr,
+              coreTemperature: coreTemp,
+              chefName: chefName,
+              userId: session.user.username,
+              notes: `Batch production save for ${recipe.recipeName} (${cycle})`
+            };
+
+            const res = await CLS_API.execute('saveCookingRecord', {
+              cookingRecord: cookingRecord,
+              ingredients: ingredientsPayload
+            });
+
+            if (res && res.success) {
+              savedCount++;
+              savedRecords.push(res.recordId || recipe.recipeId);
+              const row = document.getElementById(`recipe-row-${recipe.recipeId}`);
+              if (row) {
+                row.classList.remove('row-active');
+                row.classList.add('row-saved');
+              }
+            }
+          }
+
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(`Successfully saved ${savedCount} recipe cooking records with full ingredient traceability!`, 'success');
+
+          // Reset quantities after successful save
+          setTimeout(() => {
+            document.querySelectorAll('.row-qty-input').forEach(inp => inp.value = '');
+            updateKPIs();
+          }, 2000);
+
+        } catch (err) {
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(err.message || 'Failed to save all batch quantities.', 'error');
+        } finally {
+          if (btnSaveTop) btnSaveTop.disabled = false;
+          btnSaveBottom.disabled = false;
+        }
+      }
+
+      if (btnSaveTop) btnSaveTop.addEventListener('click', handleSaveAllQuantities);
+      btnSaveBottom.addEventListener('click', handleSaveAllQuantities);
+
+      // Initial load of Cycle 1 recipes
+      await loadCycleRecipes();
+    });
+  </script>
+</body>
+</html>
