@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Orders — CLS Airline Supplies LTD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/cls-logo.svg">
+  <script>
+    (function() {
+      var savedTheme = localStorage.getItem('cls_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+  <style>
+    /* ==========================================================================
+       CLEAN, NEAT & PLAIN EXCEL SPREADSHEET VIEW (NO BOXES, NO ICONS, PLAIN TEXT)
+       ========================================================================== */
+
+    .orders-toolbar {
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border-medium, #cbd5e1);
+      border-radius: 8px;
+      padding: 0.85rem 1.15rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+    }
+
+    .toolbar-left,
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .date-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .date-input {
+      height: 36px;
+      border: 1px solid var(--border-medium);
+      border-radius: 6px;
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      padding: 0 0.65rem;
+      font-size: 13.5px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .date-pill-btn {
+      height: 36px;
+      padding: 0 0.85rem;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border-medium);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .date-pill-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--text-primary);
+    }
+
+    .date-pill-btn.active {
+      background: var(--text-primary);
+      color: var(--bg-main);
+      border-color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .branch-select {
+      height: 36px;
+      border: 1px solid var(--border-medium);
+      border-radius: 6px;
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      padding: 0 0.65rem;
+      font-size: 13px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .search-input {
+      height: 36px;
+      min-width: 220px;
+      border: 1px solid var(--border-medium);
+      border-radius: 6px;
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      padding: 0 0.75rem;
+      font-size: 13px;
+      outline: none;
+    }
+
+    /* Plain Text Status Bar */
+    .orders-info-bar {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      padding: 0.25rem 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .orders-info-bar span strong {
+      color: var(--text-primary);
+    }
+
+    /* Authentic Plain Excel Spreadsheet Table */
+    .excel-table-scroll-wrap {
+      border: 1px solid var(--border-medium);
+      border-radius: 6px;
+      overflow-x: auto;
+      background: var(--bg-card);
+    }
+
+    .excel-table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      font-family: inherit;
+      color: var(--text-primary);
+    }
+
+    .excel-table th {
+      background: var(--bg-subtle) !important;
+      color: var(--text-primary) !important;
+      font-weight: 700 !important;
+      font-size: 12.5px !important;
+      letter-spacing: 0.02em;
+      border: 1px solid var(--border-medium) !important;
+      padding: 8px 10px !important;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .excel-table td {
+      border: 1px solid var(--border-light) !important;
+      padding: 7px 10px !important;
+      color: var(--text-primary);
+      vertical-align: middle;
+      height: 36px;
+      box-sizing: border-box;
+      white-space: nowrap;
+    }
+
+    .excel-table tbody tr:hover td {
+      background: var(--bg-subtle) !important;
+    }
+
+    /* Section Banner Rows (Plain Text, Subtle Separation, No Icons, No Subtitles) */
+    .excel-section-banner-row td {
+      background: var(--bg-subtle) !important;
+      color: var(--text-primary) !important;
+      font-weight: 800 !important;
+      font-size: 13px !important;
+      letter-spacing: 0.04em;
+      padding: 8px 10px !important;
+      border-top: 2px solid var(--border-medium) !important;
+      border-bottom: 2px solid var(--border-medium) !important;
+    }
+
+    /* Plain Text Alignments */
+    .cell-num {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .cell-qty {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .cell-center {
+      text-align: center;
+    }
+
+    /* Unavailable Ticked Row Highlight (Turns Row into Red Color) */
+    .excel-table tbody tr.row-unavailable td {
+      background-color: #fee2e2 !important;
+      color: #991b1b !important;
+      border-color: #fca5a5 !important;
+    }
+
+    .excel-table tbody tr.row-unavailable td.cell-num {
+      color: #b91c1c !important;
+      font-weight: 700;
+    }
+
+    .excel-table tbody tr.row-unavailable td.cell-qty {
+      color: #991b1b !important;
+      font-weight: 700;
+    }
+
+    .excel-table tbody tr.row-unavailable:hover td {
+      background-color: #fecaca !important;
+    }
+
+    /* Dark Mode adaptation for red row */
+    [data-theme="dark"] .excel-table tbody tr.row-unavailable td {
+      background-color: rgba(185, 28, 28, 0.28) !important;
+      color: #fecaca !important;
+      border-color: rgba(239, 68, 68, 0.45) !important;
+    }
+
+    [data-theme="dark"] .excel-table tbody tr.row-unavailable td.cell-num {
+      color: #f87171 !important;
+      font-weight: 700;
+    }
+
+    [data-theme="dark"] .excel-table tbody tr.row-unavailable td.cell-qty {
+      color: #fecaca !important;
+    }
+
+    [data-theme="dark"] .excel-table tbody tr.row-unavailable:hover td {
+      background-color: rgba(185, 28, 28, 0.4) !important;
+    }
+
+    /* Touch & Click Friendly Checkbox Cell */
+    .cell-unavailable-toggle {
+      text-align: center;
+      padding: 0 !important;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .unavailable-checkbox-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      padding: 6px 4px;
+      box-sizing: border-box;
+    }
+
+    .unavailable-checkbox {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #dc2626;
+      margin: 0;
+    }
+
+    .unavailable-label-text {
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    /* Empty state */
+    .empty-state-notice {
+      padding: 2.5rem 1rem;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Bar -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="dashboard.html" class="brand-wrapper">
+        <img src="assets/cls-logo.svg" alt="CLS Airline Supplies LTD" class="brand-logo-img">
+        <div class="brand-info">
+          <h1>CLS Airline Supplies</h1>
+          <span>Operations Traceability</span>
+        </div>
+      </a>
+
+      <div class="user-nav-section">
+        <button id="theme-slide-btn" class="theme-slide-btn" type="button" role="switch" aria-checked="true" aria-label="Toggle Theme">
+          <span class="theme-slide-text theme-text-light">Light</span>
+          <span class="theme-slide-track">
+            <span class="theme-slide-thumb"></span>
+          </span>
+          <span class="theme-slide-text theme-text-dark">Dark</span>
+        </button>
+
+        <div class="user-status-pill">
+          <div class="user-avatar" id="header-avatar">OP</div>
+          <span class="user-fullname" id="header-username">Operator</span>
+          <span class="area-badge" id="header-area">London</span>
+        </div>
+
+        <button id="btn-logout" class="btn-nav-logout" type="button" title="End Session">
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Two-Panel Navigator Architecture -->
+  <div class="app-two-panel-layout">
+
+    <!-- Panel 1: Sidebar Navigator -->
+    <aside class="app-sidebar-panel">
+      <div class="sidebar-heading">Operations</div>
+      <a href="dashboard.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="9"></rect>
+          <rect x="14" y="3" width="7" height="5"></rect>
+          <rect x="14" y="12" width="7" height="9"></rect>
+          <rect x="3" y="16" width="7" height="5"></rect>
+        </svg>
+        <span>Overview</span>
+      </a>
+      <a href="goods-in.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        </svg>
+        <span>Goods In</span>
+      </a>
+      <a href="storage.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+          <line x1="3" y1="16" x2="21" y2="16"></line>
+          <line x1="10" y1="4" x2="10" y2="22"></line>
+        </svg>
+        <span>Storage</span>
+      </a>
+      <a href="cooking.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v3"></path>
+          <path d="M8 3v2"></path>
+          <path d="M16 3v2"></path>
+          <path d="M3 11h18"></path>
+          <path d="M4 11v6a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4v-6"></path>
+        </svg>
+        <span>Cooking</span>
+      </a>
+      <a href="blasting.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="2" x2="12" y2="22"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+          <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+          <polyline points="9 4 12 2 15 4"></polyline>
+          <polyline points="9 20 12 22 15 20"></polyline>
+          <polyline points="4 9 2 12 4 15"></polyline>
+          <polyline points="20 9 22 12 20 15"></polyline>
+        </svg>
+        <span>Blasting</span>
+      </a>
+      <a href="packing.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <span>Packing</span>
+      </a>
+      <a href="temperature.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+        </svg>
+        <span>Daily Temp</span>
+      </a>
+      <a href="site-orders.html" class="website-nav-btn active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span>Site Order</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <p>Powered by NEXTGEN Software Intelligence</p>
+        <p>Version v1.0.1 | CLS Traceability</p>
+      </div>
+    </aside>
+
+    <!-- Panel 2: Main Content Workspace -->
+    <main class="app-main-panel">
+      <div class="page-title-bar">
+        <div>
+          <h2>Site Orders</h2>
+          <p style="font-size: 13px; color: var(--text-muted); margin-top: 0.2rem;">
+            Today's branch orders in clean spreadsheet view
+          </p>
+        </div>
+        <div class="page-title-actions">
+          <a href="dashboard.html" class="btn-back-dashboard">Dashboard</a>
+        </div>
+      </div>
+
+      <!-- Clean Plain Toolbar -->
+      <section class="orders-toolbar">
+        <div class="toolbar-left">
+          <span class="date-label">Delivery Date:</span>
+          <input type="date" id="order-date-picker" class="date-input">
+
+          <button type="button" class="date-pill-btn active" id="btn-date-today">Today</button>
+          <button type="button" class="date-pill-btn" id="btn-date-tomorrow">Tomorrow</button>
+          <button type="button" class="date-pill-btn" id="btn-date-yesterday">Yesterday</button>
+          <button type="button" class="date-pill-btn" id="btn-date-all">All Dates</button>
+
+          <select id="site-filter" class="branch-select">
+            <option value="ALL">All Branches (Harrow & Pinner)</option>
+            <option value="Harrow">Harrow Branch</option>
+            <option value="Pinner">Pinner Branch</option>
+          </select>
+        </div>
+
+        <div class="toolbar-right">
+          <input type="text" id="order-search" class="search-input" placeholder="Search product, order, sender...">
+        </div>
+      </section>
+
+      <!-- Plain Text Information Bar -->
+      <div class="orders-info-bar">
+        <span>Branches: <strong id="info-branch-name">All (Harrow & Pinner)</strong></span>
+        <span>Date: <strong id="info-active-date">Today</strong></span>
+        <span>Orders: <strong id="info-orders-count">0</strong></span>
+        <span>Total Items: <strong id="info-total-items">0</strong></span>
+        <span>Kitchen Items: <strong id="info-kitchen-items">0</strong></span>
+        <span>Packing Items: <strong id="info-packing-items">0</strong></span>
+        <span>Not Available: <strong id="info-unavailable-items">0</strong></span>
+      </div>
+
+      <!-- Plain Excel Spreadsheet Table -->
+      <div class="excel-table-scroll-wrap">
+        <table class="excel-table" id="orders-excel-table">
+          <thead>
+            <tr>
+              <th style="width: 45px; text-align: center;">#</th>
+              <th style="width: 110px; text-align: center;">Not Available</th>
+              <th style="width: 100px;">Area</th>
+              <th style="width: 150px;">Category</th>
+              <th style="min-width: 260px;">Product Name</th>
+              <th style="width: 90px; text-align: right;">Order Qty</th>
+              <th style="width: 100px;">Unit</th>
+              <th style="width: 90px; text-align: center;">Send Qty</th>
+              <th style="width: 160px;">Order ID</th>
+              <th style="width: 100px;">Branch</th>
+              <th style="width: 110px;">Delivery Date</th>
+              <th style="width: 150px;">Ordered By</th>
+              <th style="width: 95px; text-align: center;">Status</th>
+            </tr>
+          </thead>
+          <tbody id="orders-excel-tbody">
+            <tr>
+              <td colspan="13" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+                Loading orders...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="empty-state-wrap" class="empty-state-notice" style="display: none;">
+        No orders found for this date.
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    (function() {
+      // Helper: alphanumeric normalization for reliable product matching
+      function normStr(str) {
+        return String(str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      }
+
+      // Official Master Product-to-Location Specification (from CLS Master Database PDF)
+      const PRODUCT_LOCATION_MASTER = {
+        // --- 1. Alcohol (ALL Packing) ---
+        "lionlager330ml": "Packing",
+        "lionlager625ml": "Packing",
+        "lionstout": "Packing",
+        "oldarack": "Packing",
+
+        // --- 2. Bun & Short Eat ---
+        "buttercake": "Kitchen",
+        "chickenroll": "Kitchen",
+        "chocolatfudgecake": "Packing",
+        "chocolatefudgecake": "Packing",
+        "cinnamonswirlcheesecake": "Packing",
+        "dhallvada": "Kitchen",
+        "eggfishtrangle": "Kitchen",
+        "eggfishtriangle": "Kitchen",
+        "fishcutlet": "Packing",
+        "fishpatties": "Packing",
+        "fishrotti": "Kitchen",
+        "fishrotty": "Kitchen",
+        "meduvada": "Kitchen",
+        "minichickenrolls": "Kitchen",
+        "minivegrolls": "Kitchen",
+        "muttonroll": "Kitchen",
+        "muttonrotti": "Kitchen",
+        "muttonrotty": "Kitchen",
+        "tiramisu": "Packing",
+        "vegancaramelisedbiscuitcake": "Packing",
+        "vegetablerotti": "Kitchen",
+        "vegetablerotty": "Kitchen",
+        "vegipatties": "Packing",
+        "vegepatties": "Packing",
+        "vegiroll": "Kitchen",
+        "watalappan": "Packing",
+
+        // --- 3. Chilled & Chilled Food ---
+        "gratedcheese": "Packing",
+        "anchorbutter": "Packing",
+        "butterpotion": "Packing",
+        "greekyoghurt": "Kitchen",
+
+        // --- 4. Cleaning ---
+        "blackbinbagshdl": "Packing",
+        "bluefoodglovesl": "Packing",
+        "blueroll": "Packing",
+        "cleaningsanitiser5l": "Packing",
+        "dishwasherdetergent": "Kitchen",
+        "dishwashersalt": "Kitchen",
+        "floorcleanerliquid": "Kitchen",
+        "glasswasherdetergent": "Kitchen",
+        "machinerinseaid": "Kitchen",
+        "metalsquirrelbrush": "Kitchen",
+        "powderfreebluevinylglovel": "Kitchen",
+        "toilettissues": "Packing",
+        "washingupliquid": "Kitchen",
+        "yellowglovesl": "Kitchen",
+
+        // --- 5. Container & Containers ---
+        "campinggascnister": "Kitchen",
+        "chafingdishset": "Kitchen",
+        "chafingfuel": "Kitchen",
+        "gasssilindergreen": "Kitchen",
+        "gasssilinderred": "Kitchen",
+        "oilpaperforpastrytray": "Kitchen",
+
+        // --- 6. Cooked Product ---
+        "achcharu": "Kitchen",
+        "batumoju": "Packing",
+        "biryanirice": "Kitchen",
+        "chickencurry": "Packing",
+        "chillipaste": "Packing",
+        "devilledsauce": "Kitchen",
+        "fishabbulthiyal": "Packing",
+        "fishcurry": "Packing",
+        "moju": "Packing",
+        "muttoncurry": "Packing",
+        "poloscurry": "Packing",
+        "roastchicken": "Packing",
+        "roastedfish": "Packing",
+        "seenisambol": "Packing",
+        "whiterice": "Packing",
+
+        // --- 7. Drink (ALL Packing) ---
+        "cokeoriginal": "Packing",
+        "cokezero": "Packing",
+        "creamsada": "Packing",
+        "creamsoda": "Packing",
+        "fanta": "Packing",
+        "gingerbeer": "Packing",
+        "icecoffeebottles": "Packing",
+        "liptoniceteamango": "Packing",
+        "lycheejuice": "Packing",
+        "mangojuice": "Packing",
+        "necto": "Packing",
+        "redbulloriginal": "Packing",
+        "roselemonade": "Packing",
+        "sprite": "Packing",
+        "water": "Packing",
+
+        // --- 8. Dry Food and Spices ---
+        "chilliflex": "Packing",
+        "chocalatesauce": "Packing",
+        "chocolatesauce": "Packing",
+        "cinammoncake": "Packing",
+        "cinnamoncake": "Packing",
+        "garzinia": "Packing",
+        "stararniese": "Packing",
+
+        // --- 9. Frozen Food & Frozen Foods ---
+        "anchovies": "Kitchen",
+        "casawamogo": "Kitchen",
+        "cheasecake": "Packing",
+        "cheesecake": "Packing",
+        "chips": "Packing",
+        "chocalatemousse": "Packing",
+        "chocolatemousse": "Packing",
+        "chocolatefudgecake": "Packing",
+        "frozencoconut": "Kitchen",
+        "kingprawns2125": "Kitchen",
+        "koththu": "Kitchen",
+        "koththulongslices": "Kitchen",
+        "minichocalatedessert": "Packing",
+        "minichocolatedessert": "Packing",
+        "mixvegitable": "Kitchen",
+        "mixvegetable": "Kitchen",
+        "greenbeans": "Kitchen",
+        "okra": "Kitchen",
+        "prawns5070": "Packing",
+        "spinach": "Kitchen",
+        "squid": "Packing",
+        "tuna": "Kitchen",
+
+        // --- 10. Lamprais (ALL Packing) ---
+        "chickenlamprais": "Packing",
+        "fishlamprais": "Packing",
+        "mixlamprais": "Packing",
+        "muttonlamprais": "Packing",
+        "poloslamprais": "Packing",
+
+        // --- 11. Meat (ALL Kitchen) ---
+        "chickenthigh": "Kitchen",
+        "lamb": "Kitchen"
+      };
+
+      function getItemArea(categoryName, productName) {
+        const normProd = normStr(productName);
+
+        // 1. Exact lookup from Master Product Specification
+        if (PRODUCT_LOCATION_MASTER[normProd]) {
+          return PRODUCT_LOCATION_MASTER[normProd] === 'Kitchen' ? 'Kitchen Area' : 'Packing Area';
+        }
+
+        // 2. Substring match in Master Product Specification
+        for (const [key, loc] of Object.entries(PRODUCT_LOCATION_MASTER)) {
+          if (normProd.length >= 4 && (normProd.includes(key) || key.includes(normProd))) {
+            return loc === 'Kitchen' ? 'Kitchen Area' : 'Packing Area';
+          }
+        }
+
+        // 3. Category-level defaults based on official PDF specification
+        const normCat = String(categoryName || '').trim().toLowerCase();
+
+        if (normCat.includes('alcohol') ||
+            normCat.includes('drink') ||
+            normCat.includes('packaging') ||
+            normCat.includes('container') ||
+            normCat.includes('lamprais')) {
+          return 'Packing Area';
+        }
+
+        if (normCat.includes('meat') ||
+            normCat.includes('prep vegetable') ||
+            normCat.includes('vegetable') ||
+            normCat.includes('fruit') ||
+            normCat.includes('dry food') ||
+            normCat.includes('spices')) {
+          return 'Kitchen Area';
+        }
+
+        return 'Kitchen Area';
+      }
+
+      // State
+      let allOrders = [];
+      let selectedDate = '';
+
+      // DOM Elements
+      const datePicker = document.getElementById('order-date-picker');
+      const siteFilter = document.getElementById('site-filter');
+      const searchInput = document.getElementById('order-search');
+
+      const btnToday = document.getElementById('btn-date-today');
+      const btnTomorrow = document.getElementById('btn-date-tomorrow');
+      const btnYesterday = document.getElementById('btn-date-yesterday');
+      const btnAllDates = document.getElementById('btn-date-all');
+
+      const tbody = document.getElementById('orders-excel-tbody');
+      const emptyStateWrap = document.getElementById('empty-state-wrap');
+
+      // Plain Info Bar Elements
+      const infoBranch = document.getElementById('info-branch-name');
+      const infoDate = document.getElementById('info-active-date');
+      const infoOrders = document.getElementById('info-orders-count');
+      const infoTotal = document.getElementById('info-total-items');
+      const infoKitchen = document.getElementById('info-kitchen-items');
+      const infoPacking = document.getElementById('info-packing-items');
+      const infoUnavailable = document.getElementById('info-unavailable-items');
+
+      // Persistent Registry for Not Available items (saved across sessions and next days)
+      const UNAVAILABLE_STORAGE_KEY = 'cls_site_orders_unavailable_registry';
+
+      function getUnavailableRegistry() {
+        try {
+          const raw = localStorage.getItem(UNAVAILABLE_STORAGE_KEY);
+          return raw ? JSON.parse(raw) : {};
+        } catch (e) {
+          console.warn('Failed to parse unavailable registry from localStorage:', e);
+          return {};
+        }
+      }
+
+      function saveUnavailableRegistry(registry) {
+        try {
+          localStorage.setItem(UNAVAILABLE_STORAGE_KEY, JSON.stringify(registry));
+        } catch (e) {
+          console.warn('Failed to save unavailable registry to localStorage:', e);
+        }
+      }
+
+      function getRowKey(r) {
+        const cleanName = normStr(r.name);
+        if (r.orderId && r.orderId !== '—' && r.orderId !== 'ORDER') {
+          return `${r.orderId}___${cleanName}`;
+        }
+        return `${r.site || 'SITE'}___${r.deliveryDate || 'DATE'}___${cleanName}`;
+      }
+
+      function isRowUnavailable(r) {
+        const reg = getUnavailableRegistry();
+        const key = getRowKey(r);
+        return Boolean(reg[key]);
+      }
+
+      function toggleRowUnavailable(r, isUnavailable) {
+        const reg = getUnavailableRegistry();
+        const key = getRowKey(r);
+        if (isUnavailable) {
+          reg[key] = {
+            orderId: r.orderId,
+            productName: r.name,
+            site: r.site,
+            deliveryDate: r.deliveryDate,
+            markedAt: new Date().toISOString(),
+            unavailable: true
+          };
+        } else {
+          delete reg[key];
+        }
+        saveUnavailableRegistry(reg);
+      }
+
+      function updateUnavailableCounter() {
+        if (!infoUnavailable) return;
+        const totalUnavailable = tbody.querySelectorAll('tr.row-unavailable').length;
+        infoUnavailable.textContent = totalUnavailable;
+        if (totalUnavailable > 0) {
+          infoUnavailable.style.color = '#dc2626';
+          infoUnavailable.style.fontWeight = '800';
+        } else {
+          infoUnavailable.style.color = 'inherit';
+          infoUnavailable.style.fontWeight = '600';
+        }
+      }
+
+      function formatYMD(date) {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      }
+
+      function formatDisplayDate(dateStr) {
+        if (!dateStr) return '';
+        try {
+          const parts = dateStr.split('-');
+          if (parts.length === 3) {
+            const d = new Date(parts[0], parseInt(parts[1], 10) - 1, parts[2]);
+            return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+          }
+          return dateStr;
+        } catch (e) {
+          return dateStr;
+        }
+      }
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', async () => {
+        const session = CLS_Auth.requireAuth();
+        if (!session) return;
+
+        // Populate User Header
+        const avatarEl = document.getElementById('header-avatar');
+        if (avatarEl && session.user.username) {
+          avatarEl.textContent = session.user.username.slice(0, 2).toUpperCase();
+        }
+        const userEl = document.getElementById('header-username');
+        if (userEl && session.user.fullName) {
+          userEl.textContent = session.user.fullName;
+        }
+        const areaEl = document.getElementById('header-area');
+        if (areaEl && session.user.area) {
+          areaEl.textContent = session.user.area;
+        }
+        const logoutBtn = document.getElementById('btn-logout');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            CLS_Auth.logout();
+          });
+        }
+
+        // Default Date to Today
+        selectedDate = formatYMD(new Date());
+        datePicker.value = selectedDate;
+
+        bindEvents();
+        await loadOrders();
+      });
+
+      function bindEvents() {
+        datePicker.addEventListener('change', () => {
+          selectedDate = datePicker.value;
+          updateDateButtons();
+          renderExcelTable();
+        });
+
+        btnToday.addEventListener('click', () => {
+          selectedDate = formatYMD(new Date());
+          datePicker.value = selectedDate;
+          updateDateButtons();
+          renderExcelTable();
+        });
+
+        btnTomorrow.addEventListener('click', () => {
+          const d = new Date(); d.setDate(d.getDate() + 1);
+          selectedDate = formatYMD(d);
+          datePicker.value = selectedDate;
+          updateDateButtons();
+          renderExcelTable();
+        });
+
+        btnYesterday.addEventListener('click', () => {
+          const d = new Date(); d.setDate(d.getDate() - 1);
+          selectedDate = formatYMD(d);
+          datePicker.value = selectedDate;
+          updateDateButtons();
+          renderExcelTable();
+        });
+
+        btnAllDates.addEventListener('click', () => {
+          selectedDate = 'ALL';
+          datePicker.value = '';
+          updateDateButtons();
+          renderExcelTable();
+        });
+
+        siteFilter.addEventListener('change', renderExcelTable);
+        searchInput.addEventListener('input', renderExcelTable);
+      }
+
+      function updateDateButtons() {
+        const todayStr = formatYMD(new Date());
+        const tom = new Date(); tom.setDate(tom.getDate() + 1);
+        const tomStr = formatYMD(tom);
+        const yest = new Date(); yest.setDate(yest.getDate() - 1);
+        const yestStr = formatYMD(yest);
+
+        btnToday.classList.toggle('active', selectedDate === todayStr);
+        btnTomorrow.classList.toggle('active', selectedDate === tomStr);
+        btnYesterday.classList.toggle('active', selectedDate === yestStr);
+        btnAllDates.classList.toggle('active', selectedDate === 'ALL');
+      }
+
+      async function loadOrders() {
+        CLS_Common.showLoader('Loading Site Orders', 'Fetching orders across Harrow & Pinner branches...');
+        try {
+          // Explicitly query both branches with site: 'ALL'
+          const res = await CLS_API.getSiteOrders({ site: 'ALL' });
+          CLS_Common.hideLoader();
+
+          if (res && res.success && Array.isArray(res.orders)) {
+            allOrders = res.orders;
+            populateSiteOptions();
+            renderExcelTable();
+          } else {
+            CLS_Common.showToast('Could not load site orders from cloud server.', 'error');
+          }
+        } catch (err) {
+          CLS_Common.hideLoader();
+          console.error('loadOrders error:', err);
+          CLS_Common.showToast('Network error loading orders.', 'error');
+        }
+      }
+
+      function populateSiteOptions() {
+        // Guarantee both database branches (Harrow and Pinner) are permanently linked
+        const defaultBranches = ['Harrow', 'Pinner'];
+        const sites = new Set(defaultBranches);
+        allOrders.forEach(o => {
+          if (o.site) {
+            const s = String(o.site).trim();
+            const matched = Array.from(sites).find(b => b.toLowerCase() === s.toLowerCase());
+            if (!matched && s) sites.add(s);
+          }
+        });
+
+        const currentVal = siteFilter.value || 'ALL';
+        siteFilter.innerHTML = '<option value="ALL">All Branches (Harrow & Pinner)</option>';
+        Array.from(sites).sort().forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s;
+          opt.textContent = `${s} Branch`;
+          siteFilter.appendChild(opt);
+        });
+
+        if (Array.from(siteFilter.options).some(o => o.value === currentVal)) {
+          siteFilter.value = currentVal;
+        } else {
+          siteFilter.value = 'ALL';
+        }
+      }
+
+      function renderExcelTable() {
+        const selectedSite = siteFilter.value;
+        const query = (searchInput.value || '').trim().toLowerCase();
+
+        // 1. Filter Orders by Date and Branch
+        const matchedOrders = allOrders.filter(order => {
+          if (selectedDate !== 'ALL' && order.deliveryDate !== selectedDate) {
+            return false;
+          }
+          if (selectedSite !== 'ALL') {
+            const orderSite = String(order.site || '').trim().toLowerCase();
+            if (orderSite !== selectedSite.toLowerCase()) {
+              return false;
+            }
+          }
+          return true;
+        });
+
+        // Flatten all items into flat spreadsheet rows
+        const flatRows = [];
+        matchedOrders.forEach(order => {
+          (order.items || []).forEach((item, itemIdx) => {
+            const area = getItemArea(item.category, item.name);
+            const rowData = {
+              itemIdx: itemIdx,
+              orderId: order.id || 'ORDER',
+              site: order.site || '—',
+              deliveryDate: order.deliveryDate || '—',
+              senderName: order.senderName || '—',
+              status: order.status || 'Confirmed',
+              area: area,
+              category: item.category || 'General',
+              name: item.name || 'Unnamed Item',
+              quantity: item.quantity !== undefined ? item.quantity : 0,
+              unit: item.unit || 'Units',
+              sendQty: item.clsSendQty !== undefined && item.clsSendQty !== "" ? item.clsSendQty : (item.clsSendWeight || '—')
+            };
+            rowData.rowKey = getRowKey(rowData);
+            flatRows.push(rowData);
+          });
+        });
+
+        // Update Plain Info Bar
+        if (infoBranch) {
+          infoBranch.textContent = selectedSite === 'ALL' ? 'All (Harrow & Pinner)' : `${selectedSite} Branch`;
+        }
+        const todayStr = formatYMD(new Date());
+        infoDate.textContent = selectedDate === 'ALL' ? 'All Dates' : (selectedDate === todayStr ? 'Today' : formatDisplayDate(selectedDate));
+        infoOrders.textContent = matchedOrders.length;
+        infoTotal.textContent = flatRows.length;
+
+        const kitchenCount = flatRows.filter(r => r.area === 'Kitchen Area').length;
+        const packingCount = flatRows.filter(r => r.area === 'Packing Area').length;
+        infoKitchen.textContent = kitchenCount;
+        infoPacking.textContent = packingCount;
+
+        // Apply Search Filter
+        let displayRows = flatRows;
+        if (query.length > 0) {
+          displayRows = displayRows.filter(r => {
+            const isUnavail = isRowUnavailable(r);
+            return (
+              r.name.toLowerCase().includes(query) ||
+              r.category.toLowerCase().includes(query) ||
+              r.orderId.toLowerCase().includes(query) ||
+              r.senderName.toLowerCase().includes(query) ||
+              r.site.toLowerCase().includes(query) ||
+              (isUnavail && (query === 'unavailable' || query === 'not available'))
+            );
+          });
+        }
+
+        // Render Table or Empty Notice
+        if (flatRows.length === 0 || displayRows.length === 0) {
+          tbody.innerHTML = '';
+          emptyStateWrap.style.display = 'block';
+          if (selectedSite !== 'ALL') {
+            emptyStateWrap.textContent = `No orders found for ${selectedSite} Branch on this date.`;
+          } else {
+            emptyStateWrap.textContent = 'No orders found for this date across Harrow & Pinner branches.';
+          }
+          updateUnavailableCounter();
+          return;
+        }
+
+        emptyStateWrap.style.display = 'none';
+        tbody.innerHTML = '';
+
+        const kitchenRows = displayRows.filter(r => r.area === 'Kitchen Area');
+        const packingRows = displayRows.filter(r => r.area === 'Packing Area');
+
+        let rowNum = 1;
+
+        // 1. Kitchen Area Section (Plain text, no icons, no subtitles)
+        if (kitchenRows.length > 0) {
+          const banner = document.createElement('tr');
+          banner.className = 'excel-section-banner-row';
+          banner.innerHTML = `<td colspan="13">Kitchen Area</td>`;
+          tbody.appendChild(banner);
+
+          kitchenRows.forEach(r => {
+            tbody.appendChild(createExcelRow(r, rowNum++));
+          });
+        }
+
+        // 2. Packing Area Section (Plain text, no icons, no subtitles)
+        if (packingRows.length > 0) {
+          const banner = document.createElement('tr');
+          banner.className = 'excel-section-banner-row';
+          banner.innerHTML = `<td colspan="13">Packing Area</td>`;
+          tbody.appendChild(banner);
+
+          packingRows.forEach(r => {
+            tbody.appendChild(createExcelRow(r, rowNum++));
+          });
+        }
+
+        updateUnavailableCounter();
+      }
+
+      function createExcelRow(r, rowNumber) {
+        const tr = document.createElement('tr');
+        const isKitchen = r.area === 'Kitchen Area';
+        const isUnavailable = isRowUnavailable(r);
+
+        if (isUnavailable) {
+          tr.className = 'row-unavailable';
+        }
+
+        tr.innerHTML = `
+          <td class="cell-num">${rowNumber}</td>
+          <td class="cell-unavailable-toggle" title="Touch or click to mark Not Available">
+            <label class="unavailable-checkbox-label">
+              <input type="checkbox" class="unavailable-checkbox" ${isUnavailable ? 'checked' : ''}>
+              <span class="unavailable-label-text" style="color: ${isUnavailable ? '#b91c1c' : 'var(--text-muted)'};">${isUnavailable ? 'Not Available' : 'Available'}</span>
+            </label>
+          </td>
+          <td>${isKitchen ? 'Kitchen' : 'Packing'}</td>
+          <td>${r.category}</td>
+          <td>${r.name}</td>
+          <td class="cell-qty">${r.quantity}</td>
+          <td>${r.unit}</td>
+          <td class="cell-center">${r.sendQty}</td>
+          <td>${r.orderId}</td>
+          <td>${r.site}</td>
+          <td>${formatDisplayDate(r.deliveryDate)}</td>
+          <td>${r.senderName}</td>
+          <td class="cell-center">${r.status}</td>
+        `;
+
+        const checkbox = tr.querySelector('.unavailable-checkbox');
+        const labelText = tr.querySelector('.unavailable-label-text');
+
+        checkbox.addEventListener('change', () => {
+          const newState = checkbox.checked;
+          toggleRowUnavailable(r, newState);
+          if (newState) {
+            tr.classList.add('row-unavailable');
+            labelText.textContent = 'Not Available';
+            labelText.style.color = '#b91c1c';
+          } else {
+            tr.classList.remove('row-unavailable');
+            labelText.textContent = 'Available';
+            labelText.style.color = 'var(--text-muted)';
+          }
+          updateUnavailableCounter();
+        });
+
+        return tr;
+      }
+
+    })();
+  </script>
+</body>
+</html>
