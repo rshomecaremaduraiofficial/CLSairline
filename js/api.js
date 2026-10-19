@@ -70,7 +70,12 @@ const CLS_MockStore = {
       { itemId: 'PRD-407', category: 'DAIRY PRODUCTS', productName: 'Fresh Double Cream 48%', defaultUnit: 'Litre', active: 'Yes' },
       { itemId: 'PRD-408', category: 'DAIRY PRODUCTS', productName: 'Authentic Greek Style Yogurt', defaultUnit: 'KG', active: 'Yes' },
       { itemId: 'PRD-409', category: 'DAIRY PRODUCTS', productName: 'Cultured Buttermilk Grade A', defaultUnit: 'Litre', active: 'Yes' },
-      { itemId: 'PRD-410', category: 'DAIRY PRODUCTS', productName: 'Fresh Brioche Burger Buns', defaultUnit: 'Each', active: 'Yes' }
+      { itemId: 'PRD-410', category: 'DAIRY PRODUCTS', productName: 'Fresh Brioche Burger Buns', defaultUnit: 'Each', active: 'Yes' },
+      { itemId: 'PRD-501', category: 'FROZEN', productName: 'Frozen Green Peas', defaultUnit: 'KG', active: 'Yes' },
+      { itemId: 'PRD-502', category: 'FROZEN', productName: 'Frozen Sweetcorn', defaultUnit: 'KG', active: 'Yes' },
+      { itemId: 'PRD-503', category: 'FROZEN', productName: 'Frozen Mixed Vegetables', defaultUnit: 'KG', active: 'Yes' },
+      { itemId: 'PRD-504', category: 'FROZEN', productName: 'Frozen Puff Pastry Sheets', defaultUnit: 'Box', active: 'Yes' },
+      { itemId: 'PRD-505', category: 'FROZEN', productName: 'Frozen French Fries', defaultUnit: 'KG', active: 'Yes' }
     ];
   },
 
@@ -434,14 +439,70 @@ const CLS_MockStore = {
 };
 
 const CLS_API = {
+  _cache: {},
+  _cacheTtlMs: 90000, // 90 seconds cache for fast tab navigation
+
+  _getCacheKey(action, payload) {
+    try {
+      return `${action}__${JSON.stringify(payload || {})}`;
+    } catch (e) {
+      return `${action}`;
+    }
+  },
+
+  _invalidateCacheForWrite(action) {
+    const act = action.toLowerCase();
+    if (act.includes('temp')) {
+      for (const k in this._cache) {
+        if (k.toLowerCase().includes('temperature')) delete this._cache[k];
+      }
+    } else if (act.includes('good') || act.includes('category')) {
+      for (const k in this._cache) {
+        if (k.includes('ProductCategories') || k.includes('StockBatches')) delete this._cache[k];
+      }
+    } else if (act.includes('cooking')) {
+      for (const k in this._cache) {
+        if (k.includes('Cooking') || k.includes('StockBatches') || k.includes('Recipe')) delete this._cache[k];
+      }
+    } else if (act.includes('blast')) {
+      for (const k in this._cache) {
+        if (k.includes('Cooking') || k.includes('Blast')) delete this._cache[k];
+      }
+    } else if (act.includes('storage') || act.includes('pack')) {
+      for (const k in this._cache) {
+        if (k.includes('StockBatches') || k.includes('Cooking') || k.includes('Packing')) delete this._cache[k];
+      }
+    }
+  },
+
   async execute(action, payload = {}) {
     // Route temperature-specific actions to dedicated TEMP_API_URL if configured
     const isTempAction = action.toLowerCase().includes('temperature') || action === 'initTemperatureSheets';
-    const targetApiUrl = (isTempAction && CLS_CONFIG.TEMP_API_URL && CLS_CONFIG.TEMP_API_URL.trim().length > 10)
-      ? CLS_CONFIG.TEMP_API_URL.trim()
-      : (CLS_CONFIG.GAS_API_URL || '').trim();
+    const isSiteOrderAction = action === 'getSiteOrders' || action === 'getOrders';
+
+    let targetApiUrl = (CLS_CONFIG.GAS_API_URL || '').trim();
+    if (isTempAction && CLS_CONFIG.TEMP_API_URL && CLS_CONFIG.TEMP_API_URL.trim().length > 10) {
+      targetApiUrl = CLS_CONFIG.TEMP_API_URL.trim();
+    } else if (isSiteOrderAction && CLS_CONFIG.SITE_ORDERS_API_URL && CLS_CONFIG.SITE_ORDERS_API_URL.trim().length > 10) {
+      targetApiUrl = CLS_CONFIG.SITE_ORDERS_API_URL.trim();
+    }
 
     const useLive = Boolean(targetApiUrl && targetApiUrl.length > 10);
+    const isReadAction = action.startsWith('get') || action === 'ping' || action === 'initDatabase';
+
+    // Invalidate relevant cache on mutations
+    if (!isReadAction) {
+      this._invalidateCacheForWrite(action);
+    }
+
+    // Check fast cache for read actions to ensure instant UI rendering
+    const cacheKey = this._getCacheKey(action, payload);
+    if (isReadAction && this._cache[cacheKey]) {
+      const entry = this._cache[cacheKey];
+      if (Date.now() - entry.time < this._cacheTtlMs) {
+        return entry.data;
+      }
+    }
 
     // If saving temperature, record locally first for instant responsiveness
     if (action === 'saveTemperature' || action === 'saveTemperatureRecord') {
@@ -453,12 +514,25 @@ const CLS_API = {
     }
 
     if (useLive) {
-      const isReadAction = action.startsWith('get') || action === 'ping' || action === 'initDatabase';
       const preferGetFirst = isTempAction || isReadAction;
+
+      const fetchWithTimeout = async (url, options = {}, timeoutMs = 6000) => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+          const response = await fetch(url, { ...options, signal: controller.signal });
+          clearTimeout(timeoutId);
+          return response;
+        } catch (err) {
+          clearTimeout(timeoutId);
+          throw err;
+        }
+      };
 
       const tryGet = async () => {
         const queryParams = new URLSearchParams();
-        queryParams.append('action', action);
+        const requestAction = (action === 'getSiteOrders') ? 'getOrders' : action;
+        queryParams.append('action', requestAction);
         if (payload && typeof payload === 'object') {
           queryParams.append('payload', JSON.stringify(payload));
           for (const [k, v] of Object.entries(payload)) {
@@ -467,10 +541,10 @@ const CLS_API = {
             }
           }
         }
-        const response = await fetch(`${targetApiUrl}?${queryParams.toString()}`, {
+        const response = await fetchWithTimeout(`${targetApiUrl}?${queryParams.toString()}`, {
           method: 'GET',
           redirect: 'follow'
-        });
+        }, 6000);
         if (response.ok) {
           const json = await response.json();
           return json;
@@ -480,12 +554,12 @@ const CLS_API = {
 
       const tryPost = async () => {
         const requestPayload = { action, ...payload };
-        const response = await fetch(targetApiUrl, {
+        const response = await fetchWithTimeout(targetApiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(requestPayload),
           redirect: 'follow'
-        });
+        }, 7000);
         if (response.ok) {
           const json = await response.json();
           return json;
@@ -519,6 +593,14 @@ const CLS_API = {
       }
 
       if (liveRes && liveRes.success) {
+        if (isSiteOrderAction && Array.isArray(liveRes.orders)) {
+          try {
+            localStorage.setItem('cls_site_orders_cache', JSON.stringify(liveRes.orders));
+          } catch (e) {}
+        }
+        if (isReadAction) {
+          this._cache[cacheKey] = { time: Date.now(), data: liveRes };
+        }
         return liveRes;
       }
 
@@ -531,7 +613,11 @@ const CLS_API = {
       throw new Error('Cloud Database Web API URL is not configured.');
     }
 
-    return this.executeMock(action, payload);
+    const mockResult = this.executeMock(action, payload);
+    if (isReadAction && mockResult) {
+      this._cache[cacheKey] = { time: Date.now(), data: mockResult };
+    }
+    return mockResult;
   },
 
   executeMock(action, payload) {
@@ -896,24 +982,33 @@ const CLS_API = {
       }
 
       case 'savePacking': {
-        const record = payload.record || payload;
-        const recordId = 'PK-' + String((data.packing || []).length + 1).padStart(5, '0');
-        const finalBatchCode = record.finalBatchCode || CLS_MockStore.getNextFinalBatchCode(record.date || record.packingDate);
-        const timestamp = new Date().toISOString();
-        const newRecord = {
-          recordId,
-          finalBatchCode,
-          ...record,
-          timestamp
-        };
+        const rawList = Array.isArray(payload) ? payload : (payload && payload.records && Array.isArray(payload.records) ? payload.records : [payload && (payload.record || payload)]);
+        const records = rawList.filter(function(r) { return r && typeof r === 'object'; });
         data.packing = data.packing || [];
-        data.packing.unshift(newRecord);
+        const timestamp = new Date().toISOString();
+        let commonBatch = '';
+
+        records.forEach((rec, idx) => {
+          const recordId = 'PK-' + String(data.packing.length + 1).padStart(5, '0');
+          const finalBatchCode = rec.finalBatchCode || CLS_MockStore.getNextFinalBatchCode(rec.date || rec.packingDate);
+          if (!commonBatch) commonBatch = finalBatchCode;
+          const newRecord = {
+            recordId,
+            finalBatchCode,
+            ...rec,
+            timestamp
+          };
+          data.packing.unshift(newRecord);
+        });
+
         CLS_MockStore.saveData(data);
         return {
           success: true,
-          recordId,
-          finalBatchCode,
-          message: `Packing dispatch recorded! Assigned Final Batch: ${finalBatchCode}`
+          count: records.length,
+          finalBatchCode: commonBatch,
+          message: records.length === 1 
+            ? `Packing dispatch recorded! Assigned Final Batch: ${commonBatch}`
+            : `Successfully saved ${records.length} packed meals with Julian Batch: ${commonBatch}`
         };
       }
 
@@ -1569,9 +1664,78 @@ const CLS_API = {
         };
       }
 
+      case 'getSiteOrders':
+      case 'getOrders': {
+        const cached = typeof localStorage !== 'undefined' ? localStorage.getItem('cls_site_orders_cache') : null;
+        if (cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              return { success: true, orders: parsed, mode: 'Cached' };
+            }
+          } catch (e) {}
+        }
+        const mockOrdersList = [
+          {
+            id: "CLS-HAR-20261016-4044",
+            site: "Harrow",
+            senderName: "Chaminda Fonseka",
+            senderEmail: "chamindafonseka@yahoo.com",
+            orderDate: "2026-10-16 21:48:05",
+            deliveryDate: "2026-10-17",
+            status: "Confirmed",
+            confirmedAt: "",
+            confirmedBy: "",
+            notes: "",
+            items: [
+              { category: "Bun & Short Eat", name: "Mutton roll", unit: "50 Each", quantity: 2, clsSendQty: 2, clsSendWeight: "" },
+              { category: "Bun & Short Eat", name: "Chicken roll", unit: "50 Each", quantity: 1, clsSendQty: 1, clsSendWeight: "" },
+              { category: "Bun & Short Eat", name: "Egg & Fish Trangle", unit: "40 Each", quantity: 2, clsSendQty: 2, clsSendWeight: "" },
+              { category: "Bun & Short Eat", name: "Butter cake", unit: "Tray", quantity: 1, clsSendQty: 1, clsSendWeight: "" },
+              { category: "Frozen Food", name: "Frozen coconut", unit: "400g pack", quantity: 5, clsSendQty: 5, clsSendWeight: "" },
+              { category: "Cooked Product", name: "Roast chicken", unit: "2 Kg", quantity: 1, clsSendQty: 1, clsSendWeight: "" }
+            ]
+          },
+          {
+            id: "CLS-PIN-20261016-5120",
+            site: "Pinner",
+            senderName: "Niroshan Perera",
+            senderEmail: "niroshan.pinner@clsairline.com",
+            orderDate: "2026-10-16 22:15:30",
+            deliveryDate: "2026-10-17",
+            status: "Confirmed",
+            confirmedAt: "",
+            confirmedBy: "",
+            notes: "",
+            items: [
+              { category: "Bun & Short Eat", name: "Vegetable Rotti", unit: "40 Each", quantity: 2, clsSendQty: 2, clsSendWeight: "" },
+              { category: "Bun & Short Eat", name: "Fish cutlet", unit: "50 Each", quantity: 3, clsSendQty: 3, clsSendWeight: "" },
+              { category: "Alcohol", name: "Lion Lager 330ml", unit: "24 Cans", quantity: 2, clsSendQty: 2, clsSendWeight: "" },
+              { category: "Cooked Product", name: "Chicken Curry", unit: "2 Kg", quantity: 2, clsSendQty: 2, clsSendWeight: "" },
+              { category: "Dry Food and Spices", name: "Basmati Rice 20kg", unit: "Bag", quantity: 1, clsSendQty: 1, clsSendWeight: "" }
+            ]
+          }
+        ];
+
+        const reqSite = payload && payload.site ? String(payload.site).trim() : 'ALL';
+        const filteredMock = (reqSite === 'ALL' || !reqSite)
+          ? mockOrdersList
+          : mockOrdersList.filter(o => o.site.toLowerCase() === reqSite.toLowerCase());
+
+        return {
+          success: true,
+          orders: filteredMock,
+          mode: 'Mock Store (Harrow & Pinner Linked)'
+        };
+      }
+
       default:
         return { success: false, error: 'Unknown action: ' + action };
     }
+  },
+
+  async getSiteOrders(options = {}) {
+    return this.execute('getSiteOrders', options);
   }
 };
 

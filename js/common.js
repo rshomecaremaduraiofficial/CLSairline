@@ -217,13 +217,19 @@ const CLS_Common = {
 
     const year = d.getFullYear();
     const yy = String(year).slice(-2);
+    const targetMonth = d.getMonth(); // 0-11
+    const targetDay = d.getDate(); // 1-31
 
-    const startOfYear = new Date(year, 0, 1);
-    const diffMs = d.getTime() - startOfYear.getTime();
-    const oneDayMs = 1000 * 60 * 60 * 24;
-    const dayOfYear = Math.floor(diffMs / oneDayMs) + 1;
+    let dayCount = 0;
+    // Count days for previous months, skipping 31st day
+    for (let m = 0; m < targetMonth; m++) {
+      const daysInMonth = new Date(year, m + 1, 0).getDate();
+      dayCount += Math.min(daysInMonth, 30);
+    }
+    // For current month, skip 31st day (so day 31 does not advance past 30)
+    dayCount += Math.min(targetDay, 30);
 
-    const julianDay = String(dayOfYear).padStart(3, '0');
+    const julianDay = String(dayCount).padStart(3, '0');
     return `${yy}${julianDay}`;
   },
 
