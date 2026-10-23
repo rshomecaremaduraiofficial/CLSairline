@@ -2444,3 +2444,90 @@ input[type="time"]::-webkit-clear-button {
   color: var(--text-primary) !important;
 }
 
+/* =====================================================================
+   Menu Cycle Selector Group & HLM Meal Button Styling
+   ===================================================================== */
+.cycle-selector-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+}
+
+.cycle-selector-group select {
+  flex: 1;
+  min-width: 0;
+}
+
+.btn-hlm-meal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 1.15rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  background: var(--bg-surface, #ffffff);
+  color: var(--text-primary, #334155);
+  border: 1.5px solid var(--border-medium, #cbd5e1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.btn-hlm-meal:hover {
+  border-color: #815854;
+  color: #815854;
+  background: rgba(129, 88, 84, 0.08);
+  transform: translateY(-1px);
+}
+
+.btn-hlm-meal.active {
+  background: #815854 !important;
+  color: #F9EBDE !important;
+  border-color: #674441 !important;
+  box-shadow: 0 3px 10px rgba(129, 88, 84, 0.35);
+}
+
+.hlm-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  background: #815854;
+  color: #F9EBDE;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+[data-theme="dark"] .btn-hlm-meal {
+  background: var(--bg-surface, #1e293b);
+  color: var(--text-primary, #f1f5f9);
+  border-color: var(--border-medium, #334155);
+}
+
+[data-theme="dark"] .btn-hlm-meal:hover {
+  border-color: #F9EBDE;
+  color: #F9EBDE;
+  background: rgba(249, 235, 222, 0.12);
+}
+
+[data-theme="dark"] .btn-hlm-meal.active {
+  background: #F9EBDE !important;
+  color: #3d2725 !important;
+  border-color: #F9EBDE !important;
+  box-shadow: 0 3px 10px rgba(249, 235, 222, 0.25);
+}
+
+[data-theme="dark"] .hlm-badge-pill {
+  background: #F9EBDE;
+  color: #3d2725;
+}
+
+
