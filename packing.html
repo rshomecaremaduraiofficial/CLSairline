@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meal Packing Traceability &amp; Batch Assignment — CLS Airline Supplies LTD</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/cls-logo.svg">
+  <script>
+    (function () {
+      var savedTheme = localStorage.getItem('cls_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+  <style>
+    /* Premium UI Styles for Single-Shot Packing Workflow */
+    .packing-session-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .session-grid-top {
+      display: grid;
+      grid-template-columns: 240px 1fr 220px;
+      gap: 1.25rem;
+      align-items: center;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1.25rem;
+    }
+
+    @media (max-width: 992px) {
+      .session-grid-top {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .julian-display-box {
+      background: linear-gradient(135deg, rgba(129, 88, 84, 0.08), rgba(129, 88, 84, 0.16));
+      border: 2px solid #815854;
+      border-radius: 10px;
+      padding: 0.75rem 1.25rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .julian-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #815854;
+      margin-bottom: 0.2rem;
+    }
+
+    .julian-val {
+      font-family: var(--font-mono);
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: #815854;
+      letter-spacing: 2px;
+      line-height: 1.1;
+    }
+
+    .julian-hint {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .session-grid-temps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Staff Roster Styling */
+    .staff-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .staff-chips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .staff-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-surface);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .staff-chip:hover {
+      border-color: #815854;
+      background: rgba(129, 88, 84, 0.05);
+    }
+
+    .staff-chip.selected {
+      background: rgba(129, 88, 84, 0.14);
+      border-color: #815854;
+      color: #815854;
+      font-weight: 700;
+    }
+
+    .staff-chip input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #815854;
+      cursor: pointer;
+    }
+
+    /* Service Filter Tabs */
+    .services-nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      overflow-x: auto;
+      padding-bottom: 0.35rem;
+    }
+
+    .service-nav-tab {
+      padding: 0.65rem 1.1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .service-nav-tab:hover {
+      border-color: #815854;
+      color: var(--text-primary);
+    }
+
+    .service-nav-tab.active {
+      background: #815854;
+      border-color: #815854;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(129, 88, 84, 0.3);
+    }
+
+    .service-nav-tab .tab-badge {
+      display: inline-block;
+      padding: 0.1rem 0.45rem;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      background: rgba(0, 0, 0, 0.15);
+      font-weight: 800;
+    }
+
+    .service-nav-tab.active .tab-badge {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Single-Shot Meals Grid */
+    .service-group-section {
+      margin-bottom: 2rem;
+    }
+
+    .service-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-left: 5px solid #815854;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .service-group-header.bc {
+      border-left-color: #815854;
+    }
+
+    .service-group-header.yc {
+      border-left-color: #0284c7;
+    }
+
+    .service-group-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .meals-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .meal-pack-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.25rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+
+    .meal-pack-card:hover {
+      border-color: #815854;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .meal-pack-card.has-portions {
+      border-color: #815854;
+      background: linear-gradient(to right, rgba(129, 88, 84, 0.02), transparent);
+    }
+
+    .meal-pack-card.saved-success {
+      border-color: #10b981;
+      background: linear-gradient(to right, rgba(16, 185, 129, 0.04), transparent);
+    }
+
+    .meal-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .meal-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.35rem;
+    }
+
+    .badge-service {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-service.bc {
+      background: rgba(129, 88, 84, 0.15);
+      color: #815854;
+      border: 1px solid rgba(129, 88, 84, 0.3);
+    }
+
+    .badge-service.yc {
+      background: rgba(2, 132, 199, 0.15);
+      color: #0284c7;
+      border: 1px solid rgba(2, 132, 199, 0.3);
+    }
+
+    .badge-code {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+
+    .badge-target-wt {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: var(--bg-surface);
+      color: var(--text-muted);
+    }
+
+    .main-product-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 0.15rem 0 0.4rem 0;
+      line-height: 1.3;
+    }
+
+    /* Sub-recipes pills */
+    .sub-recipes-box {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      margin-top: 0.4rem;
+    }
+
+    .sub-recipe-tag {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+
+    .sub-recipe-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-right: 0.2rem;
+    }
+
+    /* Meal Card Interactive Inputs Grid */
+    .meal-inputs-grid {
+      display: grid;
+      grid-template-columns: 140px 105px 105px 105px 105px 180px 135px;
+      gap: 0.75rem;
+      align-items: flex-end;
+      margin-top: 1rem;
+      padding-top: 0.85rem;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    @media (max-width: 1350px) {
+      .meal-inputs-grid {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      }
+    }
+
+    @media (max-width: 650px) {
+      .meal-inputs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-mini-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 0.25rem;
+    }
+
+    .portions-input {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #815854;
+      border: 2px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.45rem 0.65rem;
+      width: 100%;
+      height: 38px;
+      background: var(--bg-surface);
+      transition: border-color 0.2s;
+    }
+
+    .portions-input:focus {
+      border-color: #815854;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(129, 88, 84, 0.15);
+    }
+
+    .temp-input {
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.45rem 0.5rem;
+      width: 100%;
+      height: 38px;
+      background: var(--bg-surface);
+      color: var(--text-primary);
+    }
+
+    /* Quality Check Button (Strictly No HACCP label) */
+    .quality-check-btn {
+      width: 100%;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.45rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      user-select: none;
+      white-space: nowrap;
+      border: 1.5px solid var(--border-color);
+    }
+
+    .quality-check-btn.pass {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: #10b981;
+      color: #059669;
+    }
+
+    .quality-check-btn.pass:hover {
+      background: rgba(16, 185, 129, 0.22);
+    }
+
+    .quality-check-btn.fail {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: #ef4444;
+      color: #dc2626;
+    }
+
+    .quality-check-btn.fail:hover {
+      background: rgba(239, 68, 68, 0.22);
+    }
+
+    .btn-save-single {
+      background: #815854;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.55rem 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      transition: background 0.2s ease, transform 0.1s ease;
+      width: 100%;
+      height: 38px;
+    }
+
+    .btn-save-single:hover:not(:disabled) {
+      background: #6c4743;
+    }
+
+    .btn-save-single:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Sticky Bottom Actions Bar */
+    .packing-sticky-bar {
+      position: sticky;
+      bottom: 1rem;
+      z-index: 99;
+      background: var(--bg-card);
+      border: 2px solid #815854;
+      border-radius: 12px;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .packing-sticky-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    .sticky-stats-group {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .sticky-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sticky-stat-lbl {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .sticky-stat-val {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #815854;
+      font-family: var(--font-mono);
+    }
+
+    .sticky-btns-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-bulk-save {
+      background: #815854;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.2s ease, transform 0.1s ease;
+      box-shadow: 0 4px 10px rgba(129, 88, 84, 0.3);
+    }
+
+    .btn-bulk-save:hover:not(:disabled) {
+      background: #6c4743;
+      transform: translateY(-1px);
+    }
+
+    .btn-bulk-save:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-dispatch-link {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem 1.1rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-dispatch-link:hover {
+      border-color: #815854;
+      color: #815854;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Header Bar -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="dashboard.html" class="brand-wrapper">
+        <img src="assets/cls-logo.svg" alt="CLS Airline Supplies LTD" class="brand-logo-img">
+        <div class="brand-info">
+          <h1>CLS Airline Supplies</h1>
+          <span>Operations Traceability</span>
+        </div>
+      </a>
+
+      <div class="user-nav-section">
+        <button id="theme-slide-btn" class="theme-slide-btn" type="button" role="switch" aria-checked="true"
+          aria-label="Toggle Theme">
+          <span class="theme-slide-text theme-text-light">Light</span>
+          <span class="theme-slide-track">
+            <span class="theme-slide-thumb"></span>
+          </span>
+          <span class="theme-slide-text theme-text-dark">Dark</span>
+        </button>
+
+        <div class="user-status-pill">
+          <div class="user-avatar" id="header-avatar">OP</div>
+          <span class="user-fullname" id="header-username">Operator</span>
+          <span class="area-badge" id="header-area">London</span>
+        </div>
+
+        <button id="btn-logout" class="btn-nav-logout" type="button" title="End Session">
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Two-Panel Navigator Architecture -->
+  <div class="app-two-panel-layout">
+
+    <!-- Panel 1: Sidebar Navigator (Uniform Parallel Sized Buttons with Vector Icons) -->
+    <aside class="app-sidebar-panel">
+      <div class="sidebar-heading">Operations</div>
+      <a href="dashboard.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="9"></rect>
+          <rect x="14" y="3" width="7" height="5"></rect>
+          <rect x="14" y="12" width="7" height="9"></rect>
+          <rect x="3" y="16" width="7" height="5"></rect>
+        </svg>
+        <span>Overview</span>
+      </a>
+      <a href="goods-in.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        </svg>
+        <span>Goods In</span>
+      </a>
+      <a href="storage.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+          <line x1="3" y1="16" x2="21" y2="16"></line>
+          <line x1="10" y1="4" x2="10" y2="22"></line>
+        </svg>
+        <span>Storage</span>
+      </a>
+      <a href="cooking.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v3"></path>
+          <path d="M8 3v2"></path>
+          <path d="M16 3v2"></path>
+          <path d="M3 11h18"></path>
+          <path d="M4 11v6a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4v-6"></path>
+        </svg>
+        <span>Cooking</span>
+      </a>
+      <a href="blasting.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="2" x2="12" y2="22"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+          <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+          <polyline points="9 4 12 2 15 4"></polyline>
+          <polyline points="9 20 12 22 15 20"></polyline>
+          <polyline points="4 9 2 12 4 15"></polyline>
+          <polyline points="20 9 22 12 20 15"></polyline>
+        </svg>
+        <span>Blasting</span>
+      </a>
+      <a href="packing.html" class="website-nav-btn active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <span>Packing</span>
+      </a>
+      <a href="temperature.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+        </svg>
+        <span>Daily Temp</span>
+      </a>
+      <a href="site-orders.html" class="website-nav-btn">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span>Site Order</span>
+      </a>
+
+      <div class="sidebar-footer">
+        <p>Powered by NEXTGEN Software Intelligence</p>
+        <p>Version v1.0.1 | CLS Traceability</p>
+      </div>
+    </aside>
+
+    <!-- Panel 2: Main Content Workspace -->
+    <main class="app-main-panel">
+      <div class="page-title-bar">
+        <div>
+          <h2>Meal Packing &amp; Batch Traceability (Single-Shot)</h2>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- SECTION 1: PACKING SESSION SETUP BAR                     -->
+      <!-- Order: 1. Date First  2. Staff  3. Temps  4. Operator   -->
+      <!-- ======================================================== -->
+      <section class="packing-session-bar">
+        <div class="session-grid-top">
+          <!-- 1. Date Selector (First!) -->
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" for="session-pack-date" style="font-weight: 800; color: #815854;">
+              1. Packing Date (Select First)
+            </label>
+            <input type="date" id="session-pack-date" class="form-control" required
+              style="font-size: 1.05rem; font-weight: 800; border-color: #815854;">
+          </div>
+
+          <!-- Dynamic Julian Code Display -->
+          <div class="julian-display-box">
+            <span class="julian-title">Active Julian Batch Code</span>
+            <span class="julian-val" id="display-julian-code">26295</span>
+          </div>
+
+          <!-- Menu Cycle & Data Enter Person -->
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" for="session-cycle" style="font-weight: 700;">Menu Cycle</label>
+            <select id="session-cycle" class="form-control" style="font-weight: 700;">
+              <option value="Cycle 3" selected>Cycle 3</option>
+              <option value="Cycle 1">Cycle 1</option>
+              <option value="Cycle 2">Cycle 2</option>
+              <option value="Cycle 3 - HLM Meal">Cycle 3 - HLM Meal</option>
+              <option value="Custom">Custom Cycle</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 2. Staff: Who are all working -->
+        <div style="margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-color);">
+          <div class="staff-section-header">
+            <div>
+              <label class="form-label" style="font-weight: 800; margin: 0; color: var(--text-primary);">
+                2. Who are all working? (Packing Team Assigned)
+              </label>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Check all packing personnel active on the line</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <button type="button" id="btn-select-all-staff" class="btn-sm" style="background: none; border: 1px solid var(--border-color); border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.75rem; cursor: pointer;">Select All</button>
+              <button type="button" id="btn-clear-staff" class="btn-sm" style="background: none; border: 1px solid var(--border-color); border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.75rem; cursor: pointer;">Clear</button>
+              <span id="staff-count-pill" class="batch-preview-pill">3 Staff Selected</span>
+            </div>
+          </div>
+
+          <div class="staff-chips-grid" id="staff-chips-container">
+            <!-- Dynamic Staff Checkboxes -->
+          </div>
+
+          <div class="form-group" style="margin: 0;">
+            <input type="text" id="session-extra-staff" class="form-control" style="font-size: 0.85rem;"
+              placeholder="Add other staff / agency packing personnel (comma-separated)...">
+          </div>
+        </div>
+
+        <!-- 3. Small Notes & Operator -->
+        <div style="display: grid; grid-template-columns: 1fr 240px; gap: 1rem; align-items: flex-end;">
+          <div>
+            <label class="form-label" for="session-notes" style="font-weight: 800; margin-bottom: 0.35rem; color: var(--text-primary);">
+              3. Small Notes &amp; Observations (Packaging Remarks)
+            </label>
+            <input type="text" id="session-notes" class="form-control"
+              placeholder="Enter packaging shift notes (e.g. Line 1 packing, temperature verified, seal check OK)...">
+          </div>
+          <div>
+            <label class="form-label" for="session-operator" style="font-weight: 800; margin-bottom: 0.35rem; color: var(--text-primary);">
+              Data Entered By (Person Name)
+            </label>
+            <input type="text" id="session-operator" class="form-control" style="font-weight: 700;" required>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- SECTION 2: SINGLE-SHOT MEALS VIEW                        -->
+      <!-- All 4 Services: BC HBK, BC LDN, YC HBK, YC LDN          -->
+      <!-- ======================================================== -->
+      <section>
+        <!-- Filter Tabs -->
+        <div class="services-nav-tabs" id="services-nav-tabs">
+          <button type="button" class="service-nav-tab active" data-filter="all">
+            <span>All Services (14 Meals)</span>
+            <span class="tab-badge">14</span>
+          </button>
+          <button type="button" class="service-nav-tab" data-filter="BC HBK">
+            <span>BC HBK (Hot Breakfast)</span>
+            <span class="tab-badge">4</span>
+          </button>
+          <button type="button" class="service-nav-tab" data-filter="BC LDN">
+            <span>BC LDN (Lunch &amp; Dinner)</span>
+            <span class="tab-badge">4</span>
+          </button>
+          <button type="button" class="service-nav-tab" data-filter="YC HBK">
+            <span>YC HBK (Economy Breakfast)</span>
+            <span class="tab-badge">3</span>
+          </button>
+          <button type="button" class="service-nav-tab" data-filter="YC LDN">
+            <span>YC LDN (Economy Dinner)</span>
+            <span class="tab-badge">3</span>
+          </button>
+        </div>
+
+        <!-- Meals Container (Rendered via JS from PACKING_MASTER_MEALS) -->
+        <div id="meals-container">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- SECTION 3: STICKY BOTTOM ACTION BAR                      -->
+      <!-- ======================================================== -->
+      <div class="packing-sticky-bar">
+        <div class="sticky-stats-group">
+          <div class="sticky-stat-item">
+            <span class="sticky-stat-lbl">Active Julian Batch</span>
+            <span class="sticky-stat-val" id="bar-julian-code">26285</span>
+          </div>
+          <div class="sticky-stat-item">
+            <span class="sticky-stat-lbl">Total Portions to Pack</span>
+            <span class="sticky-stat-val" id="bar-total-portions">0</span>
+          </div>
+          <div class="sticky-stat-item">
+            <span class="sticky-stat-lbl">Active Meals with Portions</span>
+            <span class="sticky-stat-val" id="bar-active-meals-count">0 of 14</span>
+          </div>
+        </div>
+
+        <div class="sticky-btns-group">
+          <button type="button" id="btn-reset-all" class="btn-secondary" style="padding: 0.75rem 1rem;">
+            Clear Form
+          </button>
+          <button type="button" id="btn-save-all-meals" class="btn-bulk-save">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            <span id="btn-save-all-text">Save All Produced Meals (Batch Save)</span>
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Master Meals Data matching Cooking Requisition & Dispatched Form (CF07_MASTER_DATA)
+    const PACKING_MASTER_MEALS = [
+      // -------------------------------------------------------------------------
+      // SERVICE 1: BC HBK (Business Class Hot Breakfast)
+      // -------------------------------------------------------------------------
+      {
+        id: 'bc-hbk-1',
+        service: 'BC HBK',
+        serviceClass: 'BC',
+        choiceNum: 'Choice 01',
+        courseNum: 'Course 1',
+        recipeCode: 'C3BCHBK1',
+        mainProductName: 'Spinach omelette with Chicken sausage',
+        targetWeight: '350g',
+        recipes: [
+          'Spinach omelette 100g',
+          'Seared cherry tomato',
+          'Sauteed mushrooms',
+          'Parsley potato wedges',
+          'Chicken sausage'
+        ]
+      },
+      {
+        id: 'bc-hbk-2',
+        service: 'BC HBK',
+        serviceClass: 'BC',
+        choiceNum: 'Choice 02',
+        courseNum: 'Course 2',
+        recipeCode: 'C3BCHBK3',
+        mainProductName: 'White milk rice with Chicken ambul thial',
+        targetWeight: '350g',
+        recipes: [
+          'Chicken ambul thial',
+          'Seeni sambol',
+          'Katta Sambol',
+          'White milk rice'
+        ]
+      },
+      {
+        id: 'bc-hbk-3',
+        service: 'BC HBK',
+        serviceClass: 'BC',
+        choiceNum: 'Choice 03',
+        courseNum: 'Course 3',
+        recipeCode: 'C3BCHBK2',
+        mainProductName: 'Mini beef burger/grilled chicken medalion',
+        targetWeight: '350g',
+        recipes: [
+          'Mini beef burger 40g',
+          'Grilled chicken medallion 40g',
+          'Chicken chipolata mini',
+          'Mini Lamb Kebab',
+          'Creamed spinach',
+          'Grilled tomato half'
+        ]
+      },
+      {
+        id: 'bc-hbk-4',
+        service: 'BC HBK',
+        serviceClass: 'BC',
+        choiceNum: 'Choice 04',
+        courseNum: 'Course 4',
+        recipeCode: 'C3BCHBK4',
+        mainProductName: 'Masala dosa with Sambar',
+        targetWeight: '350g',
+        recipes: [
+          'Masala dosa 60g',
+          'Ulundu wada 40g',
+          'Coconut chutney',
+          'Sambar'
+        ]
+      },
+
+      // -------------------------------------------------------------------------
+      // SERVICE 2: BC LDN (Business Class London Dinner / Lunch)
+      // -------------------------------------------------------------------------
+      {
+        id: 'bc-ldn-1',
+        service: 'BC LDN',
+        serviceClass: 'BC',
+        choiceNum: 'Choice 01',
+        courseNum: 'Course 1',
+        recipeCode: 'C3BCLDN1',
+        mainProductName: 'Chicken kalupol curry with Yellow rice',
+        targetWeight: '380g',
+        recipes: [
+          'Chicken kalupol curry',
+          'Spinach & dhal curry',
+          'Carrot poriyal',
+          'Tempered cashew with dry chili flakes',
+          'Yellow rice',
+          'Vegetable cutlet',
+          'Curry leaves',
+          'Fried chili'
+        ]
+      },
+      {
+        id: 'bc-ldn-2',
+        service: 'BC LDN',
+        serviceClass: 'BC',
+        choiceNum: 'Choice 02',
+        courseNum: 'Course 2',
+        recipeCode: 'C3BCLDN2',
+        mainProductName: 'Oven roasted salmon steak with thyme',
+        targetWeight: '380g',
+        recipes: [
+          'Oven roasted salmon steak with thyme 100g',
+          'Creamy spinach',
+          'Buttered carrot',
+          'Cauliflower florettes',
+          'Oven roasted baby potatoes with rosemary'
+        ]
+      },
+      {
+        id: 'bc-ldn-3',
+        service: 'BC LDN',
+        serviceClass: 'BC',
+        choiceNum: 'Choice 03',
+        courseNum: 'Course 3',
+        recipeCode: 'C3BCLDN3',
+        mainProductName: 'Beef fillet steak',
+        targetWeight: '380g',
+        recipes: [
+          'Beef fillet steak 120g',
+          'Mushroom & pepper cream sauce',
+          'Grilled carrot sticks',
+          'Grilled red pepper sticks',
+          'Grilled green pepper sticks',
+          'Spicy potato wedges with chopped parsley'
+        ]
+      },
+      {
+        id: 'bc-ldn-4',
+        service: 'BC LDN',
+        serviceClass: 'BC',
+        choiceNum: 'Choice 04',
+        courseNum: 'Course 4',
+        recipeCode: 'C3BCLDN4',
+        mainProductName: 'Brown onion pilaf/potato & cauliflower curry',
+        targetWeight: '380g',
+        recipes: [
+          'Potato & cauliflower dry curry',
+          'Broccoli tempered with dry chili flakes',
+          'Dhal fry',
+          'Srilankan style mixed pickle',
+          'Brown onion pilaf'
+        ]
+      },
+
+      // -------------------------------------------------------------------------
+      // SERVICE 3: YC HBK (Economy Hot Breakfast - EY)
+      // -------------------------------------------------------------------------
+      {
+        id: 'yc-hbk-1',
+        service: 'YC HBK',
+        serviceClass: 'YC',
+        choiceNum: 'Choice 01',
+        courseNum: 'Course 1',
+        recipeCode: 'C3EYHBK1',
+        mainProductName: 'Plain omelet with cheese sauce',
+        targetWeight: '320g',
+        recipes: [
+          'Plain omelet',
+          'Cheese sauce with grated cheddar',
+          'Sauteed sliced mushroom with tomato',
+          'Herbed diced potato',
+          'Chicken sausage'
+        ]
+      },
+      {
+        id: 'yc-hbk-2',
+        service: 'YC HBK',
+        serviceClass: 'YC',
+        choiceNum: 'Choice 02',
+        courseNum: 'Course 2',
+        recipeCode: 'C3EYHBK2',
+        mainProductName: 'Kiri buth with Fish ambul thial',
+        targetWeight: '320g',
+        recipes: [
+          'Red Fish Curry',
+          'Kiri buth (milk rice)',
+          'Seeni sambol'
+        ]
+      },
+      {
+        id: 'yc-hbk-3',
+        service: 'YC HBK',
+        serviceClass: 'YC',
+        choiceNum: 'Choice 03',
+        courseNum: 'Course 3',
+        recipeCode: 'C3EYHBK3',
+        mainProductName: 'Plain paratha / Channa curry',
+        targetWeight: '320g',
+        recipes: [
+          'Channa curry',
+          'Deep fried onion sambol',
+          'Plain paratha'
+        ]
+      },
+
+      // -------------------------------------------------------------------------
+      // SERVICE 4: YC LDN (Economy London Dinner / Lunch - EY)
+      // -------------------------------------------------------------------------
+      {
+        id: 'yc-ldn-1',
+        service: 'YC LDN',
+        serviceClass: 'YC',
+        choiceNum: 'Choice 01',
+        courseNum: 'Course 1',
+        recipeCode: 'C3EYLDN1',
+        mainProductName: 'Mustard chicken curry/Yellow rice',
+        targetWeight: '340g',
+        recipes: [
+          'Mustard chicken curry',
+          'Tempered mixed vegetable',
+          'Yellow rice'
+        ]
+      },
+      {
+        id: 'yc-ldn-2',
+        service: 'YC LDN',
+        serviceClass: 'YC',
+        choiceNum: 'Choice 02',
+        courseNum: 'Course 2',
+        recipeCode: 'C3EYLDN2',
+        mainProductName: 'Cajun roasted Salmon fillet with salsa topping',
+        targetWeight: '340g',
+        recipes: [
+          'Cajun roasted Salmon fillet 70g',
+          'Buttered beans',
+          'Tomato, herb & olive salsa',
+          'Rosemary roasted potato cubes'
+        ]
+      },
+      {
+        id: 'yc-ldn-3',
+        service: 'YC LDN',
+        serviceClass: 'YC',
+        choiceNum: 'Choice 03',
+        courseNum: 'Course 3',
+        recipeCode: 'C3EYLDN3',
+        mainProductName: 'Tomato rice with Okra mustard curry',
+        targetWeight: '340g',
+        recipes: [
+          'Tomato rice with cardamom',
+          'Okra mustard curry',
+          'Tempered channa dhal'
+        ]
+      }
+    ];
+
+    // Master Cycles Data supporting Cycle 1, Cycle 2, Cycle 3, and Cycle 3 - HLM Meal
+    const PACKING_CYCLES_DATA = {
+      'Cycle 3': PACKING_MASTER_MEALS,
+
+      'Cycle 1': [
+        {
+          id: 'c1-bc-ldn-1',
+          service: 'BC LDN',
+          serviceClass: 'BC',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C1BCLDN1',
+          mainProductName: 'Jaffna Style Chicken Curry with Basmati Rice',
+          targetWeight: '350g',
+          recipes: [
+            'Jaffna Style Chicken Curry',
+            'Steamed Basmati Rice',
+            'Tempered Dhal',
+            'Pol Sambol'
+          ]
+        },
+        {
+          id: 'c1-bc-hbk-1',
+          service: 'BC HBK',
+          serviceClass: 'BC',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C1BCHBK1',
+          mainProductName: 'Traditional English Breakfast Omelette',
+          targetWeight: '280g',
+          recipes: [
+            'English Breakfast Omelette',
+            'Cheddar Cheese Sauce',
+            'Breakfast Sausage',
+            'Grilled Tomato half'
+          ]
+        },
+        {
+          id: 'c1-yc-ldn-1',
+          service: 'YC LDN',
+          serviceClass: 'YC',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C1YCLDN1',
+          mainProductName: 'Braised Beef Stew with Root Vegetables',
+          targetWeight: '380g',
+          recipes: [
+            'Braised Beef Stew',
+            'Creamy Mashed Potatoes',
+            'Steamed Carrots'
+          ]
+        },
+        {
+          id: 'c1-yc-hbk-1',
+          service: 'YC HBK',
+          serviceClass: 'YC',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C1YCHBK1',
+          mainProductName: 'Buttermilk Pancakes with Berry Compote',
+          targetWeight: '250g',
+          recipes: [
+            'Buttermilk Pancakes',
+            'Mixed Berry Compote',
+            'Maple Butter'
+          ]
+        },
+        {
+          id: 'c1-crw-ldn-1',
+          service: 'CREW LDN',
+          serviceClass: 'CREW',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C1CRWLDN1',
+          mainProductName: 'Crew Fragrant Chicken Biryani',
+          targetWeight: '400g',
+          recipes: [
+            'Fragrant Chicken Biryani',
+            'Mint Cucumber Raita',
+            'Boiled Egg'
+          ]
+        },
+        {
+          id: 'c1-crw-hbk-1',
+          service: 'CREW HBK',
+          serviceClass: 'CREW',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C1CRWHBK1',
+          mainProductName: 'Crew Continental Breakfast Box',
+          targetWeight: '320g',
+          recipes: [
+            'Fresh Butter Croissant',
+            'Strawberry Jam & Butter',
+            'Cheddar Cheese Slice'
+          ]
+        }
+      ],
+
+      'Cycle 2': [
+        {
+          id: 'c2-bc-ldn-1',
+          service: 'BC LDN',
+          serviceClass: 'BC',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C2BCLDN1',
+          mainProductName: 'Lamb Tikka Masala with Pilau Rice',
+          targetWeight: '380g',
+          recipes: [
+            'Lamb Tikka Masala',
+            'Fragrant Pilau Rice',
+            'Kachumber Salad'
+          ]
+        },
+        {
+          id: 'c2-bc-hbk-1',
+          service: 'BC HBK',
+          serviceClass: 'BC',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C2BCHBK1',
+          mainProductName: 'Eggs Royale with Smoked Salmon',
+          targetWeight: '260g',
+          recipes: [
+            'Poached Eggs',
+            'Smoked Salmon Fillet',
+            'Hollandaise Sauce',
+            'English Muffin'
+          ]
+        },
+        {
+          id: 'c2-yc-ldn-1',
+          service: 'YC LDN',
+          serviceClass: 'YC',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C2YCLDN1',
+          mainProductName: 'Roast Chicken Breast with Herb Jus',
+          targetWeight: '360g',
+          recipes: [
+            'Roast Chicken Breast',
+            'Herb Gravy',
+            'Roast Potatoes'
+          ]
+        },
+        {
+          id: 'c2-yc-hbk-1',
+          service: 'YC HBK',
+          serviceClass: 'YC',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C2YCHBK1',
+          mainProductName: 'Belgian Waffles with Maple Syrup',
+          targetWeight: '240g',
+          recipes: [
+            'Belgian Waffles',
+            'Pure Maple Syrup',
+            'Whipped Butter'
+          ]
+        },
+        {
+          id: 'c2-crw-ldn-1',
+          service: 'CREW LDN',
+          serviceClass: 'CREW',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C2CRWLDN1',
+          mainProductName: 'Crew Beef Goulash with Creamy Mash',
+          targetWeight: '420g',
+          recipes: [
+            'Beef Goulash',
+            'Creamy Mash Potato'
+          ]
+        },
+        {
+          id: 'c2-crw-hbk-1',
+          service: 'CREW HBK',
+          serviceClass: 'CREW',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'C2CRWHBK1',
+          mainProductName: 'Crew Warm Porridge & Organic Honey',
+          targetWeight: '280g',
+          recipes: [
+            'Warm Oat Porridge',
+            'Organic Honey',
+            'Toasted Almonds'
+          ]
+        }
+      ],
+
+      'Cycle 3 - HLM Meal': [
+        {
+          id: 'hlm-yc-1',
+          service: 'YC HLM',
+          serviceClass: 'YC',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'REC-HLM-301',
+          mainProductName: 'Chicken Mild Curry with Kotthu',
+          targetWeight: '350g',
+          recipes: [
+            'Chicken Mild Curry',
+            'Veg Mixed Kotthu'
+          ]
+        },
+        {
+          id: 'hlm-yc-2',
+          service: 'YC HLM',
+          serviceClass: 'YC',
+          choiceNum: 'Choice 02',
+          courseNum: 'Course 2',
+          recipeCode: 'REC-HLM-304',
+          mainProductName: 'Stir Fried Salmon in Black Bean Sauce',
+          targetWeight: '350g',
+          recipes: [
+            'Stir Fried in Black Bean Sauce',
+            'Steamed Jasmine Rice'
+          ]
+        },
+        {
+          id: 'hlm-yc-3',
+          service: 'YC HLM',
+          serviceClass: 'YC',
+          choiceNum: 'Choice 03',
+          courseNum: 'Course 3',
+          recipeCode: 'REC-HLM-303',
+          mainProductName: 'Vegetarian Soya & Dhal Meal',
+          targetWeight: '350g',
+          recipes: [
+            'Soya Meat Curry',
+            'Dhal Fry'
+          ]
+        },
+        {
+          id: 'hlm-bc-1',
+          service: 'BC HLM',
+          serviceClass: 'BC',
+          choiceNum: 'Choice 01',
+          courseNum: 'Course 1',
+          recipeCode: 'REC-HLM-306',
+          mainProductName: 'Halal Chicken Biryani with Saffron Rice',
+          targetWeight: '380g',
+          recipes: [
+            'Halal Chicken Biryani with Saffron Rice',
+            'Cucumber Mint Raita'
+          ]
+        },
+        {
+          id: 'hlm-bc-2',
+          service: 'BC HLM',
+          serviceClass: 'BC',
+          choiceNum: 'Choice 02',
+          courseNum: 'Course 2',
+          recipeCode: 'REC-HLM-307',
+          mainProductName: 'Halal Lamb Rogan Josh with Pilau Rice',
+          targetWeight: '400g',
+          recipes: [
+            'Halal Lamb Rogan Josh with Pilau Rice',
+            'Naan Bread'
+          ]
+        }
+      ]
+    };
+
+    // Alias mappings
+    PACKING_CYCLES_DATA['HLM Meal'] = PACKING_CYCLES_DATA['Cycle 3 - HLM Meal'];
+    PACKING_CYCLES_DATA['Custom'] = PACKING_MASTER_MEALS;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const session = CLS_Auth.requireAuth();
+      if (!session) return;
+
+      // Element References
+      const packDateInput = document.getElementById('session-pack-date');
+      const displayJulianCode = document.getElementById('display-julian-code');
+      const barJulianCode = document.getElementById('bar-julian-code');
+      const sessionCycle = document.getElementById('session-cycle');
+      const sessionNotes = document.getElementById('session-notes');
+      const sessionOperator = document.getElementById('session-operator');
+      const sessionExtraStaff = document.getElementById('session-extra-staff');
+      const staffChipsContainer = document.getElementById('staff-chips-container');
+      const staffCountPill = document.getElementById('staff-count-pill');
+      const btnSelectAllStaff = document.getElementById('btn-select-all-staff');
+      const btnClearStaff = document.getElementById('btn-clear-staff');
+      const servicesNavTabs = document.getElementById('services-nav-tabs');
+      const mealsContainer = document.getElementById('meals-container');
+      const barTotalPortions = document.getElementById('bar-total-portions');
+      const barActiveMealsCount = document.getElementById('bar-active-meals-count');
+      const btnSaveAllMeals = document.getElementById('btn-save-all-meals');
+      const btnSaveAllText = document.getElementById('btn-save-all-text');
+      const btnResetAll = document.getElementById('btn-reset-all');
+
+      // Logout handler
+      document.getElementById('btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        CLS_Auth.logout();
+      });
+
+      // Initialize Defaults
+      packDateInput.value = CLS_Common.formatDateForInput();
+      sessionOperator.value = (session.user && (session.user.fullName || session.user.username)) || 'Operator';
+
+      // Update Julian Batch Code based on selected date
+      function updateJulianBatch() {
+        const dateVal = packDateInput.value || CLS_Common.formatDateForInput();
+        const julian = CLS_Common.getJulianBatchCode(dateVal);
+        displayJulianCode.textContent = julian;
+        barJulianCode.textContent = julian;
+      }
+
+      packDateInput.addEventListener('change', updateJulianBatch);
+      packDateInput.addEventListener('input', updateJulianBatch);
+      updateJulianBatch();
+
+      // Load Staff Roster
+      let staffList = [
+        { staffId: 'STF-001', staffName: 'Kamal Silva' },
+        { staffId: 'STF-002', staffName: 'Nimal Perera' },
+        { staffId: 'STF-003', staffName: 'Sunil Fernando' },
+        { staffId: 'STF-004', staffName: 'Anura Jayasinghe' },
+        { staffId: 'STF-005', staffName: 'Ruwan Wickramasinghe' },
+        { staffId: 'STF-006', staffName: 'Chaminda Bandara' },
+        { staffId: 'STF-007', staffName: 'Kasun Dissanayake' },
+        { staffId: 'STF-008', staffName: 'Dinesh Kumar' },
+        { staffId: 'STF-009', staffName: 'Roshan Jayawardena' },
+        { staffId: 'STF-010', staffName: 'Malik Jayasooriya' }
+      ];
+
+      async function initStaff() {
+        try {
+          const res = await CLS_API.execute('getPackingStaff');
+          if (res && res.success && res.staff && res.staff.length > 0) {
+            staffList = res.staff.slice(0, 10);
+          }
+        } catch (e) {
+          // Use default fallback
+        }
+
+        staffChipsContainer.innerHTML = '';
+        staffList.forEach((s, idx) => {
+          const label = document.createElement('label');
+          label.className = 'staff-chip' + (idx < 3 ? ' selected' : '');
+          label.innerHTML = `
+            <input type="checkbox" value="${s.staffName}" ${idx < 3 ? 'checked' : ''}>
+            <span>${s.staffName}</span>
+          `;
+
+          const cb = label.querySelector('input');
+          cb.addEventListener('change', () => {
+            if (cb.checked) label.classList.add('selected');
+            else label.classList.remove('selected');
+            updateStaffPill();
+          });
+
+          staffChipsContainer.appendChild(label);
+        });
+
+        updateStaffPill();
+      }
+
+      function updateStaffPill() {
+        const checked = staffChipsContainer.querySelectorAll('input:checked');
+        staffCountPill.textContent = `${checked.length} of ${staffList.length} Staff Selected`;
+      }
+
+      btnSelectAllStaff.addEventListener('click', () => {
+        staffChipsContainer.querySelectorAll('.staff-chip').forEach(lbl => {
+          lbl.classList.add('selected');
+          lbl.querySelector('input').checked = true;
+        });
+        updateStaffPill();
+      });
+
+      btnClearStaff.addEventListener('click', () => {
+        staffChipsContainer.querySelectorAll('.staff-chip').forEach(lbl => {
+          lbl.classList.remove('selected');
+          lbl.querySelector('input').checked = false;
+        });
+        updateStaffPill();
+      });
+
+      function getSelectedStaff() {
+        const selected = [];
+        staffChipsContainer.querySelectorAll('input:checked').forEach(cb => {
+          selected.push(cb.value);
+        });
+        const extra = sessionExtraStaff.value.trim();
+        if (extra) {
+          extra.split(',').forEach(name => {
+            const trimmed = name.trim();
+            if (trimmed && !selected.includes(trimmed)) selected.push(trimmed);
+          });
+        }
+        return selected;
+      }
+
+      function getCurrentMeals() {
+        const cycle = sessionCycle.value || 'Cycle 3';
+        return PACKING_CYCLES_DATA[cycle] || PACKING_CYCLES_DATA['Cycle 3'];
+      }
+
+      // Render Final Product List for the selected cycle
+      function renderMeals(selectedCycle) {
+        const cycle = selectedCycle || sessionCycle.value || 'Cycle 3';
+        const meals = PACKING_CYCLES_DATA[cycle] || PACKING_CYCLES_DATA['Cycle 3'];
+
+        // 1. Build Filter Tabs dynamically based on meals in this cycle
+        if (servicesNavTabs) {
+          const uniqueServices = [];
+          meals.forEach(m => {
+            if (!uniqueServices.includes(m.service)) uniqueServices.push(m.service);
+          });
+
+          let tabsHtml = `
+            <button type="button" class="service-nav-tab active" data-filter="all">
+              <span>All Services (${meals.length} Meals)</span>
+              <span class="tab-badge">${meals.length}</span>
+            </button>
+          `;
+          uniqueServices.forEach(srv => {
+            const count = meals.filter(m => m.service === srv).length;
+            tabsHtml += `
+              <button type="button" class="service-nav-tab" data-filter="${srv}">
+                <span>${srv}</span>
+                <span class="tab-badge">${count}</span>
+              </button>
+            `;
+          });
+          servicesNavTabs.innerHTML = tabsHtml;
+
+          // Re-bind tab filter click events
+          servicesNavTabs.querySelectorAll('.service-nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+              servicesNavTabs.querySelectorAll('.service-nav-tab').forEach(t => t.classList.remove('active'));
+              tab.classList.add('active');
+
+              const filter = tab.getAttribute('data-filter');
+              document.querySelectorAll('.service-group-section').forEach(sec => {
+                if (filter === 'all' || sec.getAttribute('data-service') === filter) {
+                  sec.style.display = 'block';
+                } else {
+                  sec.style.display = 'none';
+                }
+              });
+            });
+          });
+        }
+
+        // 2. Render Meal Sections & Cards
+        mealsContainer.innerHTML = '';
+
+        const uniqueServices = [];
+        meals.forEach(m => {
+          if (!uniqueServices.includes(m.service)) uniqueServices.push(m.service);
+        });
+
+        const now = new Date();
+        const defaultStartTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        const futureTime = new Date(now.getTime() + 60 * 60000);
+        const defaultEndTime = `${String(futureTime.getHours()).padStart(2, '0')}:${String(futureTime.getMinutes()).padStart(2, '0')}`;
+
+        uniqueServices.forEach(srv => {
+          const groupMeals = meals.filter(m => m.service === srv);
+          if (groupMeals.length === 0) return;
+
+          const isBc = srv.toLowerCase().includes('bc');
+          const cls = isBc ? 'bc' : 'yc';
+
+          const section = document.createElement('div');
+          section.className = 'service-group-section';
+          section.setAttribute('data-service', srv);
+
+          section.innerHTML = `
+            <div class="service-group-header ${cls}">
+              <div class="service-group-title">
+                <span>${srv}</span>
+              </div>
+              <span class="badge-service ${cls}">${groupMeals.length} Choices / Products</span>
+            </div>
+            <div class="meals-cards-list"></div>
+          `;
+
+          const listContainer = section.querySelector('.meals-cards-list');
+
+          groupMeals.forEach(meal => {
+            const card = document.createElement('div');
+            card.className = 'meal-pack-card';
+            card.id = `card-${meal.id}`;
+            card.setAttribute('data-meal-id', meal.id);
+
+            const recipesHtml = (meal.recipes || []).map(r => `<span class="sub-recipe-tag">${r}</span>`).join('');
+
+            card.innerHTML = `
+              <div class="meal-card-top">
+                <div style="flex: 1;">
+                  <div class="meal-badge-group">
+                    <span class="badge-service ${(meal.serviceClass || 'BC').toLowerCase()}">${meal.service}</span>
+                    <span class="badge-code" style="font-weight: 800;">${meal.choiceNum || 'Choice 01'}${meal.courseNum ? ` (${meal.courseNum})` : ''}</span>
+                    <span class="badge-code">${meal.recipeCode || meal.id}</span>
+                    <span class="badge-target-wt">Target: ${meal.targetWeight || '350g'}</span>
+                  </div>
+                  <h3 class="main-product-title">${meal.mainProductName}</h3>
+                  <div class="sub-recipes-box">
+                    <span class="sub-recipe-label">Recipes:</span>
+                    ${recipesHtml}
+                  </div>
+                </div>
+                <div class="meal-status-pill" id="status-${meal.id}" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-align: right; white-space: nowrap;">
+                  Ready to Pack
+                </div>
+              </div>
+
+              <div class="meal-inputs-grid">
+                <!-- 1. Portions Produced -->
+                <div>
+                  <label class="input-mini-label" for="portions-${meal.id}">Portions Produced</label>
+                  <input type="number" min="0" step="1" id="portions-${meal.id}" class="portions-input" placeholder="e.g. 250">
+                </div>
+
+                <!-- 2. Start Time -->
+                <div>
+                  <label class="input-mini-label" for="start-time-${meal.id}">Start Time</label>
+                  <input type="time" id="start-time-${meal.id}" class="temp-input" value="${defaultStartTime}">
+                </div>
+
+                <!-- 3. End Time -->
+                <div>
+                  <label class="input-mini-label" for="end-time-${meal.id}">End Time</label>
+                  <input type="time" id="end-time-${meal.id}" class="temp-input" value="${defaultEndTime}">
+                </div>
+
+                <!-- 4. Start Temp -->
+                <div>
+                  <label class="input-mini-label" for="start-temp-${meal.id}">Start Temp (°C)</label>
+                  <input type="number" step="0.1" id="start-temp-${meal.id}" class="temp-input" value="3.8">
+                </div>
+
+                <!-- 5. End Temp -->
+                <div>
+                  <label class="input-mini-label" for="end-temp-${meal.id}">End Temp (°C)</label>
+                  <input type="number" step="0.1" id="end-temp-${meal.id}" class="temp-input" value="4.2">
+                </div>
+
+                <!-- 6. Quality Check (Strictly NO HACCP label) -->
+                <div>
+                  <label class="input-mini-label">Quality Check</label>
+                  <button type="button" class="quality-check-btn pass" id="qc-${meal.id}" title="Click to Toggle Pass/Fail">
+                    <span>Quality Check: Pass ✔️</span>
+                  </button>
+                </div>
+
+                <!-- 7. Save Action -->
+                <div>
+                  <label class="input-mini-label">&nbsp;</label>
+                  <button type="button" class="btn-save-single" id="btn-save-${meal.id}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>Save Product</span>
+                  </button>
+                </div>
+              </div>
+            `;
+
+            // Bind Events for this card
+            const portionsInput = card.querySelector(`#portions-${meal.id}`);
+            portionsInput.addEventListener('input', () => {
+              const val = parseInt(portionsInput.value, 10);
+              if (val > 0) {
+                card.classList.add('has-portions');
+              } else {
+                card.classList.remove('has-portions');
+              }
+              updateTotalsSummary();
+            });
+
+            // Quality Check toggle
+            const qcBtn = card.querySelector(`#qc-${meal.id}`);
+            qcBtn.addEventListener('click', () => {
+              if (qcBtn.classList.contains('pass')) {
+                qcBtn.classList.remove('pass');
+                qcBtn.classList.add('fail');
+                qcBtn.querySelector('span').textContent = 'Quality Check: Fail ❌';
+              } else {
+                qcBtn.classList.remove('fail');
+                qcBtn.classList.add('pass');
+                qcBtn.querySelector('span').textContent = 'Quality Check: Pass ✔️';
+              }
+            });
+
+            // Single Save Button
+            const saveBtn = card.querySelector(`#btn-save-${meal.id}`);
+            saveBtn.addEventListener('click', async () => {
+              await saveSingleMeal(meal);
+            });
+
+            listContainer.appendChild(card);
+          });
+
+          mealsContainer.appendChild(section);
+        });
+
+        updateTotalsSummary();
+      }
+
+      // Update Summary Counter in Sticky Bar
+      function updateTotalsSummary() {
+        let totalPortions = 0;
+        let activeMeals = 0;
+        const currentMeals = getCurrentMeals();
+
+        currentMeals.forEach(meal => {
+          const input = document.getElementById(`portions-${meal.id}`);
+          if (input) {
+            const count = parseInt(input.value, 10);
+            if (!isNaN(count) && count > 0) {
+              totalPortions += count;
+              activeMeals++;
+            }
+          }
+        });
+
+        barTotalPortions.textContent = totalPortions.toLocaleString();
+        barActiveMealsCount.textContent = `${activeMeals} of ${currentMeals.length}`;
+      }
+
+      // Save a single final product
+      async function saveSingleMeal(meal) {
+        const portionsInput = document.getElementById(`portions-${meal.id}`);
+        const count = parseInt(portionsInput.value, 10);
+        if (isNaN(count) || count <= 0) {
+          CLS_Common.showToast(`Please enter Portions Produced for "${meal.mainProductName}".`, 'warning');
+          portionsInput.focus();
+          return;
+        }
+
+        const staffNames = getSelectedStaff();
+        if (staffNames.length === 0) {
+          CLS_Common.showToast('Please select at least one packing staff member in Section 2.', 'warning');
+          return;
+        }
+
+        const currentFinalBatch = displayJulianCode.textContent.trim();
+        const dateVal = packDateInput.value;
+        const startTime = (document.getElementById(`start-time-${meal.id}`) || {}).value || '';
+        const endTime = (document.getElementById(`end-time-${meal.id}`) || {}).value || '';
+        const startTemp = (document.getElementById(`start-temp-${meal.id}`) || {}).value || '';
+        const endTemp = (document.getElementById(`end-temp-${meal.id}`) || {}).value || '';
+        const qcBtn = document.getElementById(`qc-${meal.id}`);
+        const qualityCheck = (qcBtn && qcBtn.classList.contains('pass')) ? 'Pass (✔️)' : 'Fail (❌)';
+        const notes = (sessionNotes.value || '').trim();
+
+        const record = {
+          date: dateVal,
+          julianCode: currentFinalBatch,
+          finalBatchCode: currentFinalBatch,
+          cycle: sessionCycle.value,
+          mealService: meal.service,
+          choiceNum: meal.choiceNum,
+          recipeCode: meal.recipeCode || meal.id,
+          finalProductName: meal.mainProductName,
+          recipeName: meal.mainProductName,
+          cookingBatchCode: CLS_Common.calculateBatchCodeFromInput(dateVal),
+          targetWeight: meal.targetWeight,
+          qualityCheck: qualityCheck,
+          weightCheck: qualityCheck,
+          goldStandard: qualityCheck,
+          labelCheck: qualityCheck,
+          portionProduce: count,
+          packCount: count,
+          startingTime: startTime,
+          startTime: startTime,
+          endingTime: endTime,
+          endTime: endTime,
+          startingTemperature: startTemp ? `${startTemp}°C` : '',
+          startRoomTemp: startTemp ? `${startTemp}°C` : '',
+          endingTemperature: endTemp ? `${endTemp}°C` : '',
+          endRoomTemp: endTemp ? `${endTemp}°C` : '',
+          staffName: staffNames.join(', '),
+          staffNames: staffNames,
+          operator: sessionOperator.value.trim() || 'Operator',
+          notes: notes,
+          recipes: meal.recipes || []
+        };
+
+        const saveBtn = document.getElementById(`btn-save-${meal.id}`);
+        const statusEl = document.getElementById(`status-${meal.id}`);
+        const card = document.getElementById(`card-${meal.id}`);
+
+        saveBtn.disabled = true;
+        statusEl.innerHTML = '<span style="color: #815854;">Saving...</span>';
+        CLS_Common.showLoader('Recording Packing', `Saving ${meal.mainProductName} (${count} portions)`);
+
+        try {
+          const res = await CLS_API.execute('savePacking', { record });
+          CLS_Common.hideLoader();
+
+          if (res && res.success) {
+            const finalBatch = res.finalBatchCode || currentFinalBatch;
+            const pckId = res.packingId || 'PCK-SAVED';
+            CLS_Common.showToast(`Saved! ${meal.mainProductName} (${count} portions) - Packing ID: ${pckId} (Julian: ${finalBatch})`, 'success', 5000);
+
+            statusEl.innerHTML = `<span style="color: #10b981; font-weight: 800;">Saved ✔️ (${count} portions)</span>`;
+            card.classList.add('saved-success');
+          } else {
+            throw new Error(res ? res.error : 'Failed to save packing record.');
+          }
+        } catch (err) {
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(err.message || 'Error saving packing record.', 'error');
+          statusEl.innerHTML = '<span style="color: #ef4444;">Save Failed</span>';
+        } finally {
+          saveBtn.disabled = false;
+        }
+      }
+
+      // Save All Produced Meals in Batch
+      btnSaveAllMeals.addEventListener('click', async () => {
+        const staffNames = getSelectedStaff();
+        if (staffNames.length === 0) {
+          CLS_Common.showToast('Please select at least one packing staff member in Section 2.', 'warning');
+          return;
+        }
+
+        const dateVal = packDateInput.value;
+        const currentFinalBatch = displayJulianCode.textContent.trim();
+        const notes = (sessionNotes.value || '').trim();
+        const recordsToSave = [];
+        const currentMeals = getCurrentMeals();
+
+        currentMeals.forEach(meal => {
+          const portionsInput = document.getElementById(`portions-${meal.id}`);
+          const count = portionsInput ? parseInt(portionsInput.value, 10) : 0;
+
+          if (!isNaN(count) && count > 0) {
+            const startTime = (document.getElementById(`start-time-${meal.id}`) || {}).value || '';
+            const endTime = (document.getElementById(`end-time-${meal.id}`) || {}).value || '';
+            const startTemp = (document.getElementById(`start-temp-${meal.id}`) || {}).value || '';
+            const endTemp = (document.getElementById(`end-temp-${meal.id}`) || {}).value || '';
+            const qcBtn = document.getElementById(`qc-${meal.id}`);
+            const qualityCheck = (qcBtn && qcBtn.classList.contains('pass')) ? 'Pass (✔️)' : 'Fail (❌)';
+
+            recordsToSave.push({
+              mealRef: meal,
+              record: {
+                date: dateVal,
+                julianCode: currentFinalBatch,
+                finalBatchCode: currentFinalBatch,
+                cycle: sessionCycle.value,
+                mealService: meal.service,
+                choiceNum: meal.choiceNum,
+                recipeCode: meal.recipeCode || meal.id,
+                finalProductName: meal.mainProductName,
+                recipeName: meal.mainProductName,
+                cookingBatchCode: CLS_Common.calculateBatchCodeFromInput(dateVal),
+                targetWeight: meal.targetWeight,
+                qualityCheck: qualityCheck,
+                weightCheck: qualityCheck,
+                goldStandard: qualityCheck,
+                labelCheck: qualityCheck,
+                portionProduce: count,
+                packCount: count,
+                startingTime: startTime,
+                startTime: startTime,
+                endingTime: endTime,
+                endTime: endTime,
+                startingTemperature: startTemp ? `${startTemp}°C` : '',
+                startRoomTemp: startTemp ? `${startTemp}°C` : '',
+                endingTemperature: endTemp ? `${endTemp}°C` : '',
+                endRoomTemp: endTemp ? `${endTemp}°C` : '',
+                staffName: staffNames.join(', '),
+                staffNames: staffNames,
+                operator: sessionOperator.value.trim() || 'Operator',
+                notes: notes,
+                recipes: meal.recipes || []
+              }
+            });
+          }
+        });
+
+        if (recordsToSave.length === 0) {
+          CLS_Common.showToast('No portions entered. Please enter portions produced for at least one meal to save.', 'warning');
+          return;
+        }
+
+        btnSaveAllMeals.disabled = true;
+        btnSaveAllText.textContent = `Saving ${recordsToSave.length} Products...`;
+        CLS_Common.showLoader('Batch Saving Packing', `Recording ${recordsToSave.length} final products with Julian Batch ${currentFinalBatch}`);
+
+        try {
+          const recordsOnly = recordsToSave.map(item => item.record);
+          const res = await CLS_API.execute('savePacking', { records: recordsOnly });
+          CLS_Common.hideLoader();
+
+          if (res && res.success) {
+            const finalBatch = res.finalBatchCode || currentFinalBatch;
+            CLS_Common.showToast(
+              `Success! Saved ${recordsToSave.length} final products to Packing Process & Final Recipe List! (Julian Code: ${finalBatch})`,
+              'success',
+              6000
+            );
+
+            recordsToSave.forEach(item => {
+              const meal = item.mealRef;
+              const card = document.getElementById(`card-${meal.id}`);
+              const statusEl = document.getElementById(`status-${meal.id}`);
+              if (card) card.classList.add('saved-success');
+              if (statusEl) statusEl.innerHTML = `<span style="color: #10b981; font-weight: 800;">Saved ✔️ (${item.record.portionProduce} portions)</span>`;
+            });
+          } else {
+            throw new Error(res ? res.error : 'Failed to save batch packing.');
+          }
+        } catch (err) {
+          CLS_Common.hideLoader();
+          CLS_Common.showToast(err.message || 'Batch save failed.', 'error');
+        } finally {
+          btnSaveAllMeals.disabled = false;
+          btnSaveAllText.textContent = 'Save All Produced Meals (Batch Save)';
+        }
+      });
+
+      // Menu Cycle Change Listener
+      sessionCycle.addEventListener('change', () => {
+        renderMeals(sessionCycle.value);
+      });
+
+      // Clear all inputs
+      btnResetAll.addEventListener('click', () => {
+        if (!confirm('Clear all entered portions and reset the form?')) return;
+        const currentMeals = getCurrentMeals();
+        currentMeals.forEach(meal => {
+          const portionsInput = document.getElementById(`portions-${meal.id}`);
+          if (portionsInput) portionsInput.value = '';
+          const card = document.getElementById(`card-${meal.id}`);
+          if (card) {
+            card.classList.remove('has-portions', 'saved-success');
+          }
+          const statusEl = document.getElementById(`status-${meal.id}`);
+          if (statusEl) statusEl.textContent = 'Ready to Pack';
+        });
+        updateTotalsSummary();
+      });
+
+      // Initialize Page
+      await initStaff();
+      renderMeals(sessionCycle.value);
+    });
+  </script>
+</body>
+
+</html>
