@@ -264,6 +264,103 @@ const CLS_MockStore = {
     ];
   },
 
+  getDefaultCooking() {
+    const today = new Date().toISOString().slice(0, 10);
+    const d = new Date(today);
+    const yy = String(d.getFullYear()).slice(-2);
+    const start = new Date(d.getFullYear(), 0, 1);
+    const day = Math.floor((d - start) / (1000 * 60 * 60 * 24)) + 1;
+    const julian = `${yy}${String(day).padStart(3, '0')}`;
+    const batchCode = `CK-${julian}-01`;
+
+    return [
+      {
+        cookingRecordId: 'COOK-000001',
+        recordId: 'COOK-000001',
+        cookingDate: today,
+        date: today,
+        cookingBatchId: batchCode,
+        batchCode: batchCode,
+        cycle: 'Cycle 1',
+        mealService: 'BC LDN',
+        recipeId: 'REC-001',
+        recipeCode: 'JFCC',
+        recipeName: 'Jaffna Style Chicken Curry',
+        productName: 'Jaffna Style Chicken Curry',
+        productId: 'CLS-000027',
+        storageArea: 'Hot Kitchen',
+        storageDate: today,
+        totalQuantityCooked: '45 KG',
+        cookingStartTime: '08:00',
+        cookingEndTime: '09:15',
+        cookingDuration: '1 hour 15 mins',
+        coreTemperature: 82.5,
+        chefName: 'Head Chef Marcus',
+        userId: 'Operator 1',
+        notes: 'HACCP compliant batch production',
+        status: 'Completed',
+        timestamp: new Date().toISOString(),
+        ingredients: []
+      },
+      {
+        cookingRecordId: 'COOK-000002',
+        recordId: 'COOK-000002',
+        cookingDate: today,
+        date: today,
+        cookingBatchId: batchCode,
+        batchCode: batchCode,
+        cycle: 'Cycle 1',
+        mealService: 'BC HBK',
+        recipeId: 'REC-002',
+        recipeCode: 'BREGG',
+        recipeName: 'Traditional English Breakfast Omelette',
+        productName: 'Traditional English Breakfast Omelette',
+        productId: 'CLS-000047',
+        storageArea: 'Hot Kitchen',
+        storageDate: today,
+        totalQuantityCooked: '30 KG',
+        cookingStartTime: '09:30',
+        cookingEndTime: '10:45',
+        cookingDuration: '1 hour 15 mins',
+        coreTemperature: 79.2,
+        chefName: 'Head Chef Marcus',
+        userId: 'Operator 1',
+        notes: 'Breakfast batch production',
+        status: 'Completed',
+        timestamp: new Date().toISOString(),
+        ingredients: []
+      },
+      {
+        cookingRecordId: 'COOK-000003',
+        recordId: 'COOK-000003',
+        cookingDate: today,
+        date: today,
+        cookingBatchId: batchCode,
+        batchCode: batchCode,
+        cycle: 'Cycle 1',
+        mealService: 'YC LDN',
+        recipeId: 'REC-003',
+        recipeCode: 'YCBEEF',
+        recipeName: 'Braised Beef Stew with Root Vegetables',
+        productName: 'Braised Beef Stew with Root Vegetables',
+        productId: 'CLS-000028',
+        storageArea: 'Hot Kitchen',
+        storageDate: today,
+        totalQuantityCooked: '60 KG',
+        cookingStartTime: '11:00',
+        cookingEndTime: '12:30',
+        cookingDuration: '1 hour 30 mins',
+        coreTemperature: 84.0,
+        chefName: 'Sous Chef David',
+        userId: 'Operator 2',
+        notes: 'Lunch beef stew batch production',
+        status: 'Completed',
+        timestamp: new Date().toISOString(),
+        ingredients: []
+      }
+    ];
+  },
+
   getDefaultData() {
     return {
       productIdCounter: 1,
@@ -277,7 +374,7 @@ const CLS_MockStore = {
       goodsIn: this.getDefaultGoodsIn(),
       rejectedGoods: [],
       storage: [],
-      cooking: [],
+      cooking: this.getDefaultCooking(),
       blasting: [],
       packing: this.getDefaultPacking(),
       temperature: this.getDefaultTemperatureReadings(),
@@ -300,6 +397,10 @@ const CLS_MockStore = {
         }
         if (!data.goodsIn || data.goodsIn.length === 0) {
           data.goodsIn = this.getDefaultGoodsIn();
+          this.saveData(data);
+        }
+        if (!data.cooking || data.cooking.length === 0) {
+          data.cooking = this.getDefaultCooking();
           this.saveData(data);
         }
         if (!data.packing || data.packing.length === 0) {
@@ -2001,8 +2102,8 @@ const CLS_API = {
         if (date) {
           filtered = filtered.filter(item => item.cookingDate === date || item.date === date || (item.cookingDate && item.cookingDate.replace(/-/g, '/') === date.replace(/-/g, '/')));
         }
-        if (cycle) {
-          filtered = filtered.filter(item => item.cycle === cycle);
+        if (cycle && cycle !== 'All' && cycle !== 'all') {
+          filtered = filtered.filter(item => item.cycle === cycle || String(item.cycle || '').includes(cycle));
         }
         if (search) {
           filtered = filtered.filter(item => 
