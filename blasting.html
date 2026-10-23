@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,15 +8,12 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="assets/cls-logo.svg">
   <script>
-    (function() {
+    (function () {
       var savedTheme = localStorage.getItem('cls_theme') || 'dark';
       document.documentElement.setAttribute('data-theme', savedTheme);
     })();
   </script>
   <style>
-    .excel-sheet-header {
-      margin-bottom: 1.5rem !important;
-    }
     .blasting-top-hero {
       display: flex;
       align-items: center;
@@ -24,140 +22,59 @@
       gap: 1rem;
       margin-bottom: 1.5rem;
     }
-    .kpi-stat-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.2rem 0.4rem;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      background: transparent;
-      border: none;
-    }
-    .kpi-stat-cooked {
-      background: transparent;
-      color: var(--text-primary);
-      border: none;
-    }
-    .kpi-stat-chilled {
-      background: transparent;
-      color: var(--text-primary);
-      border: none;
-    }
-    .sticky-actions-bar {
-      position: sticky;
-      bottom: 1rem;
-      z-index: 100;
-      background: #815854;
-      color: #F9EBDE;
-      backdrop-filter: blur(8px);
-      border-radius: 12px;
-      padding: 0.85rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-      box-shadow: 0 10px 25px -5px rgba(44, 27, 25, 0.35);
-      border: 1px solid rgba(249, 235, 222, 0.3);
-      margin-top: 1.5rem;
-    }
-    .btn-save-all-main {
+
+    .btn-row-del {
+      height: 28px !important;
+      padding: 0 6px !important;
+      font-size: 12.5px !important;
+      font-weight: 700 !important;
+      color: #dc2626 !important;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      cursor: pointer;
+      white-space: nowrap;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.6rem;
-      background: #815854;
-      color: #F9EBDE;
-      border: 1px solid #674441;
-      padding: 0.75rem 1.75rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(129, 88, 84, 0.35);
-      transition: all 0.2s ease;
+      text-decoration: underline;
+      transition: color 0.15s ease;
+    }
+
+    .btn-row-del:hover {
+      background: transparent !important;
+      color: #b91c1c !important;
+    }
+
+    .row-duration-pill {
+      font-size: 12.5px;
+      font-weight: 700;
+      font-family: var(--font-mono, monospace);
       letter-spacing: 0.02em;
     }
-    .btn-save-all-main:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(129, 88, 84, 0.45);
-      background: #674441;
+
+    .row-duration-pill.duration-warn {
+      color: #dc2626 !important;
     }
-    .btn-save-all-main:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
+
+    .row-duration-pill.duration-pass {
+      color: var(--text-primary);
     }
-    .btn-save-top {
-      display: inline-flex;
+
+    .excel-sheet-footer {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 0.5rem;
-      background: #815854;
-      color: #F9EBDE;
-      border: 1px solid #674441;
-      padding: 0.55rem 1.25rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .btn-save-top:hover {
-      background: #674441;
-      transform: translateY(-1px);
-    }
-    .excel-table td {
-      vertical-align: middle;
-      padding: 0.5rem 0.55rem;
-    }
-    .cell-input, .cell-select {
-      width: 100%;
-      font-size: 0.85rem;
-      padding: 0.4rem 0.5rem;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      background: #ffffff;
-      font-family: inherit;
-    }
-    .cell-input:focus, .cell-select:focus {
-      outline: none;
-      border-color: #0284c7;
-      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
-    }
-    .cell-readonly {
-      background: transparent;
-      color: var(--text-primary);
-      font-weight: 600;
-      font-family: var(--font-mono, monospace);
-      border: none;
-    }
-    .duration-badge {
-      display: inline-flex;
-      align-items: center;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      background: transparent;
-      border: none;
-      padding: 0;
-    }
-    .duration-pass {
-      background: transparent;
-      color: var(--text-primary);
-      border: none;
-    }
-    .duration-warn {
-      background: transparent;
-      color: var(--text-primary);
-      border: none;
-    }
-    .auto-reflect-chip {
-      display: none;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1.25rem;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-light);
+      border-radius: 0 0 12px 12px;
     }
   </style>
 </head>
+
 <body>
 
   <!-- Top Header Bar -->
@@ -172,7 +89,8 @@
       </a>
 
       <div class="user-nav-section">
-        <button id="theme-slide-btn" class="theme-slide-btn" type="button" role="switch" aria-checked="true" aria-label="Toggle Theme">
+        <button id="theme-slide-btn" class="theme-slide-btn" type="button" role="switch" aria-checked="true"
+          aria-label="Toggle Theme">
           <span class="theme-slide-text theme-text-light">Light</span>
           <span class="theme-slide-track">
             <span class="theme-slide-thumb"></span>
@@ -200,7 +118,8 @@
     <aside class="app-sidebar-panel">
       <div class="sidebar-heading">Operations</div>
       <a href="dashboard.html" class="website-nav-btn">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="3" width="7" height="9"></rect>
           <rect x="14" y="3" width="7" height="5"></rect>
           <rect x="14" y="12" width="7" height="9"></rect>
@@ -209,7 +128,8 @@
         <span>Overview</span>
       </a>
       <a href="goods-in.html" class="website-nav-btn">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <polyline points="7 10 12 15 17 10"></polyline>
           <line x1="12" y1="15" x2="12" y2="3"></line>
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -217,7 +137,8 @@
         <span>Goods In</span>
       </a>
       <a href="storage.html" class="website-nav-btn">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="2"></rect>
           <line x1="3" y1="10" x2="21" y2="10"></line>
           <line x1="3" y1="16" x2="21" y2="16"></line>
@@ -226,7 +147,8 @@
         <span>Storage</span>
       </a>
       <a href="cooking.html" class="website-nav-btn">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 2v3"></path>
           <path d="M8 3v2"></path>
           <path d="M16 3v2"></path>
@@ -236,7 +158,8 @@
         <span>Cooking</span>
       </a>
       <a href="blasting.html" class="website-nav-btn active">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <line x1="12" y1="2" x2="12" y2="22"></line>
           <line x1="2" y1="12" x2="22" y2="12"></line>
           <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
@@ -249,20 +172,23 @@
         <span>Blasting</span>
       </a>
       <a href="packing.html" class="website-nav-btn">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
           <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
         </svg>
         <span>Packing</span>
       </a>
       <a href="temperature.html" class="website-nav-btn">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
         </svg>
         <span>Daily Temp</span>
       </a>
       <a href="site-orders.html" class="website-nav-btn">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -278,148 +204,168 @@
 
     <!-- Panel 2: Main Content Workspace -->
     <main class="app-main-panel">
-    <div class="blasting-top-hero">
-      <div class="page-title-bar">
-        <div>
-          <h2>Blast Chilling Traceability Log</h2>
-        </div>
-        <div class="page-title-actions" style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-          <button type="button" class="btn-primary" id="btn-save-top" style="height: 44px; padding: 0 1.5rem; font-weight: 700; border-radius: 6px;">
-            Save Blast Chilling
-          </button>
-          <a href="dashboard.html" class="btn-back-dashboard" style="height: 44px; padding: 0 1.25rem; font-weight: 700; border-radius: 6px; display: inline-flex; align-items: center;">
-            Dashboard
-          </a>
-        </div>
-      </div>
-
-    <!-- 1. Operational Schedule & Menu Cycle -->
-    <div class="goods-master-card">
-      <div class="goods-master-header">
-        <div class="goods-master-title">
+      <div class="blasting-top-hero">
+        <div class="page-title-bar">
           <div>
-            <h3>Operational Schedule &amp; Menu Cycle</h3>
+            <h2>Blast Chilling Traceability Log &amp; Rapid Cooling Control</h2>
+          </div>
+          <div class="page-title-actions" style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <button type="button" class="btn-primary" id="btn-save-top"
+              style="height: 44px; padding: 0 1.5rem; font-weight: 700; border-radius: 6px;">
+              Save Blast Chilling
+            </button>
+            <a href="dashboard.html" class="btn-back-dashboard"
+              style="height: 44px; padding: 0 1.25rem; font-weight: 700; border-radius: 6px; display: inline-flex; align-items: center;">
+              Dashboard
+            </a>
           </div>
         </div>
-        <div style="display: flex; gap: 0.5rem; align-items: center;">
-          <span class="kpi-stat-badge kpi-stat-chilled" id="badge-chilled-kpi">0 Blasting Rows</span>
-        </div>
       </div>
 
-      <div class="goods-master-body">
-        <form id="blasting-master-form" autocomplete="off">
+      <!-- 1. Operational Schedule & Menu Cycle Control Card -->
+      <div class="goods-master-card">
+        <div class="goods-master-header">
+          <div class="goods-master-title">
+            <div>
+              <h3>Operational Schedule &amp; Menu Cycle Control</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="goods-master-body">
           <div class="blasting-main-controls-grid">
-            
             <!-- 1. Blasting Date -->
-            <div class="form-group">
-              <div class="field-label-wrap">
-                <label for="blast-date">Blasting Date</label>
-              </div>
+            <div class="control-item">
+              <label for="blast-date">Blasting Date</label>
               <input type="date" id="blast-date" class="form-control" required>
             </div>
 
             <!-- 2. Menu Cycle -->
-            <div class="form-group">
-              <div class="field-label-wrap">
-                <label for="blast-cycle">Menu Cycle</label>
-              </div>
+            <div class="control-item">
+              <label for="blast-cycle">Menu Cycle</label>
               <div class="cycle-selector-group">
                 <select id="blast-cycle" class="form-control" required>
+                  <option value="All" selected>All Cycles (Auto-Detect)</option>
                   <option value="Cycle 1">Cycle 1</option>
                   <option value="Cycle 2">Cycle 2</option>
                   <option value="Cycle 3">Cycle 3</option>
                   <option value="Other">Other (Custom Cycle)</option>
                 </select>
-                <button type="button" id="btn-blast-hlm-filter" class="btn-hlm-meal" style="display: none;" title="Filter Cycle 3 HLM Meal Batches" aria-pressed="false">HLM Meal</button>
+                <button type="button" id="btn-blast-hlm-filter" class="btn-hlm-meal" style="display: none;"
+                  title="Filter Cycle 3 HLM Meal Batches" aria-pressed="false">HLM Meal</button>
               </div>
             </div>
 
-            <!-- 3. Ambient Room Temp -->
-            <div class="form-group">
-              <div class="field-label-wrap">
-                <label for="room-temp">Start Room Temp (°C)</label>
-              </div>
-              <input type="number" step="0.1" id="room-temp" class="form-control" value="16.5" placeholder="e.g. 16.5">
-            </div>
-
-            <!-- 4. Operator -->
-            <div class="form-group">
-              <div class="field-label-wrap">
-                <label for="blast-operator">Blasting Operator</label>
-              </div>
+            <!-- 3. Operator -->
+            <div class="control-item">
+              <label for="blast-operator">Blasting Operator</label>
               <input type="text" id="blast-operator" class="form-control" placeholder="Operator Name" required>
             </div>
+          </div>
 
-            <!-- 5. Chilling Duration (One for all in top) -->
-            <div class="form-group">
-              <div class="field-label-wrap">
-                <label for="blast-duration-top">Chilling Duration</label>
-              </div>
-              <input type="text" id="blast-duration-top" class="form-control" value="120 mins" readonly style="font-weight: 700; background: var(--bg-body, #f8fafc); text-align: center;">
+          <!-- Search Filter & Quick Utilities (Identical to cooking.html) -->
+          <div class="cooking-search-tools-row" style="margin-top: 1.25rem;">
+            <div class="excel-search-box">
+              <input type="text" id="blasting-search-filter" class="form-control"
+                placeholder="Search batch ID, recipe code (e.g. JFCC), recipe name, or meal service...">
             </div>
 
-            <!-- 6. Reload from Cooking -->
-            <div class="form-group" style="display: flex; align-items: flex-end;">
-              <button type="button" class="btn-secondary" id="btn-reload-cooking" style="height: 44px; width: 100%; font-weight: 700; font-size: 0.85rem; border-color: #cbd5e1; display: flex; align-items: center; justify-content: center;">
-                Refresh Cooked Batches
+            <div class="cooking-quick-actions-wrap">
+              <button type="button" id="btn-clear-blast" class="btn-secondary"
+                style="height: 42px; padding: 0 1rem; font-size: 13px; font-weight: 700; border-radius: 6px;">
+                Clear Sheet
               </button>
             </div>
-
           </div>
-        </form>
-      </div>
-    </div>
 
-    <!-- 2. Blast Chilling Multi-Row Intake Spreadsheet Card -->
-    <div class="excel-sheet-card">
-      <div class="excel-sheet-header">
-        <div class="excel-sheet-title">
-          <h3>Cooked Products Blast Chilling Intake Grid</h3>
-          <span class="excel-badge-count"><strong id="summary-blast-count">0</strong> Batches</span>
+          <!-- Live KPIs Strip Inside Card (Identical to cooking.html) -->
+          <div class="excel-summary-strip" style="margin-top: 1.25rem;">
+            <div class="excel-kpi-card">
+              <span class="kpi-label">Cooked Batches</span>
+              <span class="kpi-value" id="kpi-total-cooked">0</span>
+            </div>
+            <div class="excel-kpi-card">
+              <span class="kpi-label">Pending Blasting</span>
+              <span class="kpi-value" id="kpi-active-blasting">0</span>
+            </div>
+            <div class="excel-kpi-card">
+              <span class="kpi-label">Target Temp</span>
+              <span class="kpi-value">&le; 5.0&deg;C</span>
+            </div>
+            <div class="excel-kpi-card">
+              <span class="kpi-label">HACCP &le;5°C / 120m</span>
+              <span class="kpi-value" id="kpi-haccp-status">0 Verified</span>
+            </div>
+          </div>
         </div>
-        <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
-          <button type="button" class="btn-secondary" id="btn-clear-blast" style="height: 42px; padding: 0 1rem; font-weight: 700; border-radius: 8px;">
-            Clear All
-          </button>
-          <button type="button" class="btn-add-item" id="btn-add-blast-row" style="height: 42px; padding: 0 1.15rem; font-weight: 700;">
-            <span>Add Blasting Row</span>
+      </div>
+
+      <!-- 2. Excel-Style Recipe Table Sheet (Same structure as Cooking Process) -->
+      <div class="excel-sheet-card">
+        <div class="excel-sheet-header">
+          <div class="excel-sheet-title">
+            <h3 id="current-sheet-label">Cooked Products Blast Chilling Master Spreadsheet</h3>
+            <span class="excel-badge-count" id="table-row-count">Loading Batches...</span>
+          </div>
+          <div class="excel-sheet-actions" style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+            <button type="button" id="btn-reload-cooking" class="btn-refresh-excel"
+              style="height: 38px; padding: 0 1.15rem; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.45rem; border-radius: 6px; cursor: pointer; background: #815854; color: #F9EBDE; border: 1px solid #674441; transition: all 0.2s ease;"
+              title="Refresh cooked batches from database">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+              </svg>
+              <span>Refresh Cooked Batches</span>
+            </button>
+            <button type="button" class="btn-add-item" id="btn-add-blast-row"
+              style="height: 38px; padding: 0 1.15rem; font-weight: 700; font-size: 0.85rem;">
+              <span>+ Add Blasting Row</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="excel-table-scroll-wrap">
+          <table class="excel-table" id="blasting-table">
+            <thead>
+              <tr>
+                <th style="width: 45px; text-align: center;">#</th>
+                <th style="width: 140px;">Cooking Batch ID</th>
+                <th style="width: 100px;">Recipe Code</th>
+                <th style="min-width: 250px;">Recipe Name / Product</th>
+                <th style="width: 120px;">Meal Service</th>
+                <th style="width: 110px;">Start Time</th>
+                <th style="width: 115px;">Start Temp (°C)</th>
+                <th style="width: 110px;">End Time</th>
+                <th style="width: 115px;">End Temp (°C)</th>
+                <th style="width: 110px; text-align: center;">Duration</th>
+                <th style="width: 80px; text-align: center;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="blasting-tbody">
+              <!-- Dynamic Excel Rows will be rendered here -->
+              <tr>
+                <td colspan="11" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+                  Loading cooked batches from Cloud Database...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Bottom Sheet Action Bar (Identical to cooking.html) -->
+        <div class="excel-sheet-footer">
+          <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
+            <span id="bottom-summary-text">0 cooked batches queued for blast chilling.</span>
+          </div>
+          <button type="button" id="btn-save-all-blast" class="btn-save-all-batch"
+            style="padding: 0 2rem; width: auto; min-width: 260px;">
+            <span>CONFIRM &amp; SAVE BLAST CHILLING</span>
           </button>
         </div>
       </div>
 
-      <div class="excel-table-scroll-wrap">
-        <table class="excel-table" id="blasting-table">
-          <thead>
-            <tr>
-              <th style="width: 45px; text-align: center;">#</th>
-              <th style="min-width: 250px;">Recipe Name / Product</th>
-              <th style="width: 105px;">Recipe Code</th>
-              <th style="width: 140px;">Cooking Batch ID</th>
-              <th style="width: 120px;">Meal Service</th>
-              <th style="width: 105px;">Start Time</th>
-              <th style="width: 105px;">Start Temp (°C)</th>
-              <th style="width: 105px;">End Time</th>
-              <th style="width: 105px;">End Temp (°C)</th>
-              <th style="width: 80px; text-align: center;">Action</th>
-            </tr>
-          </thead>
-          <tbody id="blasting-tbody">
-            <!-- Dynamic Cooked Batch Blasting Rows -->
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Card Inline Footer Actions (Non-Sticky, Fits 8-inch Tablet) -->
-      <div class="excel-sheet-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; padding: 1.25rem; background: var(--bg-card); border-top: 1px solid var(--border-light); border-radius: 0 0 12px 12px;">
-        <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">HACCP Target: Rapid core temperature reduction to &le; 5.0&deg;C within 120 minutes.</span>
-        <button type="button" class="btn-primary" id="btn-save-all-blast" style="height: 48px; padding: 0 1.75rem; font-size: 15px; font-weight: 800; border-radius: 8px;">
-          Confirm &amp; Save Blast Chilling
-        </button>
-      </div>
-    </div>
-
-  </main>
-</div>
+    </main>
+  </div>
 
   <script src="js/api-config.js"></script>
   <script src="js/api.js"></script>
@@ -435,15 +381,21 @@
       const btnBlastHlm = document.getElementById('btn-blast-hlm-filter');
       const roomTempInput = document.getElementById('room-temp');
       const operatorInput = document.getElementById('blast-operator');
+      const searchInput = document.getElementById('blasting-search-filter');
       const btnReload = document.getElementById('btn-reload-cooking');
       const btnAddRow = document.getElementById('btn-add-blast-row');
       const btnSaveTop = document.getElementById('btn-save-top');
       const btnSaveAll = document.getElementById('btn-save-all-blast');
       const btnClearAll = document.getElementById('btn-clear-blast');
       const tbody = document.getElementById('blasting-tbody');
-      const countLabel = document.getElementById('summary-blast-count');
-      const cookedKpi = document.getElementById('badge-cooked-kpi');
-      const chilledKpi = document.getElementById('badge-chilled-kpi');
+      const tableRowCount = document.getElementById('table-row-count');
+      const bottomSummaryText = document.getElementById('bottom-summary-text');
+      const currentSheetLabel = document.getElementById('current-sheet-label');
+
+      // KPIs
+      const kpiCooked = document.getElementById('kpi-total-cooked');
+      const kpiActive = document.getElementById('kpi-active-blasting');
+      const kpiHaccp = document.getElementById('kpi-haccp-status');
 
       blastDateInput.value = CLS_Common.formatDateForInput();
       operatorInput.value = session.user.fullName || session.user.username || 'Operator';
@@ -455,63 +407,49 @@
       // Helper to calculate duration in minutes
       function calcDurationMins(start, end) {
         if (!start || !end) return null;
-        const [sh, sm] = start.split(':').map(Number);
-        const [eh, em] = end.split(':').map(Number);
+        const [sh, sm] = String(start).split(':').map(Number);
+        const [eh, em] = String(end).split(':').map(Number);
+        if (isNaN(sh) || isNaN(sm) || isNaN(eh) || isNaN(em)) return null;
         let sMins = sh * 60 + sm;
         let eMins = eh * 60 + em;
         if (eMins < sMins) eMins += 24 * 60; // crossed midnight
         return eMins - sMins;
       }
 
-      // Fetch Cooked Batches from Cooking Process database
-      async function fetchCookingBatches() {
-        const date = blastDateInput.value;
-        const cycle = blastCycleSelect.value;
-        CLS_Common.showLoader('Loading Cooked Batches', `Fetching cooked records for ${date} (${cycle})`);
-        try {
-          // 1. Fetch cooking records and existing blasting records
-          const [res, blastRes] = await Promise.all([
-            CLS_API.execute('getCookingReportData', { date, cycle, _nocache: Date.now() }),
-            CLS_API.execute('getBlastingReportData', { date, _nocache: Date.now() })
-          ]);
-          CLS_Common.hideLoader();
-
-          // 2. Identify all batches that have ALREADY been saved in the Blaster database
-          const blastedBatchIds = new Set();
-          if (blastRes && blastRes.success && Array.isArray(blastRes.data)) {
-            blastRes.data.forEach(b => {
-              if (b.cookingBatchId) blastedBatchIds.add(String(b.cookingBatchId).trim().toUpperCase());
-              if (b.batchId) blastedBatchIds.add(String(b.batchId).trim().toUpperCase());
-              if (b.cookingBatchCode) blastedBatchIds.add(String(b.cookingBatchCode).trim().toUpperCase());
-              const compKey = `${(b.recipeName || '').trim()}|${(b.recipeCode || '').trim()}|${(b.mealService || '').trim()}|${b.startTime || ''}`.toUpperCase();
-              blastedBatchIds.add(compKey);
-            });
-          }
-
-          // 3. Filter: Only batches stored on that SAME DAY, and NOT already saved in blaster database
-          const rawCooked = (res && res.success && Array.isArray(res.data)) ? res.data : [];
-          
-          const sameDayCooked = rawCooked.filter(c => {
-            const cDate = String(c.cookingDate || c.date || '').replace(/[\/\.]/g, '-');
-            const targetDate = String(date).replace(/[\/\.]/g, '-');
-            return !targetDate || cDate === targetDate || cDate.includes(targetDate) || targetDate.includes(cDate);
-          });
-
-          cookedBatches = sameDayCooked.filter(c => {
-            const bId = String(c.cookingBatchId || c.cookingBatchCode || c.batchCode || c.cookingRecordId || '').trim().toUpperCase();
-            if (bId && blastedBatchIds.has(bId)) return false;
-            const compKey = `${(c.recipeName || c.productName || '').trim()}|${(c.recipeCode || '').trim()}|${(c.mealService || '').trim()}|${c.cookingEndTime || c.endTime || ''}`.toUpperCase();
-            if (blastedBatchIds.has(compKey)) return false;
-            return true;
-          });
-
-          if (cookedKpi) {
-            cookedKpi.textContent = `${cookedBatches.length} Pending Batches`;
-          }
-        } catch (e) {
-          CLS_Common.hideLoader();
-          cookedBatches = [];
+      // Helper to add minutes to a time string (e.g. "09:15" + 5 -> "09:20")
+      // Robust regex parser that handles ISO timestamps and regular time strings
+      function addMinutesToTime(rawTime, minsToAdd) {
+        if (!rawTime) return '';
+        let str = String(rawTime).trim();
+        let match = str.match(/T(\d{2}):(\d{2})/);
+        if (!match) {
+          match = str.match(/(\d{1,2}):(\d{2})/);
         }
+        if (match) {
+          let h = parseInt(match[1], 10);
+          let m = parseInt(match[2], 10);
+          if (/pm/i.test(str) && h < 12) h += 12;
+          if (/am/i.test(str) && h === 12) h = 0;
+          let totalMins = (h * 60 + m + minsToAdd) % 1440;
+          if (totalMins < 0) totalMins += 1440;
+          const newH = String(Math.floor(totalMins / 60)).padStart(2, '0');
+          const newM = String(totalMins % 60).padStart(2, '0');
+          return `${newH}:${newM}`;
+        }
+        return '';
+      }
+
+      function getDefaultStartTime() {
+        const now = new Date();
+        const startH = String(now.getHours()).padStart(2, '0');
+        const startM = String(Math.floor(now.getMinutes() / 5) * 5).padStart(2, '0');
+        return `${startH}:${startM}`;
+      }
+
+      // Helper to generate a realistic random blast chilling end temperature between 2.5°C and 3.5°C
+      function getRandomEndTemp() {
+        const tenths = Math.floor(Math.random() * 11); // 0 to 10
+        return (2.5 + tenths * 0.1).toFixed(1);
       }
 
       // Helper to format meal service to short code (e.g. BC HBK, YC LDN)
@@ -529,6 +467,67 @@
         return parts[0].trim();
       }
 
+      // Fetch Cooked Batches from Cooking Process database
+      async function fetchCookingBatches() {
+        const date = blastDateInput.value;
+        const cycle = blastCycleSelect.value;
+        const cycleParam = (cycle && cycle !== 'All') ? cycle : null;
+        CLS_Common.showLoader('Loading Cooked Batches', `Fetching cooked records for ${date}${cycleParam ? ` (${cycleParam})` : ''}`);
+        try {
+          // 1. Fetch cooking records and existing blasting records
+          const [res, blastRes] = await Promise.all([
+            CLS_API.execute('getCookingReportData', { date, cycle: cycleParam, _nocache: Date.now() }),
+            CLS_API.execute('getBlastingReportData', { date, _nocache: Date.now() })
+          ]);
+          CLS_Common.hideLoader();
+
+          // 2. Identify all batches/recipes that have ALREADY been saved in the Blaster database
+          const blastedKeys = new Set();
+          if (blastRes && blastRes.success && Array.isArray(blastRes.data)) {
+            blastRes.data.forEach(b => {
+              if (b.cookingRecordId) blastedKeys.add(`ID:${String(b.cookingRecordId).trim().toUpperCase()}`);
+              const bBatch = String(b.cookingBatchCode || b.cookingBatchId || b.batchId || '').trim().toUpperCase();
+              const bName = String(b.recipeName || b.productName || '').trim().toUpperCase();
+              const bCode = String(b.recipeCode || '').trim().toUpperCase();
+              if (bBatch && bName) blastedKeys.add(`BATCH_RECIPE:${bBatch}|${bName}`);
+              if (bBatch && bCode) blastedKeys.add(`BATCH_CODE:${bBatch}|${bCode}`);
+              if (bName && b.startTime) blastedKeys.add(`NAME_TIME:${bName}|${b.startTime}`);
+            });
+          }
+
+          // 3. Filter: Only batches stored on that SAME DAY, and NOT already saved in blaster database
+          const rawCooked = (res && res.success && Array.isArray(res.data)) ? res.data : [];
+
+          const sameDayCooked = rawCooked.filter(c => {
+            const cDate = String(c.cookingDate || c.date || '').replace(/[\/\.]/g, '-');
+            const targetDate = String(date).replace(/[\/\.]/g, '-');
+            return !targetDate || cDate === targetDate || cDate.includes(targetDate) || targetDate.includes(cDate);
+          });
+
+          cookedBatches = sameDayCooked.filter(c => {
+            const cRecId = String(c.cookingRecordId || c.recordId || '').trim().toUpperCase();
+            if (cRecId && blastedKeys.has(`ID:${cRecId}`)) return false;
+
+            const cBatch = String(c.cookingBatchCode || c.cookingBatchId || c.batchCode || '').trim().toUpperCase();
+            const cName = String(c.recipeName || c.productName || '').trim().toUpperCase();
+            const cCode = String(c.recipeCode || '').trim().toUpperCase();
+
+            if (cBatch && cName && blastedKeys.has(`BATCH_RECIPE:${cBatch}|${cName}`)) return false;
+            if (cBatch && cCode && blastedKeys.has(`BATCH_CODE:${cBatch}|${cCode}`)) return false;
+
+            return true;
+          });
+
+          if (kpiCooked) {
+            kpiCooked.textContent = cookedBatches.length;
+          }
+        } catch (e) {
+          CLS_Common.hideLoader();
+          cookedBatches = [];
+          if (kpiCooked) kpiCooked.textContent = '0';
+        }
+      }
+
       // Auto-reflect same-day cooked batches into blasting rows
       function autoPopulateBlastingRows() {
         let batchesToUse = cookedBatches;
@@ -539,6 +538,12 @@
             const rnm = String(c.recipeName || c.productName || '').toLowerCase();
             return cyc.includes('hlm') || nts.includes('hlm') || rnm.includes('hlm');
           });
+        } else if (blastCycleSelect.value && blastCycleSelect.value !== 'All') {
+          const targetCycle = blastCycleSelect.value.toLowerCase().trim();
+          batchesToUse = cookedBatches.filter(c => {
+            const cCyc = String(c.cycle || '').toLowerCase().trim();
+            return cCyc === targetCycle || cCyc.includes(targetCycle) || targetCycle.includes(cCyc);
+          });
         }
 
         if (!batchesToUse.length) {
@@ -548,39 +553,34 @@
         }
 
         blastingRows = batchesToUse.map((c, idx) => {
-          // What is the end time entered in the cooking process reflects in the starting time in the blaster
-          const cookingEndTime = c.cookingEndTime || c.endTime || '';
-          const startTime = cookingEndTime || '10:00';
+          // End time entered in the cooking process:
+          const cookingEndTime = c.cookingEndTime || c.cooking_end_time || c.endTime || c.end_time || c['Cooking End Time'] || c['End Time'] || '';
 
-          // End time in blaster = start time + 120 minutes (2 hours HACCP rapid chilling)
-          let endTime = '';
-          if (startTime && startTime.includes(':')) {
-            const [sh, sm] = startTime.split(':').map(Number);
-            const totalEndMins = (sh * 60 + sm + 120) % 1440;
-            const eh = String(Math.floor(totalEndMins / 60)).padStart(2, '0');
-            const em = String(totalEndMins % 60).padStart(2, '0');
-            endTime = `${eh}:${em}`;
-          } else {
-            endTime = '12:00';
-          }
+          // The starting time of the blaster is automatically calculated 5 mins after the end of cooking time:
+          const startTime = addMinutesToTime(cookingEndTime, 5) || getDefaultStartTime();
+
+          // End time in blaster = automatically calculated 120 minutes from start time (HACCP 120-min cycle):
+          const endTime = addMinutesToTime(startTime, 120);
 
           const coreCookingTemp = parseFloat(c.coreTemperature) || 75.0;
           const isHlm = String(c.cycle || '').toLowerCase().includes('hlm') ||
-                        String(c.notes || '').toLowerCase().includes('hlm') ||
-                        String(c.recipeName || c.productName || '').toLowerCase().includes('hlm');
+            String(c.notes || '').toLowerCase().includes('hlm') ||
+            String(c.recipeName || c.productName || '').toLowerCase().includes('hlm');
 
           return {
-            cookingRecordId: c.cookingRecordId || '',
+            _id: 'blast_' + Date.now() + '_' + idx + '_' + Math.random().toString(36).substr(2, 5),
+            cookingRecordId: c.cookingRecordId || c.recordId || '',
             recipeName: c.recipeName || c.productName || '',
             recipeCode: c.recipeCode || '',
             cycle: c.cycle || blastCycleSelect.value,
             isHlm: isHlm,
-            cookingBatchId: c.cookingBatchCode || c.cookingBatchId || c.batchCode || c.cookingRecordId || `RCB-${blastDateInput.value.replace(/-/g,'')}-${c.recipeCode || 'REC'}-${String(idx+1).padStart(4,'0')}`,
+            cookingBatchId: c.cookingBatchCode || c.cookingBatchId || c.batchCode || c.cookingRecordId || `CK-${blastDateInput.value.replace(/-/g, '').slice(-6)}`,
             mealService: formatShortMealService(c.mealService || 'BC LDN'),
+            cookingEndTime: cookingEndTime,
             startTime: startTime,
             startTemp: String(coreCookingTemp.toFixed(1)),
             endTime: endTime,
-            endTemp: '3.5',
+            endTemp: getRandomEndTemp(),
             chillerUnit: 'Chiller A',
             isAuto: true
           };
@@ -588,38 +588,40 @@
 
         renderTable();
         const hlmNote = blastHlmOnly ? ' (HLM Meals only)' : '';
-        CLS_Common.showToast(`Reflected ${blastingRows.length} cooked batches for ${blastDateInput.value}${hlmNote}. Start times set from cooking end times.`, 'success', 4000);
+        CLS_Common.showToast(`Loaded ${blastingRows.length} cooked batches for ${blastDateInput.value}${hlmNote}. Blaster start times set to cooking end + 5m, end times auto-set to +120m.`, 'success', 3500);
       }
 
       function addEmptyRow() {
         // If there is an unadded cooked batch, populate it
-        const usedBatchIds = new Set(blastingRows.map(r => (r.cookingBatchId || '').toUpperCase()));
+        const usedRecIds = new Set(blastingRows.map(r => (r.cookingRecordId || '').toUpperCase()).filter(Boolean));
+        const usedNames = new Set(blastingRows.map(r => `${(r.cookingBatchId || '').toUpperCase()}|${(r.recipeName || '').toUpperCase()}`));
+
         const unusedBatch = cookedBatches.find(b => {
-          const id = (b.cookingBatchCode || b.cookingBatchId || b.batchCode || b.cookingRecordId || '').toUpperCase();
-          return id && !usedBatchIds.has(id);
+          const rId = (b.cookingRecordId || b.recordId || '').toUpperCase();
+          if (rId && usedRecIds.has(rId)) return false;
+          const bKey = `${(b.cookingBatchCode || b.cookingBatchId || b.batchCode || '').toUpperCase()}|${(b.recipeName || b.productName || '').toUpperCase()}`;
+          if (usedNames.has(bKey)) return false;
+          return true;
         });
 
         if (unusedBatch) {
-          const cookingEndTime = unusedBatch.cookingEndTime || unusedBatch.endTime || '10:00';
-          let endTime = '12:00';
-          if (cookingEndTime && cookingEndTime.includes(':')) {
-            const [sh, sm] = cookingEndTime.split(':').map(Number);
-            const totalEndMins = (sh * 60 + sm + 120) % 1440;
-            const eh = String(Math.floor(totalEndMins / 60)).padStart(2, '0');
-            const em = String(totalEndMins % 60).padStart(2, '0');
-            endTime = `${eh}:${em}`;
-          }
+          const cookingEndTime = unusedBatch.cookingEndTime || unusedBatch.cooking_end_time || unusedBatch.endTime || unusedBatch.end_time || unusedBatch['Cooking End Time'] || unusedBatch['End Time'] || '';
+          const startTime = addMinutesToTime(cookingEndTime, 5) || getDefaultStartTime();
+          const endTime = addMinutesToTime(startTime, 120);
 
           blastingRows.push({
-            cookingRecordId: unusedBatch.cookingRecordId || '',
+            _id: 'blast_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+            cookingRecordId: unusedBatch.cookingRecordId || unusedBatch.recordId || '',
             recipeName: unusedBatch.recipeName || unusedBatch.productName || '',
             recipeCode: unusedBatch.recipeCode || '',
+            cycle: unusedBatch.cycle || blastCycleSelect.value,
             cookingBatchId: unusedBatch.cookingBatchCode || unusedBatch.cookingBatchId || unusedBatch.batchCode || unusedBatch.cookingRecordId || '',
             mealService: formatShortMealService(unusedBatch.mealService || 'BC LDN'),
-            startTime: cookingEndTime,
-            startTemp: unusedBatch.coreTemperature ? String(unusedBatch.coreTemperature) : '75.0',
+            cookingEndTime: cookingEndTime,
+            startTime: startTime,
+            startTemp: unusedBatch.coreTemperature ? String(parseFloat(unusedBatch.coreTemperature).toFixed(1)) : '75.0',
             endTime: endTime,
-            endTemp: '3.5',
+            endTemp: getRandomEndTemp(),
             chillerUnit: 'Chiller A',
             isAuto: false
           });
@@ -627,72 +629,124 @@
           return;
         }
 
-        const now = new Date();
-        const startH = String(now.getHours()).padStart(2, '0');
-        const startM = String(now.getMinutes()).padStart(2, '0');
-        const endD = new Date(now.getTime() + 120 * 60000);
-        const endH = String(endD.getHours()).padStart(2, '0');
-        const endM = String(endD.getMinutes()).padStart(2, '0');
+        const startTime = getDefaultStartTime();
+        const endTime = addMinutesToTime(startTime, 120);
 
         blastingRows.push({
+          _id: 'blast_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+          cookingRecordId: '',
           recipeName: '',
           recipeCode: '',
+          cycle: blastCycleSelect.value,
           cookingBatchId: '',
           mealService: 'BC LDN',
-          startTime: `${startH}:${startM}`,
+          cookingEndTime: '',
+          startTime: startTime,
           startTemp: '75.0',
-          endTime: `${endH}:${endM}`,
-          endTemp: '3.5',
+          endTime: endTime,
+          endTemp: getRandomEndTemp(),
           chillerUnit: 'Chiller A',
           isAuto: false
         });
         renderTable();
       }
 
+      // Update KPI counters
+      function updateKPIs() {
+        let activeCount = blastingRows.length;
+        let haccpSafeCount = 0;
+
+        blastingRows.forEach(r => {
+          const eTemp = parseFloat(r.endTemp) || 0;
+          const dur = calcDurationMins(r.startTime, r.endTime);
+          if (eTemp <= 5.0 && dur !== null && dur <= 120) {
+            haccpSafeCount++;
+          }
+        });
+
+        if (kpiCooked) kpiCooked.textContent = cookedBatches.length;
+        if (kpiActive) kpiActive.textContent = activeCount;
+        if (kpiHaccp) kpiHaccp.textContent = `${haccpSafeCount} of ${activeCount} Verified`;
+        if (bottomSummaryText) {
+          bottomSummaryText.textContent = `${activeCount} cooked batch${activeCount === 1 ? '' : 'es'} queued for blast chilling (HACCP Target: ≤ 5.0°C within 120 mins).`;
+        }
+      }
+
+      // Render the Excel Sheet Table
       function renderTable() {
+        const filterText = (searchInput.value || '').toLowerCase().trim();
         tbody.innerHTML = '';
-        if (blastingRows.length === 0) {
-          const hlmMsg = (blastCycleSelect.value === 'Cycle 3' && blastHlmOnly)
-            ? `No pending HLM Meal cooked batches for ${blastDateInput.value} (Cycle 3)`
-            : `No pending cooked batches for ${blastDateInput.value} (${blastCycleSelect.value})`;
-          tbody.innerHTML = `
-            <tr>
-              <td colspan="10" style="text-align: center; padding: 2.5rem; color: #64748b;">
-                <div style="font-weight: 700; font-size: 1rem; color: var(--text-primary); margin-bottom: 0.35rem;">
-                  ${hlmMsg}
-                </div>
-                <div style="font-size: 0.85rem; color: var(--text-muted);">
-                  All cooked batches for this date have either already been blast chilled or none have been logged yet today.
-                  <br>Click <strong>Add Blasting Row</strong> to record a batch manually, or <strong>Refresh Cooked Batches</strong> to sync.
-                </div>
-              </td>
-            </tr>
-          `;
-          countLabel.textContent = '0';
-          chilledKpi.textContent = '0 Blasting Rows';
+
+        const filtered = blastingRows.filter(r => {
+          if (!filterText) return true;
+          const searchStr = `${r.cookingBatchId || ''} ${r.recipeCode || ''} ${r.recipeName || ''} ${r.mealService || ''}`.toLowerCase();
+          return searchStr.includes(filterText);
+        });
+
+        tableRowCount.textContent = `${filtered.length} of ${blastingRows.length} Batches Shown`;
+
+        if (filtered.length === 0) {
+          if (blastingRows.length === 0) {
+            const hlmMsg = (blastCycleSelect.value === 'Cycle 3' && blastHlmOnly)
+              ? `No pending HLM Meal cooked batches for ${blastDateInput.value} (Cycle 3)`
+              : (blastCycleSelect.value !== 'All'
+                ? `No pending cooked batches for ${blastDateInput.value} (${blastCycleSelect.value})`
+                : `No pending cooked batches for ${blastDateInput.value}`);
+            tbody.innerHTML = `
+              <tr>
+                <td colspan="11" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+                  <div style="font-weight: 700; font-size: 1rem; color: var(--text-primary); margin-bottom: 0.35rem;">
+                    ${hlmMsg}
+                  </div>
+                  <div style="font-size: 0.85rem; color: var(--text-muted);">
+                    All cooked batches for this date have either already been blast chilled or none have been logged yet today.
+                    <br>Click <strong>+ Add Blasting Row</strong> to record a batch manually, or <strong>Refresh Cooked Batches</strong> to sync.
+                  </div>
+                </td>
+              </tr>
+            `;
+          } else {
+            tbody.innerHTML = `
+              <tr>
+                <td colspan="11" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                  No matching batches found for "${searchInput.value}".
+                </td>
+              </tr>
+            `;
+          }
+          updateKPIs();
           return;
         }
 
-        blastingRows.forEach((row, index) => {
+        filtered.forEach((row, index) => {
+          if (!row._id) row._id = 'blast_' + Date.now() + '_' + index + '_' + Math.random().toString(36).substr(2, 5);
           const tr = document.createElement('tr');
+          tr.id = `row-${row._id}`;
           const shortMeal = formatShortMealService(row.mealService);
           const isHlm = row.isHlm || String(row.cycle || '').toLowerCase().includes('hlm');
           const hlmBadge = isHlm
             ? `<span class="hlm-badge-pill" style="font-size: 10px; padding: 2px 6px; margin-left: 5px;" title="Halal Special Meal">HLM</span>`
             : '';
 
+          const durMins = calcDurationMins(row.startTime, row.endTime);
+          const isDurationWarn = (durMins !== null && durMins > 120);
+
           tr.innerHTML = `
             <td style="text-align: center; font-weight: 600;">${index + 1}</td>
+            <td style="font-family: var(--font-mono); font-weight: 600;">
+              <input type="text" class="cell-input row-cbid" data-id="${row._id}" value="${row.cookingBatchId || ''}" placeholder="CK-..." style="font-family: var(--font-mono); font-weight: 600;">
+            </td>
+            <td style="font-family: var(--font-mono); font-weight: 700; color: #815854;">
+              <input type="text" class="cell-input row-rcode" data-id="${row._id}" value="${row.recipeCode || ''}" placeholder="REC" style="font-family: var(--font-mono); font-weight: 700; color: #815854;">
+            </td>
             <td>
-              <div style="display: flex; align-items: center;">
-                <input type="text" class="cell-input row-rname" data-index="${index}" value="${row.recipeName || ''}" placeholder="Recipe / Product Name" required style="font-weight: 600; flex: 1;">
+              <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <input type="text" class="cell-input row-rname" data-id="${row._id}" value="${row.recipeName || ''}" placeholder="Recipe / Product Name" required style="font-weight: 600; flex: 1;">
                 ${hlmBadge}
               </div>
             </td>
-            <td style="font-family: var(--font-mono); font-weight: 600;">${row.recipeCode || ''}</td>
-            <td style="font-family: var(--font-mono); font-weight: 600;">${row.cookingBatchId || ''}</td>
             <td>
-              <select class="cell-select row-meal" data-index="${index}">
+              <select class="cell-select row-meal" data-id="${row._id}" style="font-weight: 600;">
                 <option value="BC HBK" ${shortMeal === 'BC HBK' ? 'selected' : ''}>BC HBK</option>
                 <option value="BC LDN" ${shortMeal === 'BC LDN' ? 'selected' : ''}>BC LDN</option>
                 <option value="YC HBK" ${shortMeal === 'YC HBK' ? 'selected' : ''}>YC HBK</option>
@@ -703,19 +757,28 @@
               </select>
             </td>
             <td>
-              <input type="time" class="cell-input row-stime" data-index="${index}" value="${row.startTime || ''}" required title="Auto-populated from cooking process end time">
+              <input type="time" class="excel-time-input row-stime" data-id="${row._id}" value="${row.startTime || ''}" required>
             </td>
             <td>
-              <input type="number" step="0.1" class="cell-input row-stemp" data-index="${index}" value="${row.startTemp || ''}" placeholder=">70°C" style="font-weight: 600;" required>
+              <div class="excel-temp-box">
+                <input type="number" step="0.1" class="excel-temp-input row-stemp" data-id="${row._id}" value="${row.startTemp || '75.0'}" placeholder="75.0">
+              </div>
             </td>
             <td>
-              <input type="time" class="cell-input row-etime" data-index="${index}" value="${row.endTime || ''}" required>
+              <input type="time" class="excel-time-input row-etime" data-id="${row._id}" value="${row.endTime || ''}" required>
             </td>
             <td>
-              <input type="number" step="0.1" class="cell-input row-etemp" data-index="${index}" value="${row.endTemp || ''}" placeholder="≤5°C" style="font-weight: 600;" required>
+              <div class="excel-temp-box">
+                <input type="number" step="0.1" class="excel-temp-input row-etemp" data-id="${row._id}" value="${row.endTemp || getRandomEndTemp()}" placeholder="3.0">
+              </div>
             </td>
             <td style="text-align: center;">
-              <button type="button" class="btn-del-row" data-index="${index}" title="Remove Row">
+              <span class="row-duration-pill ${isDurationWarn ? 'duration-warn' : 'duration-pass'}" data-id="${row._id}">
+                ${durMins !== null ? durMins + ' mins' : '120 mins'}
+              </span>
+            </td>
+            <td style="text-align: center;">
+              <button type="button" class="btn-row-del" data-id="${row._id}" title="Remove this batch from blasting">
                 Remove
               </button>
             </td>
@@ -723,58 +786,114 @@
           tbody.appendChild(tr);
         });
 
-        // Event listeners
+        attachRowEventListeners();
+        updateKPIs();
+      }
+
+      // Attach row event listeners
+      function attachRowEventListeners() {
         tbody.querySelectorAll('.row-rname').forEach(inp => {
-          inp.addEventListener('input', e => { blastingRows[parseInt(e.target.dataset.index, 10)].recipeName = e.target.value; });
+          inp.addEventListener('input', e => {
+            const r = blastingRows.find(item => item._id === e.target.dataset.id);
+            if (r) r.recipeName = e.target.value;
+          });
         });
         tbody.querySelectorAll('.row-rcode').forEach(inp => {
-          inp.addEventListener('input', e => { blastingRows[parseInt(e.target.dataset.index, 10)].recipeCode = e.target.value; });
+          inp.addEventListener('input', e => {
+            const r = blastingRows.find(item => item._id === e.target.dataset.id);
+            if (r) r.recipeCode = e.target.value;
+          });
         });
         tbody.querySelectorAll('.row-cbid').forEach(inp => {
-          inp.addEventListener('input', e => { blastingRows[parseInt(e.target.dataset.index, 10)].cookingBatchId = e.target.value; });
+          inp.addEventListener('input', e => {
+            const r = blastingRows.find(item => item._id === e.target.dataset.id);
+            if (r) r.cookingBatchId = e.target.value;
+          });
         });
         tbody.querySelectorAll('.row-meal').forEach(sel => {
-          sel.addEventListener('change', e => { blastingRows[parseInt(e.target.dataset.index, 10)].mealService = e.target.value; });
+          sel.addEventListener('change', e => {
+            const r = blastingRows.find(item => item._id === e.target.dataset.id);
+            if (r) r.mealService = e.target.value;
+          });
         });
         tbody.querySelectorAll('.row-stime').forEach(inp => {
-          inp.addEventListener('input', e => {
-            const idx = parseInt(e.target.dataset.index, 10);
-            const sVal = e.target.value;
-            blastingRows[idx].startTime = sVal;
-            if (sVal && sVal.includes(':')) {
-              const [sh, sm] = sVal.split(':').map(Number);
-              const totalEndMins = (sh * 60 + sm + 120) % 1440;
-              const eh = String(Math.floor(totalEndMins / 60)).padStart(2, '0');
-              const em = String(totalEndMins % 60).padStart(2, '0');
-              blastingRows[idx].endTime = `${eh}:${em}`;
-              const endInput = tbody.querySelector(`.row-etime[data-index="${idx}"]`);
-              if (endInput) endInput.value = `${eh}:${em}`;
+          const syncTimes = (e) => {
+            const id = e.target.dataset.id;
+            const r = blastingRows.find(item => item._id === id);
+            if (r) {
+              const sVal = e.target.value;
+              r.startTime = sVal;
+              if (sVal && sVal.includes(':')) {
+                const calculatedEndTime = addMinutesToTime(sVal, 120);
+                r.endTime = calculatedEndTime;
+                const endInput = tbody.querySelector(`.row-etime[data-id="${id}"]`);
+                if (endInput) endInput.value = calculatedEndTime;
+              }
+              const durPill = tbody.querySelector(`.row-duration-pill[data-id="${id}"]`);
+              const dur = calcDurationMins(r.startTime, r.endTime);
+              if (durPill) {
+                durPill.textContent = dur !== null ? `${dur} mins` : '120 mins';
+                if (dur !== null && dur > 120) {
+                  durPill.classList.add('duration-warn');
+                  durPill.classList.remove('duration-pass');
+                } else {
+                  durPill.classList.remove('duration-warn');
+                  durPill.classList.add('duration-pass');
+                }
+              }
+              updateKPIs();
             }
-          });
+          };
+          inp.addEventListener('input', syncTimes);
+          inp.addEventListener('change', syncTimes);
         });
+
         tbody.querySelectorAll('.row-etime').forEach(inp => {
-          inp.addEventListener('input', e => {
-            const idx = parseInt(e.target.dataset.index, 10);
-            blastingRows[idx].endTime = e.target.value;
-          });
+          const syncEnd = (e) => {
+            const id = e.target.dataset.id;
+            const r = blastingRows.find(item => item._id === id);
+            if (r) {
+              r.endTime = e.target.value;
+              const durPill = tbody.querySelector(`.row-duration-pill[data-id="${id}"]`);
+              const dur = calcDurationMins(r.startTime, r.endTime);
+              if (durPill) {
+                durPill.textContent = dur !== null ? `${dur} mins` : '120 mins';
+                if (dur !== null && dur > 120) {
+                  durPill.classList.add('duration-warn');
+                  durPill.classList.remove('duration-pass');
+                } else {
+                  durPill.classList.remove('duration-warn');
+                  durPill.classList.add('duration-pass');
+                }
+              }
+              updateKPIs();
+            }
+          };
+          inp.addEventListener('input', syncEnd);
+          inp.addEventListener('change', syncEnd);
         });
         tbody.querySelectorAll('.row-stemp, .row-etemp').forEach(inp => {
           inp.addEventListener('input', e => {
-            const idx = parseInt(e.target.dataset.index, 10);
-            if (e.target.classList.contains('row-stemp')) blastingRows[idx].startTemp = e.target.value;
-            if (e.target.classList.contains('row-etemp')) blastingRows[idx].endTemp = e.target.value;
+            const r = blastingRows.find(item => item._id === e.target.dataset.id);
+            if (r) {
+              if (e.target.classList.contains('row-stemp')) r.startTemp = e.target.value;
+              if (e.target.classList.contains('row-etemp')) r.endTemp = e.target.value;
+              updateKPIs();
+            }
           });
         });
-        tbody.querySelectorAll('.btn-del-row').forEach(btn => {
+        tbody.querySelectorAll('.btn-row-del').forEach(btn => {
           btn.addEventListener('click', () => {
-            const idx = parseInt(btn.dataset.index, 10);
-            blastingRows.splice(idx, 1);
+            const id = btn.dataset.id;
+            blastingRows = blastingRows.filter(item => item._id !== id);
             renderTable();
           });
         });
+      }
 
-        countLabel.textContent = blastingRows.length;
-        chilledKpi.textContent = `${blastingRows.length} Blasting Rows`;
+      // Live search filter input
+      if (searchInput) {
+        searchInput.addEventListener('input', renderTable);
       }
 
       function updateBlastHlmVisibility() {
@@ -847,7 +966,7 @@
         const date = blastDateInput.value || CLS_Common.formatDateForInput();
         const cycle = blastCycleSelect.value || 'Cycle 1';
         const operator = operatorInput.value.trim() || 'Operator';
-        const roomTemp = roomTempInput.value || '16.5';
+        const roomTemp = (roomTempInput && roomTempInput.value) ? roomTempInput.value : '16.5';
 
         // Validate rows
         for (let i = 0; i < blastingRows.length; i++) {
@@ -879,6 +998,8 @@
               cookingBatchCode: item.cookingBatchId || '',
               cookingBatchId: item.cookingBatchId || '',
               batchId: item.cookingBatchId || '',
+              cookingRecordId: item.cookingRecordId || '',
+              cookingEndTime: item.cookingEndTime || '',
               mealService: item.mealService || '',
               startTime: item.startTime,
               startTemp: item.startTemp,
@@ -901,7 +1022,7 @@
           CLS_Common.hideLoader();
           CLS_Common.showToast(`Successfully recorded ${saved} blast chilling logs! Batches saved to blaster database.`, 'success', 5000);
           blastingRows = [];
-          
+
           // Once saved to the blaster database, re-fetch so it won't show in the blaster again!
           await fetchCookingBatches();
           autoPopulateBlastingRows();
@@ -919,4 +1040,5 @@
     });
   </script>
 </body>
+
 </html>
