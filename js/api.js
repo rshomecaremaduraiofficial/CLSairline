@@ -144,6 +144,126 @@ const CLS_MockStore = {
     return list;
   },
 
+  getDefaultGoodsIn() {
+    const today = new Date().toISOString().slice(0, 10);
+    const dateCode = today.split('-').reverse().map(x => x.length === 4 ? x.slice(-2) : x).join('');
+    return [
+      { goodsInId: 'GIN-000001', productId: 'CLS-000027', productName: 'Boneless Skinless Chicken Thighs', category: 'MEAT', batchCode: dateCode, supplierBatchCode: 'SUP-CK-882', quantity: 80, unit: 'KG', date: today, storageArea: 'Chiller 1', supplier: 'Crown Quality Meats' },
+      { goodsInId: 'GIN-000002', productId: 'CLS-000008', productName: 'Fresh Chicken Breast Fillets', category: 'MEAT', batchCode: dateCode, supplierBatchCode: 'SUP-CK-883', quantity: 100, unit: 'KG', date: today, storageArea: 'Chiller 1', supplier: 'Crown Quality Meats' },
+      { goodsInId: 'GIN-000003', productId: 'CLS-000018', productName: 'Atlantic Salmon Fresh Fillets', category: 'FISH', batchCode: dateCode, supplierBatchCode: 'SUP-SL-401', quantity: 50, unit: 'KG', date: today, storageArea: 'Chiller 3', supplier: 'Ocean Fresh Seafood' },
+      { goodsInId: 'GIN-000004', productId: 'CLS-000030', productName: 'British Lamb Diced Leg', category: 'MEAT', batchCode: dateCode, supplierBatchCode: 'SUP-LM-112', quantity: 60, unit: 'KG', date: today, storageArea: 'Chiller 1', supplier: 'Highland Farm Meats' },
+      { goodsInId: 'GIN-000005', productId: 'CLS-000001', productName: 'Aged Basmati Rice Long Grain', category: 'DRY ITEMS', batchCode: dateCode, supplierBatchCode: 'SUP-RC-991', quantity: 200, unit: 'KG', date: today, storageArea: 'Dry Room', supplier: 'Royal Basmati Mills' },
+      { goodsInId: 'GIN-000006', productId: 'CLS-000004', productName: 'Roasted Curry Powder', category: 'DRY ITEMS', batchCode: dateCode, supplierBatchCode: 'SUP-CP-331', quantity: 40, unit: 'KG', date: today, storageArea: 'Dry Room', supplier: 'Spice Masters Ltd' },
+      { goodsInId: 'GIN-000007', productId: 'CLS-000005', productName: 'Tomato Paste Double Concentrate', category: 'DRY ITEMS', batchCode: dateCode, supplierBatchCode: 'SUP-TP-129', quantity: 60, unit: 'KG', date: today, storageArea: 'Dry Room', supplier: 'Mediterranean Direct' },
+      { goodsInId: 'GIN-000008', productId: 'CLS-000006', productName: 'Vegetable Cooking Oil Pure', category: 'DRY ITEMS', batchCode: dateCode, supplierBatchCode: 'SUP-VO-774', quantity: 150, unit: 'Litre', date: today, storageArea: 'Dry Room', supplier: 'Golden Harvest Oils' },
+      { goodsInId: 'GIN-000009', productId: 'CLS-000007', productName: 'Fine Pure Sea Salt', category: 'DRY ITEMS', batchCode: dateCode, supplierBatchCode: 'SUP-ST-002', quantity: 80, unit: 'KG', date: today, storageArea: 'Dry Room', supplier: 'Pure Sea Essentials' },
+      { goodsInId: 'GIN-000010', productId: 'CLS-000009', productName: 'Crushed Black Pepper', category: 'DRY ITEMS', batchCode: dateCode, supplierBatchCode: 'SUP-BP-441', quantity: 30, unit: 'KG', date: today, storageArea: 'Dry Room', supplier: 'Spice Masters Ltd' },
+      { goodsInId: 'GIN-000011', productId: 'PRD-503', productName: 'Frozen Mixed Vegetables', category: 'FROZEN', batchCode: dateCode, supplierBatchCode: 'SUP-MV-611', quantity: 90, unit: 'KG', date: today, storageArea: 'Freezer 1', supplier: 'Frost Fresh Organics' },
+      { goodsInId: 'GIN-000012', productId: 'CLS-000037', productName: 'Brown Onions Sliced Grade A', category: 'FRUIT & VEGETABLES', batchCode: dateCode, supplierBatchCode: 'SUP-ON-501', quantity: 100, unit: 'KG', date: today, storageArea: 'Vegetable Chiller', supplier: 'Fresh Valley Produce' },
+      { goodsInId: 'GIN-000013', productId: 'CLS-000036', productName: 'Red Onions Diced 10mm', category: 'FRUIT & VEGETABLES', batchCode: dateCode, supplierBatchCode: 'SUP-RO-502', quantity: 60, unit: 'KG', date: today, storageArea: 'Vegetable Chiller', supplier: 'Fresh Valley Produce' },
+      { goodsInId: 'GIN-000014', productId: 'CLS-000040', productName: 'Grade A Carrots Diced', category: 'FRUIT & VEGETABLES', batchCode: dateCode, supplierBatchCode: 'SUP-CR-221', quantity: 70, unit: 'KG', date: today, storageArea: 'Vegetable Chiller', supplier: 'Fresh Valley Produce' },
+      { goodsInId: 'GIN-000015', productId: 'CLS-000041', productName: 'Maris Piper Potatoes Diced', category: 'FRUIT & VEGETABLES', batchCode: dateCode, supplierBatchCode: 'SUP-PT-118', quantity: 120, unit: 'KG', date: today, storageArea: 'Vegetable Chiller', supplier: 'Fresh Valley Produce' },
+      { goodsInId: 'GIN-000016', productId: 'CLS-000047', productName: 'Pasteurised Whole Liquid Eggs', category: 'DAIRY PRODUCTS', batchCode: dateCode, supplierBatchCode: 'SUP-EG-771', quantity: 80, unit: 'Litre', date: today, storageArea: 'Dairy Chiller', supplier: 'Valley Farm Dairy' },
+      { goodsInId: 'GIN-000017', productId: 'CLS-000048', productName: 'Salted Butter Pure Block', category: 'DAIRY PRODUCTS', batchCode: dateCode, supplierBatchCode: 'SUP-BT-309', quantity: 45, unit: 'KG', date: today, storageArea: 'Dairy Chiller', supplier: 'Valley Farm Dairy' },
+      { goodsInId: 'GIN-000018', productId: 'CLS-000049', productName: 'Mature Cheddar Cheese Grated', category: 'DAIRY PRODUCTS', batchCode: dateCode, supplierBatchCode: 'SUP-CH-902', quantity: 40, unit: 'KG', date: today, storageArea: 'Dairy Chiller', supplier: 'Valley Farm Dairy' },
+      { goodsInId: 'GIN-000019', productId: 'CLS-000050', productName: 'Fresh Double Cream 48%', category: 'DAIRY PRODUCTS', batchCode: dateCode, supplierBatchCode: 'SUP-DC-442', quantity: 50, unit: 'Litre', date: today, storageArea: 'Dairy Chiller', supplier: 'Valley Farm Dairy' },
+      { goodsInId: 'GIN-000020', productId: 'CLS-000028', productName: 'Prime British Beef Diced Chuck', category: 'MEAT', batchCode: dateCode, supplierBatchCode: 'SUP-BF-601', quantity: 80, unit: 'KG', date: today, storageArea: 'Chiller 1', supplier: 'Crown Quality Meats' }
+    ];
+  },
+
+  getDefaultPacking() {
+    const today = new Date().toISOString().slice(0, 10);
+    const d = new Date(today);
+    const yy = String(d.getFullYear()).slice(-2);
+    const start = new Date(d.getFullYear(), 0, 1);
+    const day = Math.floor((d - start) / (1000 * 60 * 60 * 24)) + 1;
+    const julian = `${yy}${String(day).padStart(3, '0')}`;
+
+    return [
+      {
+        packingId: 'PCK-00001',
+        recordId: 'PCK-00001',
+        julianCode: julian,
+        finalBatchCode: julian,
+        date: today,
+        finalProductName: 'Jaffna Style Chicken Curry',
+        recipeName: 'Jaffna Style Chicken Curry',
+        choiceNum: 'Choice 01',
+        cycle: 'Cycle 1',
+        mealService: 'BC LDN',
+        portionProduce: 180,
+        packCount: 180,
+        startingTime: '08:00',
+        endingTime: '09:30',
+        startingTemperature: '12.4°C',
+        endingTemperature: '11.8°C',
+        qualityCheck: 'Pass (✔️)',
+        weightCheck: 'Pass (✔️)',
+        recipeCount: 3,
+        recipes: [
+          { recipeName: 'Jaffna Chicken Base', cookingBatchCode: `${julian.slice(0, 4)}1-01`, expireDate: today, timestamp: '08:15' },
+          { recipeName: 'Steamed Basmati Rice', cookingBatchCode: `${julian.slice(0, 4)}1-02`, expireDate: today, timestamp: '08:25' },
+          { recipeName: 'Tempered Dhal Curry', cookingBatchCode: `${julian.slice(0, 4)}1-03`, expireDate: today, timestamp: '08:35' }
+        ],
+        staffNames: ['Kamal Silva', 'Nimal Perera', 'Sunil Fernando']
+      },
+      {
+        packingId: 'PCK-00002',
+        recordId: 'PCK-00002',
+        julianCode: julian,
+        finalBatchCode: julian,
+        date: today,
+        finalProductName: 'Traditional English Breakfast Omelette',
+        recipeName: 'Traditional English Breakfast Omelette',
+        choiceNum: 'Choice 02',
+        cycle: 'Cycle 1',
+        mealService: 'BC HBK',
+        portionProduce: 120,
+        packCount: 120,
+        startingTime: '09:45',
+        endingTime: '11:15',
+        startingTemperature: '12.2°C',
+        endingTemperature: '11.5°C',
+        qualityCheck: 'Pass (✔️)',
+        weightCheck: 'Pass (✔️)',
+        recipeCount: 3,
+        recipes: [
+          { recipeName: 'Breakfast Egg Omelette', cookingBatchCode: `${julian.slice(0, 4)}1-04`, expireDate: today, timestamp: '10:00' },
+          { recipeName: 'Grilled Chicken Sausage', cookingBatchCode: `${julian.slice(0, 4)}1-05`, expireDate: today, timestamp: '10:15' },
+          { recipeName: 'Parsley Potato Wedges', cookingBatchCode: `${julian.slice(0, 4)}1-06`, expireDate: today, timestamp: '10:30' }
+        ],
+        staffNames: ['Anura Jayasinghe', 'Sunil Fernando']
+      },
+      {
+        packingId: 'PCK-00003',
+        recordId: 'PCK-00003',
+        julianCode: julian,
+        finalBatchCode: julian,
+        date: today,
+        finalProductName: 'Braised Beef Stew with Root Vegetables',
+        recipeName: 'Braised Beef Stew with Root Vegetables',
+        choiceNum: 'Choice 03',
+        cycle: 'Cycle 1',
+        mealService: 'YC LDN',
+        portionProduce: 240,
+        packCount: 240,
+        startingTime: '11:30',
+        endingTime: '13:00',
+        startingTemperature: '12.5°C',
+        endingTemperature: '11.9°C',
+        qualityCheck: 'Pass (✔️)',
+        weightCheck: 'Pass (✔️)',
+        recipeCount: 3,
+        recipes: [
+          { recipeName: 'Braised Diced Beef Chuck', cookingBatchCode: `${julian.slice(0, 4)}1-07`, expireDate: today, timestamp: '11:45' },
+          { recipeName: 'Roasted Root Vegetables', cookingBatchCode: `${julian.slice(0, 4)}1-08`, expireDate: today, timestamp: '12:00' },
+          { recipeName: 'Mashed Maris Piper Potatoes', cookingBatchCode: `${julian.slice(0, 4)}1-09`, expireDate: today, timestamp: '12:15' }
+        ],
+        staffNames: ['Ruwan Wickramasinghe', 'Chaminda Bandara', 'Kasun Dissanayake']
+      }
+    ];
+  },
+
   getDefaultData() {
     return {
       productIdCounter: 1,
@@ -154,12 +274,12 @@ const CLS_MockStore = {
         { userId: 'ADM-001', username: 'admin', password: 'admin123', pin: '999888', role: 'Admin', fullName: 'Administrator', active: 'Yes' }
       ],
       sessions: [],
-      goodsIn: [],
+      goodsIn: this.getDefaultGoodsIn(),
       rejectedGoods: [],
       storage: [],
       cooking: [],
       blasting: [],
-      packing: [],
+      packing: this.getDefaultPacking(),
       temperature: this.getDefaultTemperatureReadings(),
       productCategoriesMaster: this.getDefaultProductCategories()
     };
@@ -176,6 +296,14 @@ const CLS_MockStore = {
         }
         if (!data.temperature || data.temperature.length === 0) {
           data.temperature = this.getDefaultTemperatureReadings();
+          this.saveData(data);
+        }
+        if (!data.goodsIn || data.goodsIn.length === 0) {
+          data.goodsIn = this.getDefaultGoodsIn();
+          this.saveData(data);
+        }
+        if (!data.packing || data.packing.length === 0) {
+          data.packing = this.getDefaultPacking();
           this.saveData(data);
         }
         return data;
@@ -255,16 +383,100 @@ const CLS_MockStore = {
         { recipeId: 'REC-205', recipeCode: 'CRWSTW', recipeName: 'Crew Beef Goulash with Creamy Mash', mealService: 'CREW LDN - Crew Dinner', cycle: 'Cycle 2', targetWeight: '420g' },
         { recipeId: 'REC-206', recipeCode: 'CRWOAT', recipeName: 'Crew Warm Porridge & Organic Honey', mealService: 'CREW HBK - Crew Breakfast', cycle: 'Cycle 2', targetWeight: '280g' }
       ],
-      'Cycle 3': [
-        { recipeId: 'REC-367', recipeCode: 'Choice 3', recipeName: 'Dhal Fry', mealService: 'YC HLM', cycle: 'Cycle 3', targetWeight: '350g' },
-        { recipeId: 'REC-368', recipeCode: 'Choice 3', recipeName: 'Soya Meat Curry', mealService: 'YC HLM', cycle: 'Cycle 3', targetWeight: '380g' },
-        { recipeId: 'REC-369', recipeCode: 'Choice 2', recipeName: 'Stir Fried in Black Bean Sauce', mealService: 'YC HLM', cycle: 'Cycle 3', targetWeight: '360g' },
-        { recipeId: 'REC-370', recipeCode: 'Choice 1', recipeName: 'Veg Mixed Kotthu', mealService: 'YC HLM', cycle: 'Cycle 3', targetWeight: '400g' },
-        { recipeId: 'REC-371', recipeCode: 'Choice 2', recipeName: 'Baked Potato Wedges', mealService: 'YC LDN', cycle: 'Cycle 3', targetWeight: '320g' },
-        { recipeId: 'REC-372', recipeCode: 'Choice 2', recipeName: 'Baked Salmon FRZ', mealService: 'YC LDN', cycle: 'Cycle 3', targetWeight: '340g' },
-        { recipeId: 'REC-373', recipeCode: 'Choice 3', recipeName: 'Bean Potato White Curry', mealService: 'YC LDN', cycle: 'Cycle 3', targetWeight: '360g' }
+'Cycle 3': [
+        { recipeId: "REC-301", recipeCode: "Choice 2", recipeName: "Chicken Ambul Thial", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-302", recipeCode: "Choice 4", recipeName: "Coconut Chutney", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-303", recipeCode: "Choice 3", recipeName: "Creamed Spinach", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-304", recipeCode: "Other", recipeName: "Deep Fried Onion Sambol", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-305", recipeCode: "Choice 3", recipeName: "Grilled Chicken Medalion", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-306", recipeCode: "Choice 3", recipeName: "Grilled Tomato Half", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-307", recipeCode: "Choice 2", recipeName: "Kata Sambal", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-308", recipeCode: "Choice 4", recipeName: "Masala Dosa", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-309", recipeCode: "Choice 3", recipeName: "Mini Lamb Kebab", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-310", recipeCode: "Choice 1", recipeName: "Parsley Potato Wedges", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-311", recipeCode: "Choice 4", recipeName: "Samber", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-312", recipeCode: "Choice 1", recipeName: "Sauteed mushrooms", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-313", recipeCode: "Choice 1", recipeName: "Cherry Tomato", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-314", recipeCode: "Choice 2", recipeName: "Seeni sambol", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-315", recipeCode: "Choice 1", recipeName: "Spinach Omelette", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-317", recipeCode: "Choice 4", recipeName: "Ulundu Wada", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-318", recipeCode: "Choice 2", recipeName: "White Milk Rice", mealService: "BC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-319", recipeCode: "Choice 2", recipeName: "Beef Fillet Steak", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-320", recipeCode: "Other", recipeName: "Boiled Okra Tips", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-321", recipeCode: "Choice 1", recipeName: "Broccoli Tempered With Dry Chilli Flakes", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-322", recipeCode: "Choice 4", recipeName: "Brown Onion Pilaf", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-323", recipeCode: "Choice 2", recipeName: "Buttered Carrot", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-324", recipeCode: "Other", recipeName: "Cabbage Leaf Blanched", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-325", recipeCode: "Choice 1", recipeName: "Carrot Poriyal", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-326", recipeCode: "Choice 2", recipeName: "Cauliflower Florettes", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-327", recipeCode: "Choice 1", recipeName: "Chicken Kalupol Curry", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-328", recipeCode: "Other", recipeName: "Coconut Chutney", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-329", recipeCode: "Choice 2", recipeName: "Creamed Spinach", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-330", recipeCode: "Choice 1", recipeName: "Curry Leaves", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-331", recipeCode: "Choice 4", recipeName: "Dhal Fry", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-333", recipeCode: "Choice 1", recipeName: "Fried Chilli", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-334", recipeCode: "Salad", recipeName: "Greek salad", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-335", recipeCode: "Choice 3", recipeName: "Grilled Carrot Sticks", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-336", recipeCode: "Choice 3", recipeName: "Grilled Green Pepper Sticks", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-337", recipeCode: "Other", recipeName: "Grilled Pumpkin Triangles", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-338", recipeCode: "Choice 3", recipeName: "Grilled Green Pepper Sticks", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-339", recipeCode: "Other", recipeName: "Grilled Red Pepper Triangles", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-340", recipeCode: "Salad", recipeName: "Mango Salsa", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-341", recipeCode: "Salad", recipeName: "Marianted Vegetables", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-342", recipeCode: "Salad", recipeName: "Mix Seafood", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-343", recipeCode: "Choice 3", recipeName: "Mushroom Pepper Cream Sauce", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-344", recipeCode: "Choice 2", recipeName: "Oven Rosted baby potatoes", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-345", recipeCode: "Choice 2", recipeName: "Oven Rosted salmon Steak", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-347", recipeCode: "Salad", recipeName: "Pol Kiri Custard", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-348", recipeCode: "Salad", recipeName: "Pol Peni Filling", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-349", recipeCode: "Choice 4", recipeName: "Potato Cauliflower Dry curry", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-350", recipeCode: "Other", recipeName: "Spicy Chicken Sandwich mix", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-351", recipeCode: "Choice 3", recipeName: "Spicy potato Wedges With Chopped Parsley", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-352", recipeCode: "Choice 1", recipeName: "Spinach & Dhal curry", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-353", recipeCode: "Choice 4", recipeName: "Srilankan Style Mixed Pickle", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-354", recipeCode: "Choice 1", recipeName: "Tempered Cashew With Dry Chilli Flakes", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-355", recipeCode: "Choice 1", recipeName: "Veg Cuttlet", mealService: "BC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-356", recipeCode: "Choice 3", recipeName: "Channa Curry", mealService: "YC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-357", recipeCode: "Choice 1", recipeName: "Cheese Sauce", mealService: "YC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-358", recipeCode: "Choice 1", recipeName: "Chicken Sausage", mealService: "YC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-359", recipeCode: "Choice 3", recipeName: "Deep Fried Onion Sambol", mealService: "YC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-360", recipeCode: "Choice 2", recipeName: "Red Fish Curry", mealService: "YC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-361", recipeCode: "Choice 1", recipeName: "Herbed Diced Potato", mealService: "YC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-362", recipeCode: "Choice 2", recipeName: "Kiri buth ( Milk Rice )", mealService: "YC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-363", recipeCode: "Choice 1", recipeName: "Sautees Sliced Mushroom", mealService: "YC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-364", recipeCode: "Choice 2&3", recipeName: "Seeni sambol", mealService: "YC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-365", recipeCode: "Choice 1", recipeName: "Tempered Spinach", mealService: "YC HBK", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-366", recipeCode: "Choice 1", recipeName: "Chicken Mild Curry", mealService: "YC HLM", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-367", recipeCode: "Choice 3", recipeName: "Dhal Fry", mealService: "YC HLM", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-368", recipeCode: "Choice 3", recipeName: "Soya Meat Curry", mealService: "YC HLM", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-369", recipeCode: "Choice 2", recipeName: "Stir Fried in Black Bean Sauce", mealService: "YC HLM", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-370", recipeCode: "Choice 1", recipeName: "Veg Mixed Kotthu", mealService: "YC HLM", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-371", recipeCode: "Choice 2", recipeName: "Baked Potato Wedges", mealService: "YC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-372", recipeCode: "Choice 2", recipeName: "Baked Salmon FRZ", mealService: "YC LDN", cycle: 'Cycle 3', targetWeight: '350g' },
+        { recipeId: "REC-373", recipeCode: "Choice 3", recipeName: "Bean Potato White Curry", mealService: "YC LDN", cycle: 'Cycle 3', targetWeight: '350g' }
+      ],
+      'Cycle 3 - HLM Meal': [
+        { recipeId: "REC-HLM-301", recipeCode: "Choice 1", recipeName: "Chicken Mild Curry", mealService: "YC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '350g' },
+        { recipeId: "REC-HLM-302", recipeCode: "Choice 3", recipeName: "Dhal Fry", mealService: "YC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '350g' },
+        { recipeId: "REC-HLM-303", recipeCode: "Choice 3", recipeName: "Soya Meat Curry", mealService: "YC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '350g' },
+        { recipeId: "REC-HLM-304", recipeCode: "Choice 2", recipeName: "Stir Fried in Black Bean Sauce", mealService: "YC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '350g' },
+        { recipeId: "REC-HLM-305", recipeCode: "Choice 1", recipeName: "Veg Mixed Kotthu", mealService: "YC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '350g' },
+        { recipeId: "REC-HLM-306", recipeCode: "Choice 1", recipeName: "Halal Chicken Biryani with Saffron Rice", mealService: "BC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '380g' },
+        { recipeId: "REC-HLM-307", recipeCode: "Choice 2", recipeName: "Halal Lamb Rogan Josh with Pilau Rice", mealService: "BC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '400g' }
+      ],
+      'HLM Meal': [
+        { recipeId: "REC-HLM-301", recipeCode: "Choice 1", recipeName: "Chicken Mild Curry", mealService: "YC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '350g' },
+        { recipeId: "REC-HLM-302", recipeCode: "Choice 3", recipeName: "Dhal Fry", mealService: "YC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '350g' },
+        { recipeId: "REC-HLM-303", recipeCode: "Choice 3", recipeName: "Soya Meat Curry", mealService: "YC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '350g' },
+        { recipeId: "REC-HLM-304", recipeCode: "Choice 2", recipeName: "Stir Fried in Black Bean Sauce", mealService: "YC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '350g' },
+        { recipeId: "REC-HLM-305", recipeCode: "Choice 1", recipeName: "Veg Mixed Kotthu", mealService: "YC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '350g' },
+        { recipeId: "REC-HLM-306", recipeCode: "Choice 1", recipeName: "Halal Chicken Biryani with Saffron Rice", mealService: "BC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '380g' },
+        { recipeId: "REC-HLM-307", recipeCode: "Choice 2", recipeName: "Halal Lamb Rogan Josh with Pilau Rice", mealService: "BC HLM", cycle: 'Cycle 3 - HLM Meal', targetWeight: '400g' }
       ]
     };
+    if (cycle && String(cycle).toLowerCase().includes('hlm')) {
+      return recipesMap['Cycle 3 - HLM Meal'];
+    }
     return recipesMap[cycle] || recipesMap['Cycle 1'];
   },
 
@@ -358,64 +570,588 @@ const CLS_MockStore = {
         { ingredient: 'Organic Blossom Honey', baseQuantity: 0.12, baseUnit: 'KG', perQuantity: '0.12 KG' },
         { ingredient: 'Organic Chia Seeds', baseQuantity: 0.04, baseUnit: 'KG', perQuantity: '0.04 KG' }
       ],
+'REC-301': [
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Chicken Thigh", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Goraka", productId: "", baseQuantity: 30, baseUnit: "G", perQuantity: "30G" },
+        { ingredient: "Green Chilli", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Chilli Powder", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Ginger", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Garlic", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Cinnamon Stick", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" }
+      ],
+      'REC-302': [
+        { ingredient: "Fresh coconut", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Green Chilli", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Lime Juice", productId: "", baseQuantity: 5, baseUnit: "ML", perQuantity: "5ML" }
+      ],
+      'REC-303': [
+        { ingredient: "Spinach Leaf FRZ", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Cream UHT", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Plain Flour", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Butter", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" }
+      ],
+      'REC-304': [
+        { ingredient: "Salt", productId: "", baseQuantity: 25, baseUnit: "G", perQuantity: "25G" },
+        { ingredient: "Cinnamon Stick", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 5, baseUnit: "KG", perQuantity: "5KG" },
+        { ingredient: "Sugar - White", productId: "", baseQuantity: 500, baseUnit: "G", perQuantity: "500G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Crused chilli", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Chilli Powder", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Termerin Sause", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" }
+      ],
+      'REC-305': [
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "Chicken Breast", productId: "", baseQuantity: 1, baseUnit: "PCS", perQuantity: "1PCS" },
+        { ingredient: "Salt", productId: "", baseQuantity: 3, baseUnit: "G", perQuantity: "3G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 3, baseUnit: "G", perQuantity: "3G" }
+      ],
+      'REC-306': [
+        { ingredient: "Tomato (Half)", productId: "", baseQuantity: 1, baseUnit: "PCS", perQuantity: "1PCS" },
+        { ingredient: "Salt", productId: "", baseQuantity: 1, baseUnit: "G", perQuantity: "1G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 1, baseUnit: "G", perQuantity: "1G" }
+      ],
+      'REC-307': [
+        { ingredient: "Salt", productId: "", baseQuantity: 80, baseUnit: "G", perQuantity: "80G" },
+        { ingredient: "Lime Juice", productId: "", baseQuantity: 10, baseUnit: "ML", perQuantity: "10ML" },
+        { ingredient: "Onion - Red", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Chilli Flakes", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-308': [
+        { ingredient: "Salt", productId: "", baseQuantity: 2, baseUnit: "G", perQuantity: "2G" },
+        { ingredient: "Ulundhu", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Termaric Powder", productId: "", baseQuantity: 1, baseUnit: "G", perQuantity: "1G" }
+      ],
+      'REC-309': [
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "Lamb Dice", productId: "", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" },
+        { ingredient: "Peppers - Green", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Peppers - Red", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Peppers - yellow", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 1, baseUnit: "G", perQuantity: "1G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 1, baseUnit: "G", perQuantity: "1G" }
+      ],
+      'REC-310': [
+        { ingredient: "Potatoes", productId: "", baseQuantity: 2, baseUnit: "KG", perQuantity: "2KG" },
+        { ingredient: "Parsley", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 100, baseUnit: "ML", perQuantity: "100ML" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-311': [
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Rosted Curry Powder", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Turmeric", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Termarin sause", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "Corrindaer Powder", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Mix Vegetable FRZ", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Chopped Tomato", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Dhal - Red", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" }
+      ],
+      'REC-312': [
+        { ingredient: "Mushroom", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Salt", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" }
+      ],
+      'REC-313': [
+        { ingredient: "Cherry Tomato", productId: "", baseQuantity: 20, baseUnit: "PCS", perQuantity: "20PCS" },
+        { ingredient: "Salt", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Chopped Tomato", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Parsley", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" }
+      ],
+      'REC-314': [
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Crused chilli", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 5, baseUnit: "KG", perQuantity: "5KG" },
+        { ingredient: "Chilli Powder", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Sugar - White", productId: "", baseQuantity: 500, baseUnit: "G", perQuantity: "500G" },
+        { ingredient: "Cinnamon Stick", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Termerin Sause", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" }
+      ],
+      'REC-315': [
+        { ingredient: "Egg whole Liquid", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Spinach Leaf FRZ", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 1, baseUnit: "ML", perQuantity: "1ML" }
+      ],
+      'REC-317': [
+        { ingredient: "Ulundhu", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 1, baseUnit: "G", perQuantity: "1G" },
+        { ingredient: "Cumin Seed", productId: "", baseQuantity: 1, baseUnit: "G", perQuantity: "1G" },
+        { ingredient: "Green Chilli", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" }
+      ],
+      'REC-318': [
+        { ingredient: "Salt", productId: "", baseQuantity: 2, baseUnit: "G", perQuantity: "2G" },
+        { ingredient: "coconut Powder", productId: "", baseQuantity: 500, baseUnit: "G", perQuantity: "500G" },
+        { ingredient: "Rice - Broken Basmati", productId: "", baseQuantity: 2, baseUnit: "KG", perQuantity: "2KG" },
+        { ingredient: "Cordomman", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-319': [
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "Beef Stake", productId: "", baseQuantity: 120, baseUnit: "G", perQuantity: "120G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 2, baseUnit: "G", perQuantity: "2G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-320': [
+        { ingredient: "Okra", productId: "", baseQuantity: 500, baseUnit: "G", perQuantity: "500G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 2, baseUnit: "G", perQuantity: "2G" },
+        { ingredient: "Onion - Red", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" }
+      ],
+      'REC-321': [
+        { ingredient: "Onion - White", productId: "", baseQuantity: 150, baseUnit: "G", perQuantity: "150G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Chilli Flakes", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Broccoli", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Turmeric", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Musted Seed", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Green Chilli", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Cinnamon Stick", productId: "", baseQuantity: 2, baseUnit: "G", perQuantity: "2G" }
+      ],
+      'REC-322': [
+        { ingredient: "Rice - Basmati", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Onion - Red", productId: "", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" },
+        { ingredient: "Ginger", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Garlic", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 10, baseUnit: "ML", perQuantity: "10ML" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Lemon Grass", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Cinnamon Stick", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-323': [
+        { ingredient: "Carrot", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Butter - Cooked Bake", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 2, baseUnit: "G", perQuantity: "2G" }
+      ],
+      'REC-324': [
+        { ingredient: "Cabbage", productId: "", baseQuantity: 500, baseUnit: "G", perQuantity: "500G" }
+      ],
+      'REC-325': [
+        { ingredient: "Onion - White", productId: "", baseQuantity: 150, baseUnit: "G", perQuantity: "150G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Carrot", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Musteard Seed", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Cinnamon Stick", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Green Chilli", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 10, baseUnit: "ML", perQuantity: "10ML" },
+        { ingredient: "Cumine Seed", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Graded Coconut", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Garlic", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Crused chilli", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" }
+      ],
+      'REC-326': [
+        { ingredient: "Salt", productId: "", baseQuantity: 2, baseUnit: "G", perQuantity: "2G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 2, baseUnit: "G", perQuantity: "2G" },
+        { ingredient: "Butter", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Cauliflower", productId: "", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" }
+      ],
+      'REC-327': [
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Rosted Curry Powder", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Turmeric", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Coriander Powder", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Tomato", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Chicken Thigh", productId: "", baseQuantity: 2, baseUnit: "KG", perQuantity: "2KG" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 150, baseUnit: "G", perQuantity: "150G" },
+        { ingredient: "Graded Coconut", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Ginger", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Garlic", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" }
+      ],
+      'REC-328': [
+        { ingredient: "Fresh coconut", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-329': [
+        { ingredient: "Spinach Leaf FRZ", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Cream UHT", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-330': [
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" }
+      ],
+      'REC-331': [
+        { ingredient: "Channa Dhal", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Curry Powder", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Turmeric", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Chilli Powder", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 150, baseUnit: "G", perQuantity: "150G" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "Garlic", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Green Chilli", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" }
+      ],
+      'REC-333': [
+        { ingredient: "Dry Chilli", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" }
+      ],
+      'REC-334': [
+        { ingredient: "Mix Vegetable FRZ", productId: "", baseQuantity: 2, baseUnit: "KG", perQuantity: "2KG" },
+        { ingredient: "Salt", productId: "", baseQuantity: 80, baseUnit: "G", perQuantity: "80G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-335': [
+        { ingredient: "Carrot", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Butter", productId: "", baseQuantity: 10, baseUnit: "ML", perQuantity: "10ML" }
+      ],
+      'REC-336': [
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 10, baseUnit: "ML", perQuantity: "10ML" },
+        { ingredient: "Peppers - Green", productId: "", baseQuantity: 150, baseUnit: "G", perQuantity: "150G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-337': [
+        { ingredient: "Pumpkin", productId: "", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" }
+      ],
+      'REC-338': [
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 10, baseUnit: "ML", perQuantity: "10ML" },
+        { ingredient: "Peppers - Red", productId: "", baseQuantity: 150, baseUnit: "G", perQuantity: "150G" }
+      ],
+      'REC-339': [
+        { ingredient: "Peppers - Red", productId: "", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" }
+      ],
+      'REC-340': [
+        { ingredient: "Mango", productId: "", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" },
+        { ingredient: "Sugar - White", productId: "", baseQuantity: 40, baseUnit: "G", perQuantity: "40G" },
+        { ingredient: "Green Chilli", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Chopped Corriander", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-341': [
+        { ingredient: "Mix Vegetable FRZ", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Salt", productId: "", baseQuantity: 40, baseUnit: "G", perQuantity: "40G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 3, baseUnit: "G", perQuantity: "3G" },
+        { ingredient: "Vinegar", productId: "", baseQuantity: 500, baseUnit: "ML", perQuantity: "500ML" },
+        { ingredient: "Musted Sause", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" }
+      ],
+      'REC-342': [
+        { ingredient: "Salmon FRZ", productId: "", baseQuantity: 1, baseUnit: "PCS", perQuantity: "1PCS" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 4, baseUnit: "G", perQuantity: "4G" },
+        { ingredient: "Italian Herbs", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-343': [
+        { ingredient: "Mushroom", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" },
+        { ingredient: "Cream UHT", productId: "", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" },
+        { ingredient: "Butter", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" }
+      ],
+      'REC-344': [
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "Potatoes", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Rosemary", productId: "", baseQuantity: 8, baseUnit: "G", perQuantity: "8G" },
+        { ingredient: "Italian Herbs", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" }
+      ],
+      'REC-345': [
+        { ingredient: "Slamon FRZ (100g)", productId: "", baseQuantity: 1, baseUnit: "PCS", perQuantity: "1PCS" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "Thyme", productId: "", baseQuantity: 15, baseUnit: "G", perQuantity: "15G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-347': [
+        { ingredient: "Sugar - White", productId: "", baseQuantity: 40, baseUnit: "G", perQuantity: "40G" },
+        { ingredient: "Custard Powder", productId: "", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" },
+        { ingredient: "Milk", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "vannila", productId: "", baseQuantity: 5, baseUnit: "ML", perQuantity: "5ML" },
+        { ingredient: "coconut Powder", productId: "", baseQuantity: 25, baseUnit: "G", perQuantity: "25G" }
+      ],
+      'REC-348': [
+        { ingredient: "Fresh coconut", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Sugar - White", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" },
+        { ingredient: "Honey", productId: "", baseQuantity: 100, baseUnit: "ML", perQuantity: "100ML" },
+        { ingredient: "vannila", productId: "", baseQuantity: 10, baseUnit: "ML", perQuantity: "10ML" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-349': [
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Rosted Curry Powder", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Turmeric", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Corrindaer Powder", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Chopped Tomato", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Potatoes", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Cauliflower", productId: "", baseQuantity: 500, baseUnit: "G", perQuantity: "500G" },
+        { ingredient: "Coconut Powder", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Musted Sause", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Green Chilli", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 25, baseUnit: "G", perQuantity: "25G" },
+        { ingredient: "Garlic", productId: "", baseQuantity: 15, baseUnit: "G", perQuantity: "15G" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Cinnamon Stick", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-350': [
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Papirack Powder", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Chopped red and Green Pepper", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" },
+        { ingredient: "Chicken Mince", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 100, baseUnit: "ML", perQuantity: "100ML" }
+      ],
+      'REC-351': [
+        { ingredient: "Potatoes", productId: "", baseQuantity: 1, baseUnit: "Kg", perQuantity: "1KG" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "Paprika", productId: "", baseQuantity: 15, baseUnit: "G", perQuantity: "15G" },
+        { ingredient: "Italian Herbs", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" }
+      ],
+      'REC-352': [
+        { ingredient: "Rosted Curry Powder", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Turmeric", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 150, baseUnit: "G", perQuantity: "150G" },
+        { ingredient: "Spinach Leaf FRZ", productId: "", baseQuantity: 500, baseUnit: "G", perQuantity: "500G" },
+        { ingredient: "Channa Dhal", productId: "", baseQuantity: 1, baseUnit: "Kg", perQuantity: "1KG" },
+        { ingredient: "coconut Powder", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Cinnamon Stick", productId: "", baseQuantity: 30, baseUnit: "G", perQuantity: "30G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 15, baseUnit: "G", perQuantity: "15G" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 15, baseUnit: "G", perQuantity: "15G" },
+        { ingredient: "Garlic", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" },
+        { ingredient: "Cumine Seed", productId: "", baseQuantity: 15, baseUnit: "G", perQuantity: "15G" },
+        { ingredient: "Musted Seed", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Green Chilli", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" }
+      ],
+      'REC-353': [
+        { ingredient: "Vinegar", productId: "", baseQuantity: 100, baseUnit: "ML", perQuantity: "100ML" },
+        { ingredient: "Small Onion", productId: "", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 8, baseUnit: "G", perQuantity: "8G" },
+        { ingredient: "Carrot", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Raw Papaya", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Musted Sause", productId: "", baseQuantity: 100, baseUnit: "ML", perQuantity: "100ML" }
+      ],
+      'REC-354': [
+        { ingredient: "Onion - White", productId: "", baseQuantity: 150, baseUnit: "G", perQuantity: "150G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Cashew Nut", productId: "", baseQuantity: 500, baseUnit: "G", perQuantity: "500G" },
+        { ingredient: "Chilli Flakes", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 25, baseUnit: "G", perQuantity: "25G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 25, baseUnit: "G", perQuantity: "25G" },
+        { ingredient: "Cinnamon Stick", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Garlic", productId: "", baseQuantity: 25, baseUnit: "G", perQuantity: "25G" },
+        { ingredient: "Green Chilli", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" }
+      ],
+      'REC-355': [
+        { ingredient: "Mix Vegetable FRZ", productId: "", baseQuantity: 300, baseUnit: "G", perQuantity: "300G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 2, baseUnit: "G", perQuantity: "2G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 2, baseUnit: "G", perQuantity: "2G" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 90, baseUnit: "G", perQuantity: "90G" },
+        { ingredient: "Cumin Powder", productId: "", baseQuantity: 15, baseUnit: "G", perQuantity: "15G" },
+        { ingredient: "Plain Flour", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" },
+        { ingredient: "Egg", productId: "", baseQuantity: 1, baseUnit: "PCS", perQuantity: "1PCS" },
+        { ingredient: "Curry Leaves", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Patan Leaves", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Green Chilli", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Garlic", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Bread crumbs", productId: "", baseQuantity: 100, baseUnit: "G", perQuantity: "100G" }
+      ],
+      'REC-356': [
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Rosted Curry Powder", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Turmeric", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Corrindaer Powder", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Chopped Tomato", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Chick Peas", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" }
+      ],
+      'REC-357': [
+        { ingredient: "Cream UHT", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Cheddar Cheese", productId: "", baseQuantity: 80, baseUnit: "G", perQuantity: "80G" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-358': [
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 5, baseUnit: "ML", perQuantity: "5ML" },
+        { ingredient: "Chicken Sausage", productId: "", baseQuantity: 1, baseUnit: "PCS", perQuantity: "1PCS" }
+      ],
+      'REC-359': [
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 5, baseUnit: "KG", perQuantity: "5KG" },
+        { ingredient: "Sugar - White", productId: "", baseQuantity: 500, baseUnit: "G", perQuantity: "500G" }
+      ],
+      'REC-360': [
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Rosted Curry Powder", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Turmeric", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Salmon FRZ", productId: "", baseQuantity: 1, baseUnit: "PCS", perQuantity: "1PCS" }
+      ],
+      'REC-361': [
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 25, baseUnit: "ML", perQuantity: "25ML" },
+        { ingredient: "Potatoes", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Mix Herbs", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" }
+      ],
+      'REC-362': [
+        { ingredient: "Salt", productId: "", baseQuantity: 1, baseUnit: "G", perQuantity: "1G" },
+        { ingredient: "coconut Powder", productId: "", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Rice - Basmati", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" }
+      ],
+      'REC-363': [
+        { ingredient: "Mushroom", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Salt", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" }
+      ],
+      'REC-364': [
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 5, baseUnit: "KG", perQuantity: "5KG" },
+        { ingredient: "Sugar - White", productId: "", baseQuantity: 500, baseUnit: "G", perQuantity: "500G" }
+      ],
+      'REC-365': [
+        { ingredient: "Spinach Leaf FRZ", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Salt", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Black Pepper", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Onion - White", productId: "", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" },
+        { ingredient: "Vegetable - oil", productId: "", baseQuantity: 70, baseUnit: "ML", perQuantity: "70ML" }
+      ],
+      'REC-366': [
+        { ingredient: "Fine Pure Sea Salt", productId: "CLS-000007", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Crushed Black Pepper", productId: "CLS-000009", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Roasted Curry Powder", productId: "CLS-000004", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Turmeric Powder", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Coriander Powder", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Frozen Mixed Vegetables", productId: "PRD-503", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Tomato Paste Double Concentrate", productId: "CLS-000005", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Boneless Skinless Chicken Thighs", productId: "CLS-000027", baseQuantity: 2, baseUnit: "KG", perQuantity: "2KG" },
+        { ingredient: "Brown Onions Sliced Grade A", productId: "CLS-000037", baseQuantity: 150, baseUnit: "G", perQuantity: "150G" },
+        { ingredient: "Mustard Seeds", productId: "", baseQuantity: 15, baseUnit: "G", perQuantity: "15G" }
+      ],
       'REC-367': [
-        { ingredient: 'Channa Dhal', baseQuantity: 1, baseUnit: 'KG', perQuantity: '1 KG' },
-        { ingredient: 'Rosted Curry Powder', baseQuantity: 10, baseUnit: 'G', perQuantity: '10 G' },
-        { ingredient: 'Turmeric', baseQuantity: 5, baseUnit: 'G', perQuantity: '5 G' },
-        { ingredient: 'Chilli Powder', baseQuantity: 5, baseUnit: 'G', perQuantity: '5 G' },
-        { ingredient: 'Onion - White', baseQuantity: 150, baseUnit: 'G', perQuantity: '150 G' },
-        { ingredient: 'Vegetable - oil', baseQuantity: 50, baseUnit: 'ML', perQuantity: '50 ML' }
+        { ingredient: "Channa Dhal", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Roasted Curry Powder", productId: "CLS-000004", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Turmeric Powder", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Chilli Powder", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Brown Onions Sliced Grade A", productId: "CLS-000037", baseQuantity: 150, baseUnit: "G", perQuantity: "150G" },
+        { ingredient: "Vegetable Cooking Oil Pure", productId: "CLS-000006", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" }
       ],
       'REC-368': [
-        { ingredient: 'Vegetable - oil', baseQuantity: 100, baseUnit: 'ML', perQuantity: '100 ML' },
-        { ingredient: 'Onion - White', baseQuantity: 200, baseUnit: 'G', perQuantity: '200 G' },
-        { ingredient: 'Salt', baseQuantity: 3, baseUnit: 'G', perQuantity: '3 G' },
-        { ingredient: 'Black Pepper', baseQuantity: 3, baseUnit: 'G', perQuantity: '3 G' },
-        { ingredient: 'Soya Meat', baseQuantity: 1, baseUnit: 'KG', perQuantity: '1 KG' },
-        { ingredient: 'Rosted Curry Powder', baseQuantity: 15, baseUnit: 'G', perQuantity: '15 G' },
-        { ingredient: 'Turmeric', baseQuantity: 4, baseUnit: 'G', perQuantity: '4 G' },
-        { ingredient: 'Chilli Powder', baseQuantity: 3, baseUnit: 'G', perQuantity: '3 G' },
-        { ingredient: 'Chopped Tomato', baseQuantity: 210, baseUnit: 'G', perQuantity: '210 G' }
+        { ingredient: "Vegetable Cooking Oil Pure", productId: "CLS-000006", baseQuantity: 100, baseUnit: "ML", perQuantity: "100ML" },
+        { ingredient: "Brown Onions Sliced Grade A", productId: "CLS-000037", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" },
+        { ingredient: "Fine Pure Sea Salt", productId: "CLS-000007", baseQuantity: 3, baseUnit: "G", perQuantity: "3G" },
+        { ingredient: "Crushed Black Pepper", productId: "CLS-000009", baseQuantity: 3, baseUnit: "G", perQuantity: "3G" },
+        { ingredient: "Soya Meat", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Roasted Curry Powder", productId: "CLS-000004", baseQuantity: 15, baseUnit: "G", perQuantity: "15G" },
+        { ingredient: "Turmeric Powder", productId: "", baseQuantity: 4, baseUnit: "G", perQuantity: "4G" },
+        { ingredient: "Chilli Powder", productId: "", baseQuantity: 3, baseUnit: "G", perQuantity: "3G" },
+        { ingredient: "Tomato Paste Double Concentrate", productId: "CLS-000005", baseQuantity: 210, baseUnit: "G", perQuantity: "210G" }
       ],
       'REC-369': [
-        { ingredient: 'Turmeric', baseQuantity: 5, baseUnit: 'G', perQuantity: '5 G' },
-        { ingredient: 'Leeks', baseQuantity: 300, baseUnit: 'G', perQuantity: '300 G' },
-        { ingredient: 'Carrot', baseQuantity: 300, baseUnit: 'G', perQuantity: '300 G' },
-        { ingredient: 'Salmon FRZ', baseQuantity: 1, baseUnit: 'KG', perQuantity: '1 KG' },
-        { ingredient: 'Soy Sauce Dark', baseQuantity: 20, baseUnit: 'G', perQuantity: '20 G' },
-        { ingredient: 'Onion - White', baseQuantity: 150, baseUnit: 'G', perQuantity: '150 G' },
-        { ingredient: 'Peppers - Red', baseQuantity: 50, baseUnit: 'G', perQuantity: '50 G' },
-        { ingredient: 'Peppers - Green', baseQuantity: 50, baseUnit: 'G', perQuantity: '50 G' }
+        { ingredient: "Turmeric Powder", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Fresh Leeks", productId: "", baseQuantity: 300, baseUnit: "G", perQuantity: "300G" },
+        { ingredient: "Grade A Carrots Diced", productId: "CLS-000040", baseQuantity: 300, baseUnit: "G", perQuantity: "300G" },
+        { ingredient: "Atlantic Salmon Fresh Fillets", productId: "CLS-000018", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Soy Sauce Dark", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Brown Onions Sliced Grade A", productId: "CLS-000037", baseQuantity: 150, baseUnit: "G", perQuantity: "150G" },
+        { ingredient: "Peppers - Red", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" },
+        { ingredient: "Peppers - Green", productId: "", baseQuantity: 50, baseUnit: "G", perQuantity: "50G" }
       ],
       'REC-370': [
-        { ingredient: 'Vegetable - oil', baseQuantity: 100, baseUnit: 'ML', perQuantity: '100 ML' },
-        { ingredient: 'Onion - White', baseQuantity: 200, baseUnit: 'G', perQuantity: '200 G' },
-        { ingredient: 'Carrot', baseQuantity: 300, baseUnit: 'G', perQuantity: '300 G' },
-        { ingredient: 'Leeks', baseQuantity: 300, baseUnit: 'G', perQuantity: '300 G' },
-        { ingredient: 'Salt', baseQuantity: 3, baseUnit: 'G', perQuantity: '3 G' },
-        { ingredient: 'Black Pepper', baseQuantity: 3, baseUnit: 'G', perQuantity: '3 G' },
-        { ingredient: 'Kotthu Rotti', baseQuantity: 2, baseUnit: 'KG', perQuantity: '2 KG' },
-        { ingredient: 'Turmeric', baseQuantity: 10, baseUnit: 'G', perQuantity: '10 G' }
+        { ingredient: "Vegetable Cooking Oil Pure", productId: "CLS-000006", baseQuantity: 100, baseUnit: "ML", perQuantity: "100ML" },
+        { ingredient: "Brown Onions Sliced Grade A", productId: "CLS-000037", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" },
+        { ingredient: "Grade A Carrots Diced", productId: "CLS-000040", baseQuantity: 300, baseUnit: "G", perQuantity: "300G" },
+        { ingredient: "Fresh Leeks", productId: "", baseQuantity: 300, baseUnit: "G", perQuantity: "300G" },
+        { ingredient: "Fine Pure Sea Salt", productId: "CLS-000007", baseQuantity: 3, baseUnit: "G", perQuantity: "3G" },
+        { ingredient: "Crushed Black Pepper", productId: "CLS-000009", baseQuantity: 3, baseUnit: "G", perQuantity: "3G" },
+        { ingredient: "Kothu Roti", productId: "", baseQuantity: 2, baseUnit: "KG", perQuantity: "2KG" },
+        { ingredient: "Turmeric Powder", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" }
       ],
       'REC-371': [
-        { ingredient: 'Potatoes', baseQuantity: 1, baseUnit: 'KG', perQuantity: '1 KG' },
-        { ingredient: 'Vegetable - oil', baseQuantity: 50, baseUnit: 'ML', perQuantity: '50 ML' },
-        { ingredient: 'Mix Herbs', baseQuantity: 7, baseUnit: 'G', perQuantity: '7 G' }
+        { ingredient: "Maris Piper Potatoes Diced", productId: "CLS-000041", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Vegetable Cooking Oil Pure", productId: "CLS-000006", baseQuantity: 50, baseUnit: "ML", perQuantity: "50ML" },
+        { ingredient: "Mix Herbs", productId: "", baseQuantity: 7, baseUnit: "G", perQuantity: "7G" }
       ],
       'REC-372': [
-        { ingredient: 'Salmon FRZ', baseQuantity: 1, baseUnit: 'PCS', perQuantity: '1 PCS' },
-        { ingredient: 'Vegetable - oil', baseQuantity: 2.5, baseUnit: 'ML', perQuantity: '2.5 ML' }
+        { ingredient: "Atlantic Salmon Fresh Fillets", productId: "CLS-000018", baseQuantity: 1, baseUnit: "PCS", perQuantity: "1PCS" },
+        { ingredient: "Vegetable Cooking Oil Pure", productId: "CLS-000006", baseQuantity: 2.5, baseUnit: "ML", perQuantity: "2.5ML" }
       ],
       'REC-373': [
-        { ingredient: 'Salt', baseQuantity: 5, baseUnit: 'G', perQuantity: '5 G' },
-        { ingredient: 'Rosted Curry Powder', baseQuantity: 20, baseUnit: 'G', perQuantity: '20 G' },
-        { ingredient: 'Turmeric', baseQuantity: 10, baseUnit: 'G', perQuantity: '10 G' },
-        { ingredient: 'Corrindaer Powder', baseQuantity: 10, baseUnit: 'G', perQuantity: '10 G' },
-        { ingredient: 'Chopped Tomato', baseQuantity: 250, baseUnit: 'G', perQuantity: '250 G' },
-        { ingredient: 'Potatoes', baseQuantity: 1, baseUnit: 'KG', perQuantity: '1 KG' },
-        { ingredient: 'Cut Beans FRZ', baseQuantity: 1, baseUnit: 'KG', perQuantity: '1 KG' },
-        { ingredient: 'coconut Powder', baseQuantity: 75, baseUnit: 'G', perQuantity: '75 G' },
-        { ingredient: 'Onion - White', baseQuantity: 200, baseUnit: 'G', perQuantity: '200 G' }
+        { ingredient: "Fine Pure Sea Salt", productId: "CLS-000007", baseQuantity: 5, baseUnit: "G", perQuantity: "5G" },
+        { ingredient: "Roasted Curry Powder", productId: "CLS-000004", baseQuantity: 20, baseUnit: "G", perQuantity: "20G" },
+        { ingredient: "Turmeric Powder", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Coriander Powder", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10G" },
+        { ingredient: "Tomato Paste Double Concentrate", productId: "CLS-000005", baseQuantity: 250, baseUnit: "G", perQuantity: "250G" },
+        { ingredient: "Maris Piper Potatoes Diced", productId: "CLS-000041", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "Cut Beans FRZ", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1KG" },
+        { ingredient: "coconut Powder", productId: "", baseQuantity: 75, baseUnit: "G", perQuantity: "75G" },
+        { ingredient: "Brown Onions Sliced Grade A", productId: "CLS-000037", baseQuantity: 200, baseUnit: "G", perQuantity: "200G" }
+      ],
+      'REC-HLM-301': [
+        { ingredient: "Boneless Skinless Chicken Thighs", productId: "CLS-000027", baseQuantity: 2, baseUnit: "KG", perQuantity: "2 KG" },
+        { ingredient: "Frozen Mixed Vegetables", productId: "PRD-503", baseQuantity: 1, baseUnit: "KG", perQuantity: "1 KG" },
+        { ingredient: "Tomato Paste Double Concentrate", productId: "CLS-000005", baseQuantity: 250, baseUnit: "G", perQuantity: "250 G" },
+        { ingredient: "Brown Onions Sliced Grade A", productId: "CLS-000037", baseQuantity: 150, baseUnit: "G", perQuantity: "150 G" },
+        { ingredient: "Roasted Curry Powder", productId: "CLS-000004", baseQuantity: 20, baseUnit: "G", perQuantity: "20 G" },
+        { ingredient: "Turmeric Powder", productId: "", baseQuantity: 10, baseUnit: "G", perQuantity: "10 G" },
+        { ingredient: "Fine Pure Sea Salt", productId: "CLS-000007", baseQuantity: 5, baseUnit: "G", perQuantity: "5 G" },
+        { ingredient: "Crushed Black Pepper", productId: "CLS-000009", baseQuantity: 5, baseUnit: "G", perQuantity: "5 G" }
+      ],
+      'REC-HLM-302': [
+        { ingredient: "Channa Dhal", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1 KG" },
+        { ingredient: "Brown Onions Sliced Grade A", productId: "CLS-000037", baseQuantity: 150, baseUnit: "G", perQuantity: "150 G" },
+        { ingredient: "Vegetable Cooking Oil Pure", productId: "CLS-000006", baseQuantity: 50, baseUnit: "ML", perQuantity: "50 ML" },
+        { ingredient: "Roasted Curry Powder", productId: "CLS-000004", baseQuantity: 10, baseUnit: "G", perQuantity: "10 G" },
+        { ingredient: "Turmeric Powder", productId: "", baseQuantity: 5, baseUnit: "G", perQuantity: "5 G" }
+      ],
+      'REC-HLM-303': [
+        { ingredient: "Soya Meat", productId: "", baseQuantity: 1, baseUnit: "KG", perQuantity: "1 KG" },
+        { ingredient: "Brown Onions Sliced Grade A", productId: "CLS-000037", baseQuantity: 200, baseUnit: "G", perQuantity: "200 G" },
+        { ingredient: "Tomato Paste Double Concentrate", productId: "CLS-000005", baseQuantity: 210, baseUnit: "G", perQuantity: "210 G" },
+        { ingredient: "Vegetable Cooking Oil Pure", productId: "CLS-000006", baseQuantity: 100, baseUnit: "ML", perQuantity: "100 ML" }
+      ],
+      'REC-HLM-304': [
+        { ingredient: "Atlantic Salmon Fresh Fillets", productId: "CLS-000018", baseQuantity: 1, baseUnit: "KG", perQuantity: "1 KG" },
+        { ingredient: "Fresh Leeks", productId: "", baseQuantity: 300, baseUnit: "G", perQuantity: "300 G" },
+        { ingredient: "Grade A Carrots Diced", productId: "CLS-000040", baseQuantity: 300, baseUnit: "G", perQuantity: "300 G" },
+        { ingredient: "Soy Sauce Dark", productId: "", baseQuantity: 20, baseUnit: "G", perQuantity: "20 G" }
+      ],
+      'REC-HLM-305': [
+        { ingredient: "Kothu Roti", productId: "", baseQuantity: 2, baseUnit: "KG", perQuantity: "2 KG" },
+        { ingredient: "Grade A Carrots Diced", productId: "CLS-000040", baseQuantity: 300, baseUnit: "G", perQuantity: "300 G" },
+        { ingredient: "Fresh Leeks", productId: "", baseQuantity: 300, baseUnit: "G", perQuantity: "300 G" },
+        { ingredient: "Vegetable Cooking Oil Pure", productId: "CLS-000006", baseQuantity: 100, baseUnit: "ML", perQuantity: "100 ML" }
+      ],
+      'REC-HLM-306': [
+        { ingredient: "Fresh Chicken Breast Fillets", productId: "CLS-000008", baseQuantity: 1, baseUnit: "KG", perQuantity: "1 KG" },
+        { ingredient: "Aged Basmati Rice Long Grain", productId: "CLS-000001", baseQuantity: 500, baseUnit: "G", perQuantity: "500 G" },
+        { ingredient: "Biryani Spice Blend", productId: "CLS-000004", baseQuantity: 30, baseUnit: "G", perQuantity: "30 G" }
+      ],
+      'REC-HLM-307': [
+        { ingredient: "British Lamb Diced Leg", productId: "CLS-000030", baseQuantity: 1, baseUnit: "KG", perQuantity: "1 KG" },
+        { ingredient: "Aged Basmati Rice Long Grain", productId: "CLS-000001", baseQuantity: 500, baseUnit: "G", perQuantity: "500 G" }
       ]
     };
 
@@ -972,17 +1708,27 @@ const CLS_API = {
 
         // 3. Fallback sample items if empty
         if (stockBatches.length === 0) {
+          const fallbackToday = new Date().toISOString().slice(0, 10);
+          const fallbackCode = fallbackToday.split('-').reverse().map(x => x.length === 4 ? x.slice(-2) : x).join('');
           stockBatches.push(
-            { productId: 'CLS-000101', batchCode: '090926', date: '2026-09-09', productName: 'Chicken Thigh Boneless', storageArea: 'Chiller 1', quantity: '50 KG' },
-            { productId: 'CLS-000102', batchCode: '090926', date: '2026-09-09', productName: 'Pasteurised Whole Eggs', storageArea: 'Chiller 2', quantity: '100 L' },
-            { productId: 'CLS-000103', batchCode: '090926', date: '2026-09-09', productName: 'Beef Diced Prime Chuck', storageArea: 'Chiller 1', quantity: '40 KG' },
-            { productId: 'CLS-000104', batchCode: '090926', date: '2026-09-09', productName: 'Plain Flour Wheat', storageArea: 'Dry Room', quantity: '80 KG' },
-            { productId: 'CLS-000105', batchCode: '090926', date: '2026-09-09', productName: 'Aged Basmati Rice Long Grain', storageArea: 'Dry Room', quantity: '120 KG' },
-            { productId: 'CLS-000106', batchCode: '090926', date: '2026-09-09', productName: 'Fresh Atlantic Salmon Fillets', storageArea: 'Chiller 3', quantity: '35 KG' },
-            { productId: 'CLS-000107', batchCode: '090926', date: '2026-09-09', productName: 'Double Cream British Dairy', storageArea: 'Chiller 2', quantity: '60 L' },
-            { productId: 'CLS-000108', batchCode: '090926', date: '2026-09-09', productName: 'Cheddar Cheese Mature Grated', storageArea: 'Chiller 2', quantity: '30 KG' },
-            { productId: 'CLS-000109', batchCode: '090926', date: '2026-09-09', productName: 'Onions Red Diced', storageArea: 'Chiller 1', quantity: '45 KG' },
-            { productId: 'CLS-000110', batchCode: '090926', date: '2026-09-09', productName: 'Potatoes Diced Maris Piper', storageArea: 'Dry Room', quantity: '90 KG' }
+            { productId: 'CLS-000027', batchCode: fallbackCode, date: fallbackToday, productName: 'Boneless Skinless Chicken Thighs', storageArea: 'Chiller 1', quantity: '50 KG' },
+            { productId: 'CLS-000008', batchCode: fallbackCode, date: fallbackToday, productName: 'Fresh Chicken Breast Fillets', storageArea: 'Chiller 1', quantity: '80 KG' },
+            { productId: 'CLS-000018', batchCode: fallbackCode, date: fallbackToday, productName: 'Atlantic Salmon Fresh Fillets', storageArea: 'Chiller 3', quantity: '35 KG' },
+            { productId: 'CLS-000030', batchCode: fallbackCode, date: fallbackToday, productName: 'British Lamb Diced Leg', storageArea: 'Chiller 1', quantity: '40 KG' },
+            { productId: 'CLS-000001', batchCode: fallbackCode, date: fallbackToday, productName: 'Aged Basmati Rice Long Grain', storageArea: 'Dry Room', quantity: '120 KG' },
+            { productId: 'CLS-000004', batchCode: fallbackCode, date: fallbackToday, productName: 'Roasted Curry Powder', storageArea: 'Dry Room', quantity: '30 KG' },
+            { productId: 'CLS-000005', batchCode: fallbackCode, date: fallbackToday, productName: 'Tomato Paste Double Concentrate', storageArea: 'Dry Room', quantity: '50 KG' },
+            { productId: 'CLS-000006', batchCode: fallbackCode, date: fallbackToday, productName: 'Vegetable Cooking Oil Pure', storageArea: 'Dry Room', quantity: '100 Litre' },
+            { productId: 'CLS-000007', batchCode: fallbackCode, date: fallbackToday, productName: 'Fine Pure Sea Salt', storageArea: 'Dry Room', quantity: '60 KG' },
+            { productId: 'CLS-000009', batchCode: fallbackCode, date: fallbackToday, productName: 'Crushed Black Pepper', storageArea: 'Dry Room', quantity: '25 KG' },
+            { productId: 'PRD-503', batchCode: fallbackCode, date: fallbackToday, productName: 'Frozen Mixed Vegetables', storageArea: 'Freezer 1', quantity: '70 KG' },
+            { productId: 'CLS-000037', batchCode: fallbackCode, date: fallbackToday, productName: 'Brown Onions Sliced Grade A', storageArea: 'Vegetable Chiller', quantity: '50 KG' },
+            { productId: 'CLS-000040', batchCode: fallbackCode, date: fallbackToday, productName: 'Grade A Carrots Diced', storageArea: 'Vegetable Chiller', quantity: '45 KG' },
+            { productId: 'CLS-000041', batchCode: fallbackCode, date: fallbackToday, productName: 'Maris Piper Potatoes Diced', storageArea: 'Dry Room', quantity: '90 KG' },
+            { productId: 'CLS-000047', batchCode: fallbackCode, date: fallbackToday, productName: 'Pasteurised Whole Liquid Eggs', storageArea: 'Chiller 2', quantity: '100 L' },
+            { productId: 'CLS-000050', batchCode: fallbackCode, date: fallbackToday, productName: 'Fresh Double Cream 48%', storageArea: 'Chiller 2', quantity: '60 L' },
+            { productId: 'CLS-000049', batchCode: fallbackCode, date: fallbackToday, productName: 'Mature Cheddar Cheese Grated', storageArea: 'Chiller 2', quantity: '30 KG' },
+            { productId: 'CLS-000036', batchCode: fallbackCode, date: fallbackToday, productName: 'Red Onions Diced 10mm', storageArea: 'Chiller 1', quantity: '45 KG' }
           );
         }
 
@@ -1029,20 +1775,132 @@ const CLS_API = {
         const rawList = Array.isArray(payload) ? payload : (payload && payload.records && Array.isArray(payload.records) ? payload.records : [payload && (payload.record || payload)]);
         const records = rawList.filter(function(r) { return r && typeof r === 'object'; });
         data.packing = data.packing || [];
+        data.finalRecipeList = data.finalRecipeList || [];
         const timestamp = new Date().toISOString();
         let commonBatch = '';
 
         records.forEach((rec, idx) => {
-          const recordId = 'PK-' + String(data.packing.length + 1).padStart(5, '0');
-          const finalBatchCode = rec.finalBatchCode || CLS_MockStore.getNextFinalBatchCode(rec.date || rec.packingDate);
+          const safeDate = rec.date || rec.packingDate || CLS_Common.formatDateForInput();
+          const finalBatchCode = rec.julianCode || rec.finalBatchCode || CLS_MockStore.getNextFinalBatchCode(safeDate);
           if (!commonBatch) commonBatch = finalBatchCode;
-          const newRecord = {
-            recordId,
+          const packingId = rec.packingId || ('PCK-' + String(data.packing.length + 1).padStart(5, '0'));
+          const finalProductName = rec.finalProductName || rec.recipeName || rec.productName || 'Meal Product';
+          const portionProduce = rec.portionProduce !== undefined ? rec.portionProduce : (rec.packCount || 0);
+          const startingTime = rec.startingTime || rec.startTime || '';
+          const endingTime = rec.endingTime || rec.endTime || '';
+          const startTemp = rec.startingTemperature || rec.startRoomTemp || '';
+          const endTemp = rec.endingTemperature || rec.endRoomTemp || '';
+          const qualityCheck = rec.qualityCheck || rec.weightCheck || 'Pass (✔️)';
+          const staffName = Array.isArray(rec.staffNames) ? rec.staffNames.join(', ') : (rec.staffName || rec.staffNames || '');
+
+          // 1. Sheet: Packing_Process record
+          const newPackingRecord = {
+            packingId,
+            recordId: packingId,
+            julianCode: finalBatchCode,
             finalBatchCode,
-            ...rec,
+            date: safeDate,
+            finalProductName,
+            recipeName: finalProductName,
+            portionProduce,
+            packCount: portionProduce,
+            startingTime: CLS_Common.formatTimeOnly(startingTime),
+            startTime: CLS_Common.formatTimeOnly(startingTime),
+            endingTime: CLS_Common.formatTimeOnly(endingTime),
+            endTime: CLS_Common.formatTimeOnly(endingTime),
+            startingTemperature: startTemp,
+            startRoomTemp: startTemp,
+            endingTemperature: endTemp,
+            endRoomTemp: endTemp,
+            qualityCheck,
+            weightCheck: qualityCheck,
+            goldStandard: qualityCheck,
+            labelCheck: qualityCheck,
+            staffName,
+            staffNames: rec.staffNames || (staffName ? staffName.split(',').map(s => s.trim()) : []),
+            notes: rec.notes || '',
+            cycle: rec.cycle || 'Cycle 3',
+            mealService: (rec.mealService && rec.mealService !== 'Single-Shot Packing') ? rec.mealService : 'YC LDN',
+            choiceNum: rec.choiceNum || 'Choice 01',
+            recipeCode: rec.choiceNum || rec.recipeCode || 'Choice 01',
+            recipeCount: subRecipes.length,
+            recipes: rec.recipes || [],
             timestamp
           };
-          data.packing.unshift(newRecord);
+          data.packing.unshift(newPackingRecord);
+
+          // 2. Calculate Expire Date: exactly 5 days after packing date
+          let expireDate = '';
+          if (safeDate) {
+            const parts = safeDate.split('-');
+            if (parts.length === 3) {
+              const d = new Date(Date.UTC(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10) + 5));
+              expireDate = d.toISOString().slice(0, 10);
+            } else {
+              const d = new Date(safeDate);
+              d.setDate(d.getDate() + 5);
+              expireDate = d.toISOString().slice(0, 10);
+            }
+          }
+
+          // 3. Sheet: Final_Recipe_List records
+          const subRecipes = Array.isArray(rec.recipes) && rec.recipes.length > 0
+            ? rec.recipes
+            : [finalProductName];
+
+          // Lookup matching cooking batch or fallback to date cooking batch code
+          const dateCookingBatch = CLS_Common.calculateBatchCodeFromInput(safeDate);
+          const srvClean = String(rec.mealService || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          const cycClean = String(rec.cycle || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          const chClean = String(rec.choiceNum || rec.choice || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+          subRecipes.forEach(sub => {
+            const rName = typeof sub === 'string' ? sub : (sub.recipeName || sub.name || finalProductName);
+            let cBatch = (typeof sub === 'object' && sub.cookingBatchCode) ? sub.cookingBatchCode : null;
+            if (!cBatch) {
+              const rClean = rName.toLowerCase().trim();
+              let bestScore = -1;
+              let bestBatch = '';
+              const cookingList = data.cooking || [];
+
+              for (let ci = 0; ci < cookingList.length; ci++) {
+                const c = cookingList[ci];
+                const cName = String(c.recipeName || c.productName || '').toLowerCase().trim();
+                const bCode = String(c.batchCode || c.cookingBatchId || '').trim();
+                if (!bCode) continue;
+
+                const nameMatch = cName.includes(rClean) || rClean.includes(cName);
+                if (!nameMatch) continue;
+
+                const cSrv = String(c.mealService || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                const cCyc = String(c.cycle || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                const cChoice = String(c.choiceNum || c.choice || c.recipeCode || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+                let score = 20;
+                if (cName === rClean) score += 20;
+                if (srvClean && cSrv && (cSrv.includes(srvClean) || srvClean.includes(cSrv))) score += 20;
+                if (cycClean && cCyc && (cCyc.includes(cycClean) || cycClean.includes(cCyc))) score += 20;
+                if (chClean && cChoice && (cChoice.includes(chClean) || chClean.includes(cChoice))) score += 20;
+
+                if (score > bestScore) {
+                  bestScore = score;
+                  bestBatch = bCode;
+                  if (score >= 100) break;
+                }
+              }
+              cBatch = bestBatch || dateCookingBatch;
+            }
+
+            data.finalRecipeList.unshift({
+              packingId,
+              julianCode: finalBatchCode,
+              recipeName: rName,
+              cookingBatchCode: cBatch,
+              expireDate,
+              stampTime: timestamp,
+              timestamp
+            });
+          });
         });
 
         CLS_MockStore.saveData(data);
@@ -1050,10 +1908,20 @@ const CLS_API = {
           success: true,
           count: records.length,
           finalBatchCode: commonBatch,
+          packingId: records[0] ? ('PCK-' + String(data.packing.length).padStart(5, '0')) : '',
           message: records.length === 1 
-            ? `Packing dispatch recorded! Assigned Final Batch: ${commonBatch}`
+            ? `Saved ${records[0].finalProductName || records[0].recipeName || 'Meal'} to Packing Process & Final Recipe List! (Julian: ${commonBatch})`
             : `Successfully saved ${records.length} packed meals with Julian Batch: ${commonBatch}`
         };
+      }
+
+      case 'getFinalRecipeList': {
+        const pId = payload && payload.packingId ? String(payload.packingId).trim() : null;
+        const jCode = payload && payload.julianCode ? String(payload.julianCode).trim() : null;
+        let list = data.finalRecipeList || [];
+        if (pId) list = list.filter(r => r.packingId === pId);
+        if (jCode) list = list.filter(r => r.julianCode === jCode);
+        return { success: true, count: list.length, data: list };
       }
 
       case 'getPackingStaff': {
@@ -1162,7 +2030,7 @@ const CLS_API = {
         }
         if (search) {
           filtered = filtered.filter(item => 
-            `${item.finalBatchCode || ''} ${item.recordId || ''} ${item.flightNumber || item.flightNo || ''} ${item.airlines || ''} ${item.mealService || ''} ${item.recipeCode || ''} ${item.recipeName || ''} ${item.cookingBatchCode || ''} ${item.staffNames || ''}`.toLowerCase().includes(search)
+            `${item.packingId || ''} ${item.julianCode || ''} ${item.finalBatchCode || ''} ${item.recordId || ''} ${item.finalProductName || ''} ${item.recipeName || ''} ${item.recipeCode || ''} ${item.mealService || ''} ${item.cookingBatchCode || ''} ${item.staffNames || ''} ${item.staffName || ''}`.toLowerCase().includes(search)
           );
         }
         return { success: true, count: filtered.length, data: filtered };

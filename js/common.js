@@ -68,13 +68,13 @@ const CLS_Common = {
     overlay.className = 'cls-loader-overlay';
     
     const isInsideSubdir = window.location.pathname.includes('/management/') || window.location.pathname.includes('/website/');
-    const logoSrc = isInsideSubdir ? 'assets/cls-logo.png' : 'website/assets/cls-logo.png';
+    const logoSrc = isInsideSubdir ? 'assets/cls-logo.jpg' : 'website/assets/cls-logo.jpg';
 
     overlay.innerHTML = `
       <div class="cls-loader-card">
         <div class="cls-spinner-container">
           <div class="cls-spinner-ring"></div>
-          <img src="${logoSrc}" alt="CLS Airline Supplies LTD" class="cls-loader-icon">
+          <img src="${logoSrc}" alt="CLS Airline Supplies LTD" class="cls-loader-icon" onerror="this.onerror=null; this.src='assets/cls-logo.png';">
         </div>
         <div class="cls-loader-text-group">
           <div class="cls-loader-title" id="cls-loader-title">CLS Airline Supplies</div>
@@ -183,6 +183,26 @@ const CLS_Common = {
     return String(val).padStart(6, '0');
   },
 
+  formatTimeOnly(val) {
+    if (val === null || val === undefined || val === '') return '—';
+    if (val instanceof Date || (typeof val === 'object' && typeof val.getHours === 'function')) {
+      const h = String(val.getHours()).padStart(2, '0');
+      const m = String(val.getMinutes()).padStart(2, '0');
+      return `${h}:${m}`;
+    }
+    const str = String(val).trim();
+    if (!str || str === '—' || str === '-') return '—';
+    const simpleMatch = str.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+    if (simpleMatch) {
+      return `${simpleMatch[1].padStart(2, '0')}:${simpleMatch[2]}`;
+    }
+    const fullMatch = str.match(/(?:^|\s|T)(\d{1,2}):(\d{2})(?::\d{2})?(?:\s|$|\.|\+|-|Z)/);
+    if (fullMatch) {
+      return `${fullMatch[1].padStart(2, '0')}:${fullMatch[2]}`;
+    }
+    return str;
+  },
+
   getJulianBatchCode(dateInput) {
     let d;
     if (!dateInput) {
@@ -218,19 +238,11 @@ const CLS_Common = {
 
     const year = d.getFullYear();
     const yy = String(year).slice(-2);
-    const targetMonth = d.getMonth(); // 0-11
-    const targetDay = d.getDate(); // 1-31
+    const startUtc = Date.UTC(year, 0, 1);
+    const currentUtc = Date.UTC(year, d.getMonth(), d.getDate());
+    const dayOfYear = Math.floor((currentUtc - startUtc) / 86400000) + 1;
 
-    let dayCount = 0;
-    // Count days for previous months, skipping 31st day
-    for (let m = 0; m < targetMonth; m++) {
-      const daysInMonth = new Date(year, m + 1, 0).getDate();
-      dayCount += Math.min(daysInMonth, 30);
-    }
-    // For current month, skip 31st day (so day 31 does not advance past 30)
-    dayCount += Math.min(targetDay, 30);
-
-    const julianDay = String(dayCount).padStart(3, '0');
+    const julianDay = String(dayOfYear).padStart(3, '0');
     return `${yy}${julianDay}`;
   },
 

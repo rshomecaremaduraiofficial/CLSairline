@@ -5,7 +5,7 @@
  */
 const CLS_CONFIG = {
   // 1. Live Main Traceability Database Web API (Goods-In, Storage, Cooking, Blasting, Packing, Dispatch, Products, Login)
-  GAS_API_URL: "https://script.google.com/macros/s/AKfycbxOEBuTrFFNeLEJjm6lJTx6RUzn8D-Y_GWyZ14gLa03bo1ff07mqL2rfDk3mvxTO-k_/exec",
+  GAS_API_URL: "https://script.google.com/macros/s/AKfycbyt11kkwTzRKWPoeCUYBk65wI0CT2pXVzy74eFnG0ejLWYR4bJ1U51EP0Kq7NPkmd9z/exec",
 
   // 2. Live Dedicated Temperature Monitoring Database Web API (temp.gs deployment)
   TEMP_API_URL: "https://script.google.com/macros/s/AKfycbyTjvK3UCzswBaxuClJRVEj9rgbARXgp57YziasUnVUHFtHqnOwGYcjANtvt6vk1asEKg/exec",
